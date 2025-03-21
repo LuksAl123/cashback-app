@@ -1,0 +1,7 @@
+{
+  "name": "cashback-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
