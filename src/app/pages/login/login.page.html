@@ -1,0 +1,40 @@
+<ion-content [fullscreen]="true">
+  <ion-avatar>
+    <ion-img src="assets/imgs/logo.png"></ion-img>
+  </ion-avatar>
+
+  <form #f="ngForm" class="form">
+    <ion-list lines="none">
+
+      <div class="ion-margin-bottom">
+        <ion-item class="input">
+          <ion-icon name="call" slot="start" color="primary"></ion-icon>
+          <ion-input
+            name="tel"
+            type="tel"
+            placeholder="Telefone"
+            required>
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger" class="ion-text-center">
+          <p class="errorMsg">Telefone é obrigatório</p>
+        </ion-text>
+      </div>
+
+      <ion-item class="input">
+        <ion-icon name="key" slot="start" color="primary"></ion-icon>
+        <ion-icon color="primary" slot="end"></ion-icon>
+        <ion-input
+          name="password"
+          placeholder="Senha"
+          required
+          minlength="8">
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger" class="ion-text-center">
+        <p class="errorMsg">Senha é obrigatória</p>
+      </ion-text>
+
+    </ion-list>
+  </form>
+</ion-content>
