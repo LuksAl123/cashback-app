@@ -1,2 +1,80 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+
+// ChatGPT generated color palette
+// Proposed Color Palette
+// Primary: #01C476 (Bright Green - from your logo)
+// Secondary: #DAD668 (Yellow-Gold - from your logo)
+// Tertiary: #c2c2c2 (Light Gray - from your logo)
+// Dark Background: #064E3B (Dark Green - for the login page)
+// Neutral Background: #F5F5F5 (Soft Off-White - for general app background)
+// Text Primary: #202020 (Dark Gray - for high readability)
+// Text Secondary: #6C757D (Muted Gray - for less important text)
+// Error/Warning: #D9534F (Soft Red - for errors, alerts)
+
+:root {
+	--ion-color-primary: #01C476;
+	--ion-color-primary-rgb: 1,196,118;
+	--ion-color-primary-contrast: #000000;
+	--ion-color-primary-contrast-rgb: 0,0,0;
+	--ion-color-primary-shade: #01ac68;
+	--ion-color-primary-tint: #1aca84;
+
+	--ion-color-secondary: #DAD668;
+	--ion-color-secondary-rgb: 218,214,104;
+	--ion-color-secondary-contrast: #000000;
+	--ion-color-secondary-contrast-rgb: 0,0,0;
+	--ion-color-secondary-shade: #c0bc5c;
+	--ion-color-secondary-tint: #deda77;
+
+	--ion-color-tertiary: #c2c2c2;
+	--ion-color-tertiary-rgb: 194,194,194;
+	--ion-color-tertiary-contrast: #000000;
+	--ion-color-tertiary-contrast-rgb: 0,0,0;
+	--ion-color-tertiary-shade: #ababab;
+	--ion-color-tertiary-tint: #c8c8c8;
+
+	--ion-color-success: #F5F5F5;
+	--ion-color-success-rgb: 245,245,245;
+	--ion-color-success-contrast: #000000;
+	--ion-color-success-contrast-rgb: 0,0,0;
+	--ion-color-success-shade: #d8d8d8;
+	--ion-color-success-tint: #f6f6f6;
+
+	--ion-color-warning: #D9534F;
+	--ion-color-warning-rgb: 217,83,79;
+	--ion-color-warning-contrast: #000000;
+	--ion-color-warning-contrast-rgb: 0,0,0;
+	--ion-color-warning-shade: #bf4946;
+	--ion-color-warning-tint: #dd6461;
+
+	--ion-color-danger: #EAEAEA;
+	--ion-color-danger-rgb: 234,234,234;
+	--ion-color-danger-contrast: #000000;
+	--ion-color-danger-contrast-rgb: 0,0,0;
+	--ion-color-danger-shade: #cecece;
+	--ion-color-danger-tint: #ececec;
+
+	--ion-color-light: #A0A0A0;
+	--ion-color-light-rgb: 160,160,160;
+	--ion-color-light-contrast: #000000;
+	--ion-color-light-contrast-rgb: 0,0,0;
+	--ion-color-light-shade: #8d8d8d;
+	--ion-color-light-tint: #aaaaaa;
+
+	--ion-color-medium: #F5F5F5;
+	--ion-color-medium-rgb: 245,245,245;
+	--ion-color-medium-contrast: #000000;
+	--ion-color-medium-contrast-rgb: 0,0,0;
+	--ion-color-medium-shade: #d8d8d8;
+	--ion-color-medium-tint: #f6f6f6;
+
+	--ion-color-dark: #021711;
+	--ion-color-dark-rgb: 3,41,29;
+	--ion-color-dark-contrast: #ffffff;
+	--ion-color-dark-contrast-rgb: 255,255,255;
+	--ion-color-dark-shade: #03241a;
+	--ion-color-dark-tint: #1c3e34;
+
+	--ion-font-family: "Inter", sans-serif;
+}

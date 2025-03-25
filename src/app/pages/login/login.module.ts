@@ -14,7 +14,7 @@ import {MaskitoDirective} from '@maskito/angular';
     IonicModule,
     LoginPageRoutingModule
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
 })
 
 export class LoginPageModule {}

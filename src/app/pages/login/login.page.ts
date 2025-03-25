@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class LoginPage implements OnInit {
+
+  readonly phoneMask: MaskitoOptions = {
+    mask: ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
+  };
+
+  readonly maskPredicate: MaskitoElementPredicate = async (el) => (el as HTMLIonInputElement).getInputElement();
 
   constructor() { }
 
