@@ -1,18 +1,61 @@
-<ion-header [translucent]="true">
+<ion-header>
+
   <ion-toolbar>
-    <ion-title>home</ion-title>
+
+    <div class="user-info-container">
+      <ion-item lines="none">
+        <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
+        <div class="user-info">
+          <span>Olá,</span>
+          <p>Lucas Alves de Melo do Nascimento</p>
+        </div>
+        <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+      <ion-icon class="eye" name="eye-outline"></ion-icon>
+    </div>
+
+    <ion-item lines="none" class="cashback-info">
+  
+      <div>
+        <span>Cashback total</span>
+        <p>R$ 0,00</p>
+      </div>
+  
+      <ion-button slot="end" class="extract-button">
+          <p>Extrato</p>
+      </ion-button>
+    </ion-item>
+  
+    <ion-item class="container" lines="none">
+  
+      <ion-button slot="start">
+        <div class="button">
+          <fa-icon [icon]="faLocationDot"></fa-icon>
+          <p>Locais</p>
+        </div>
+      </ion-button>
+  
+      <ion-button>
+        <div class="button">
+          <fa-icon [icon]="faTicket"></fa-icon>
+          <p>Cupons</p>
+        </div>
+      </ion-button>
+  
+      <ion-button slot="end">
+        <div class="button">
+          <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+          <p>Cashback</p>
+        </div>
+      </ion-button>
+  
+    </ion-item>
+    
   </ion-toolbar>
-  <ion-item>
-    <ion-button slot="start"><ion-icon name="location"></ion-icon>Locais</ion-button>
-    <ion-button><ion-icon name="ticket"></ion-icon>Cupons</ion-button>
-    <ion-button slot="end"><ion-icon name="cash"></ion-icon>Cashback</ion-button>
-  </ion-item>
+
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
 </ion-content>

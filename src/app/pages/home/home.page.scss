@@ -1,3 +1,96 @@
 .white {
     background: white;
 }
+
+ion-toolbar {
+    --background: #021711;
+}
+
+ion-toolbar::part(container) {
+    padding: 0;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-evenly;
+    height: 9vh;
+    width: 28vw;
+    fa-icon {
+        font-size: 16px;
+        color: white;
+    }
+    p {
+        margin: 0;
+        color: white;
+    }
+}
+
+ion-item::part(container) {
+    padding: 0 !important;
+}
+
+.extract-button {
+    height: 5.5vh;
+    width: 22vw;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    --background: #021711;
+    margin: 8px 0 8px 0;
+}
+
+ion-item {
+    --background: #021711;
+}
+
+.userIcon {
+    font-size: 32px;
+    margin: 8px 24px 0 0;
+    color: var(--ion-color-primary);
+}
+
+.user-info {
+    margin: 16px 0 0 0;
+    span {
+        font-size: 0.75rem;
+    }
+    p {
+        font-size: 1rem;
+        margin: 0;
+    }
+}
+
+.cashback-info {
+    div {
+        span {
+            font-size: 0.9rem;   
+        }
+        p {
+            font-size: 1.3rem;
+            margin: 8px 0;
+        }
+    }
+    margin: 24px 0 0 0;
+}
+
+.eye {
+    font-size: 24px;
+    margin: 16px 16px 0 0;
+}
+
+.arrow {
+    font-size: 16px;
+    margin: 40px 0 0 0;
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
