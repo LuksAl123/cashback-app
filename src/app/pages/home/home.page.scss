@@ -1,96 +1,260 @@
-.white {
-    background: white;
+@keyframes moveArrow {
+    0% {
+      transform: translateX(10px);
+    }
+    50% {
+      transform: translateX(0px);
+    }
+    100% {
+      transform: translateX(10px);
+    }
+  }
+
+  body, .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;  /* Ensure the container fills the full height of the screen */
+    margin: 0;
 }
 
-ion-toolbar {
+.header {
+    background: linear-gradient(135deg, rgba(2,23,17,1) 63%, rgba(1,156,95,1) 97%, rgba(1,172,104,1) 100%);
+    padding: 16px;
+    flex-shrink: 0;
+}
+
+.content {
+    background: #ffffff;
+    border-radius: 16px;
+    flex-grow: 1;  /* Fill the remaining space */
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.user-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin: 16px 0 0 0;
+}
+
+.user-info-box {
+    display: flex;
+    align-items: center;
+}
+
+.userIcon {
+    font-size: 48px;
+    margin: 8px 24px 0 24px;
+    color: #1aca84;
+}
+
+.user-info span {
+    font-size: 0.8rem;
+}
+
+.user-info p {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.arrow {
+    font-size: 24px;
+    margin: 16px 48px 0 0;
+    color: #1aca84;
+    animation: moveArrow 1s ease-in-out infinite;
+}
+
+.eye {
+    font-size: 20px;
+    position: absolute;
+    top: 3vw;
+    right: 3vw;
+}
+
+.cashback-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 16px 0 24px;
+}
+
+.cashback-info > div span {
+    font-weight: 800;
+}
+
+.cashback-info ion-button{
+    --background: #01ac68;
+    --background-activated: #01C476;
+}
+
+.cashback-info div span {
+    font-size: 0.9rem;
+}
+
+.cashback-info > div p {
+    font-size: 1.3rem;
+    margin: 0 0 8px 8px;
+}
+
+.extract-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0 0;
+    height: 5.5vh;
+    width: 22vw;
+    background: #01ac68;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    box-shadow: 0 0 4px 3px rgb(252 252 252 / 20%);
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.extract-button:active {
+    background: #019c5f;
+    border: 1px solid #021711;
+    box-shadow: 0 0 4px 2px #021711;
+}
+
+.extract-button p {
+    transition: font-size 0.3s ease-in-out;
+}
+
+.extract-button:active p {
+    font-size: 13px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
     --background: #021711;
-}
-
-ion-toolbar::part(container) {
-    padding: 0;
+    margin: 8px 0 16px 0;
 }
 
 .button {
     display: flex;
     flex-direction: column;
-    align-items: start;
-    justify-content: space-evenly;
+    align-items: center;
+    justify-content: space-between;
     height: 9vh;
     width: 28vw;
-    fa-icon {
-        font-size: 16px;
-        color: white;
-    }
-    p {
-        margin: 0;
-        color: white;
-    }
+    background: #01ac68;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    box-shadow: 0 0 4px 4px rgb(252 252 252 / 20%);
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
-ion-item::part(container) {
-    padding: 0 !important;
+.button:active {
+    background: #019c5f;
+    border: 1px solid #021711;
+    box-shadow: 0 0 4px 2px #021711;
 }
 
-.extract-button {
-    height: 5.5vh;
-    width: 22vw;
-}
-
-.container {
+.button > div {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    --background: #021711;
-    margin: 8px 0 8px 0;
-}
-
-ion-item {
-    --background: #021711;
-}
-
-.userIcon {
-    font-size: 32px;
-    margin: 8px 24px 0 0;
-    color: var(--ion-color-primary);
-}
-
-.user-info {
-    margin: 16px 0 0 0;
-    span {
-        font-size: 0.75rem;
-    }
-    p {
-        font-size: 1rem;
-        margin: 0;
-    }
-}
-
-.cashback-info {
-    div {
-        span {
-            font-size: 0.9rem;   
-        }
-        p {
-            font-size: 1.3rem;
-            margin: 8px 0;
-        }
-    }
-    margin: 24px 0 0 0;
-}
-
-.eye {
-    font-size: 24px;
-    margin: 16px 16px 0 0;
-}
-
-.arrow {
-    font-size: 16px;
-    margin: 40px 0 0 0;
-}
-
-.user-info-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column; 
     align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    margin: 10px 0;
+    transition: margin 0.3s ease-in-out;
 }
+
+.button:active > div {
+    margin: 12px 0;
+}
+
+.button fa-icon {
+    font-size: 16px;
+    color: white;
+    transition: font-size 0.3s ease-in-out;
+}
+
+.button:active fa-icon {
+    font-size: 15px;
+}
+
+.button p {
+    margin: 0;
+    color: white;
+    transition: font-size 0.3s ease-in-out;
+}
+
+.button:active p {
+    font-size: 13px;
+}
+
+h1 {
+    color: #021711;
+    font-size: 16px;
+    margin: 16px 0 0 16px;
+    text-align: center;
+}
+
+.custom-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin: 16px;
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .avatar-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #ccc; /* Placeholder for avatar */
+  }
+  
+  .card-header-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .card-subtitle {
+    font-size: 0.9rem;
+    color: gray;
+    margin: 4px 0 0 0;
+  }
+  
+  .card-content {
+    margin-top: 12px;
+  }
+  
+  .coupon-button {
+    width: 100%;
+    background-color: #01ac68;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .coupon-button:hover {
+    background-color: #01C476;
+  }

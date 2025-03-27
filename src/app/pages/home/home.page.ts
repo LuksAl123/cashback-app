@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faLocationDot, faMoneyBillTransfer, faTicket, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomePage implements OnInit {
   faMoneyBillTransfer = faMoneyBillTransfer;
   faTicket = faTicket;
   faCircleUser = faCircleUser;
+  faEye = faEye;
 
   constructor() { }
 

@@ -12,6 +12,17 @@
 // Text Secondary: #6C757D (Muted Gray - for less important text)
 // Error/Warning: #D9534F (Soft Red - for errors, alerts)
 
+@font-face {
+	font-family: 'Poppins';
+	src: url('/assets/fonts/Poppins-ExtraLight.ttf') format('truetype'),
+	 	 url('/assets/fonts/Poppins-Medium.ttf') format('truetype'),
+		 url('/assets/fonts/Poppins-Regular.ttf') format('truetype'),
+		 url('/assets/fonts/Poppins-Semibold.ttf') format('truetype'),
+		 url('/assets/fonts/Poppins-Thin.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+
 :root {
 	--ion-color-primary: #01C476;
 	--ion-color-primary-rgb: 1,196,118;
@@ -76,5 +87,5 @@
 	--ion-color-dark-shade: #03241a;
 	--ion-color-dark-tint: #1c3e34;
 
-	--ion-font-family: "Inter", sans-serif;
+	--ion-font-family: "Poppins", sans-serif;
 }
