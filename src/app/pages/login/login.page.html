@@ -1,14 +1,11 @@
 <ion-content [fullscreen]="true">
-  <!-- Avatar Section -->
   <ion-avatar>
     <ion-img src="assets/imgs/logo.png"></ion-img>
   </ion-avatar>
 
-  <!-- Login Form -->
-  <form #f="ngForm" class="form">
+  <form class="form">
     <ion-list lines="none">
 
-      <!-- Telephone Input -->
       <div>
         <ion-item class="input background">
           <ion-input
@@ -22,28 +19,24 @@
         </ion-item>
       </div>
       
-      <!-- Telephone Error Message -->
       <ion-text color="warning" class="ion-text-start">
         <p class="errorMsg">Telefone é obrigatório</p>
       </ion-text>
 
-      <!-- Password Input -->
       <ion-item class="input background">
-        <ion-icon color="primary" slot="end" name="eye-outline"></ion-icon>
         <ion-input
           name="password"
           placeholder="Senha"
           required
           minlength="8">
         </ion-input>
-      </ion-item> <!-- Adicionar eye-outline/eye-off-outline -->
+        <fa-icon class="eye" [icon]="faEye"></fa-icon>
+      </ion-item> 
       
-      <!-- Password Error Message -->
       <ion-text color="warning" class="ion-text-start">
         <p class="errorMsg">Senha é obrigatória</p>
       </ion-text>
 
-      <!-- Remember Me & Recover Password -->
       <ion-item class="background ion-margin-vertical">
         <ion-checkbox class="ion-margin-start" slot="start"></ion-checkbox>
         <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
@@ -52,20 +45,67 @@
         </ion-text>
       </ion-item>
 
-      <!-- Login Button -->
-      <ion-button
-        class="ion-text-center ion-no-padding ion-margin-horizontal"
-        expand="block"
-        [disabled]="!f.valid">
+      <button class="ion-text-center" disabled>
         <p>Login</p>
-      </ion-button>
+      </button>
 
     </ion-list>
 
-    <!-- Register Link -->
     <ion-text class="ion-text-center">
       <p class="textLogin bottomMsg">Não tem uma conta? <a href="">Cadastre-se</a></p>
     </ion-text>
 
   </form>
 </ion-content>
+
+<!-- <div class="content">
+  <div class="avatar">
+    <img src="assets/imgs/logo.png" alt="Logo">
+  </div>
+
+  <form #f="ngForm" class="form">
+    <div class="list">
+      <div>
+        <div class="input background">
+          <ion-input
+            name="tel"
+            type="tel"
+            placeholder="Telefone"
+            [maskito]="phoneMask"
+            [maskitoElement]="maskPredicate"
+            required>
+          </ion-input>
+        </div>
+      </div>
+
+      <p class="errorMsg warning">Telefone é obrigatório</p>
+
+      <div class="input background">
+        <ion-icon color="primary" slot="end" name="eye-outline"></ion-icon>
+        <ion-input
+          name="password"
+          placeholder="Senha"
+          required
+          minlength="8">
+        </ion-input>
+      </div>
+
+      <p class="errorMsg warning">Senha é obrigatória</p>
+
+      <div class="background margin-vertical row">
+        <input type="checkbox" id="remember">
+        <label for="remember" class="textLogin">Lembrar senha</label>
+        <a href="" class="textLogin">Recuperar senha</a>
+      </div>
+
+      <button type="submit" class="btn" [disabled]="!f.valid">
+        <p>Login</p>
+      </button>
+    </div>
+
+    <p class="textLogin bottomMsg">Não tem uma conta? <a href="">Cadastre-se</a></p>
+  </form>
+</div> -->
+
+
+

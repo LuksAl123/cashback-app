@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,9 @@ import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 })
 
 export class LoginPage implements OnInit {
-
+  
+  faEye = faEye;
+  
   readonly phoneMask: MaskitoOptions = {
     mask: ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
   };

@@ -1,4 +1,3 @@
-/* Avatar Styles */
 ion-avatar {
     height: 40vh;
     width: 40vh;
@@ -10,9 +9,8 @@ ion-avatar ion-img {
     height: 100%;
 }
 
-/* Input Styles */
 .input {
-    border: 2px solid #0A5A43;
+    border: 1px solid #c2c2c2;
     border-radius: 10px;
     padding: 3px 0;
     margin: 0 20px;
@@ -20,7 +18,6 @@ ion-avatar ion-img {
     align-items: center;
 }
 
-/* Checkbox Styles */
 ion-checkbox {
     --size: 20px;
     --checkbox-background-checked: #01C476;
@@ -33,44 +30,166 @@ ion-checkbox::part(container) {
     border: 2px solid #01C476;
 }
 
-/* Content Styles */
-ion-content {
-    --background: #021711;
+ion-content::part(background) {
+    background: radial-gradient(27rem circle at top left,  
+        rgba(1, 196, 118, 1) 10%,
+        rgba(1, 172, 104, 1) 20%,  
+        rgba(2, 23, 17, 1) 100% 
+    );
 }
 
-/* List Styles */
 ion-list {
-    background-color: var(--ion-color-dark);
+    background-color: transparent;
 }
 
-/* Background Styles */
 .background {
-    --background: var(--ion-color-dark);
+    --background: transparent;
 }
 
-/* Input Styles for ion-input */
 ion-input {
-    background-color: #021711;
+    background-color: transparent;
+    --placeholder-color: white;
 }
 
-/* Error Message Styles */
 .errorMsg {
     margin: 8px 0 16px 32px;
     font-size: 12px;
+    font-weight: 600;
 }
 
-/* Button Styles */
-ion-button {
-    --background: #01C476;
-    --color: white;
-}
-
-/* Text Styles */
 .textLogin {
     font-size: 14px;
 }
 
-/* Bottom Message Styles */
 .bottomMsg {
     margin: 24px 0;
 }
+
+button {
+    background: #01C476;
+    color: white;
+    border-radius: 12px;
+    font-weight: 500;
+    height: 12vw;
+    width: 90vw;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid transparent;
+    box-shadow: 0 0 4px 4px rgb(252 252 252 / 20%);
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+button:active {
+    background: #019c5f;
+    border: 1px solid #021711;
+    box-shadow: 0 0 4px 2px #021711;
+}
+
+button p {
+    transition: font-size 0.3s ease-in-out;
+}
+
+button:active p {
+    font-size: 13px;
+}
+
+// .content {
+//     background: radial-gradient(circle at top,  
+//         rgba(1, 196, 118, 1) 10%,  
+//         rgba(1, 172, 104, 1) 20%,  
+//         rgba(2, 23, 17, 1) 50%);
+//     padding: 20px;
+//     min-height: 100vh;
+// }
+
+// .avatar {
+//     height: 40vh;
+//     width: 40vh;
+//     margin: 2vh auto;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+// .avatar img {
+//     width: 100%;
+//     height: 100%;
+//     border-radius: 50%;
+// }
+
+// .input {
+//     border: 2px solid #0A5A43;
+//     border-radius: 10px;
+//     padding: 3px 0;
+//     margin: 0 20px;
+//     display: flex;
+//     align-items: center;
+//     position: relative;
+// }
+
+// ion-icon {
+//     color: white;
+//     padding: 10px;
+//     cursor: pointer;
+// }
+
+// input[type="checkbox"] {
+//     width: 20px;
+//     height: 20px;
+//     border: 2px solid #01C476;
+//     border-radius: 6px;
+//     cursor: pointer;
+// }
+
+// input[type="checkbox"]:checked {
+//     background-color: #01C476;
+// }
+
+// .background {
+//     background-color: var(--ion-color-dark);
+// }
+
+// .errorMsg {
+//     margin: 8px 0 16px 32px;
+//     font-size: 12px;
+//     font-weight: 600;
+//     color: red;
+// }
+
+// .btn {
+//     background: #01C476;
+//     color: white;
+//     border: none;
+//     padding: 12px;
+//     width: 100%;
+//     border-radius: 10px;
+//     font-size: 16px;
+//     cursor: pointer;
+// }
+
+// .btn:disabled {
+//     background: gray;
+//     cursor: not-allowed;
+// }
+
+// .textLogin {
+//     font-size: 14px;
+// }
+
+// .bottomMsg {
+//     margin: 24px 0;
+//     text-align: center;
+// }
+
+// .row {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     margin: 10px 20px;
+// }
+
+// .margin-vertical {
+//     margin: 10px 0;
+// }
+
+
