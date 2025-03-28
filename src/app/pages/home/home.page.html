@@ -1,65 +1,100 @@
-  <div class="header">
-    <div class="user-info-container">
-      <div class="user-info-box">
-        <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
-        <div class="user-info">
-          <span>Olá,</span>
-          <p>Lucas Alves de Melo do Nascimento</p>
+  <body>
+    <div class="header">
+      <div class="user-info-container">
+        <div class="user-info-box">
+          <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
+          <div class="user-info">
+            <span>Olá,</span>
+            <p>Lucas Alves de Melo do Nascimento</p>
+          </div>
+          <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
         </div>
-        <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
+        <fa-icon class="eye" [icon]="faEye"></fa-icon>
       </div>
-      <fa-icon class="eye" [icon]="faEye"></fa-icon>
+
+      <div class="cashback-info">
+        <div>
+          <span>Cashback total</span>
+          <p>R$ 0,00</p>
+        </div>
+        <button class="extract-button">
+          <p>Extrato</p>
+        </button>
+      </div>
+
+      <div class="button-container">
+        <button class="button">
+          <div>
+            <fa-icon [icon]="faLocationDot"></fa-icon>
+            <p>Locais</p>
+          </div>
+        </button>
+
+        <button class="button">
+          <div>
+            <fa-icon [icon]="faTicket"></fa-icon>
+            <p>Cupons</p>
+          </div>
+        </button>
+
+        <button class="button">
+          <div>
+            <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+            <p>Cashback</p>
+          </div>
+        </button>
+      </div>
     </div>
 
-    <div class="cashback-info">
-      <div>
-        <span>Cashback total</span>
-        <p>R$ 0,00</p>
-      </div>
-      <button class="extract-button">
-        <p>Extrato</p>
-      </button>
-    </div>
+    <div class="content">
 
-    <div class="button-container">
-      <button class="button">
-        <div>
-          <fa-icon [icon]="faLocationDot"></fa-icon>
-          <p>Locais</p>
-        </div>
-      </button>
-      
-      <button class="button">
-        <div>
-          <fa-icon [icon]="faTicket"></fa-icon>
-          <p>Cupons</p>
-        </div>
-      </button>
-      
-      <button class="button">
-        <div>
-          <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
-          <p>Cashback</p>
-        </div>
-      </button>
-    </div>
-  </div>
+      <h1>Seus cupons</h1>
 
-  <div class="content">
-    <h1>Seus cupons</h1>
-    <div class="custom-card">
-      <div class="card-header">
-        <div class="avatar-container">
-          <div class="avatar"></div>
+      <div class="custom-card">
+        <div class="card-content">
+          <div class="avatar-container">
+            <div class="avatar"></div>
+          </div>
+          <div class="vertical"></div>
+          <div class="card-text">
+            <h3 class="card-title">CUPOM PERPÉTUO</h3>
+            <p class="card-subtitle">GALAGO SISTEMAS</p>
+            <p>Receba 10% de desconto para compras a partir de 200 reais.</p>
+          </div>
         </div>
-        <div class="card-header-text">
-          <h3 class="card-title">CUPOM PERPÉTUO</h3>
-          <p class="card-subtitle">GALAGO SISTEMAS</p>
-        </div>
-      </div>
-      <div class="card-content">
-        <p>Receba 10% de desconto para compras a partir de 200 reais.</p>
         <button class="coupon-button">Usar Cupom</button>
       </div>
+
+      <div class="custom-card">
+        <div class="card-content">
+          <div class="avatar-container">
+            <div class="avatar"></div>
+          </div>
+          <div class="vertical"></div>
+          <div class="card-text">
+            <h3 class="card-title">CUPOM PERPÉTUO</h3>
+            <p class="card-subtitle">GALAGO SISTEMAS</p>
+            <p>Receba 10% de desconto para compras a partir de 200 reais.</p>
+          </div>
+        </div>
+        <button class="coupon-button">Usar Cupom</button>
+      </div>
+
+      <div class="custom-card">
+        <div class="card-content">
+          <div class="avatar-container">
+            <div class="avatar"></div>
+          </div>
+          <div class="vertical"></div>
+          <div class="card-text">
+            <h3 class="card-title">CUPOM PERPÉTUO</h3>
+            <p class="card-subtitle">GALAGO SISTEMAS</p>
+            <p>Receba 10% de desconto para compras a partir de 200 reais.</p>
+          </div>
+        </div>
+        <button class="coupon-button">Usar Cupom</button>
+      </div>
+      
     </div>
-  </div>
+  
+  </body>

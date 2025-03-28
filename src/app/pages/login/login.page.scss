@@ -59,9 +59,8 @@ ion-input {
 
 .textLogin {
     font-size: 14px;
-}
-
-.bottomMsg {
+    background: transparent;
+    text-align: center;
     margin: 24px 0;
 }
 
@@ -73,9 +72,9 @@ button {
     height: 12vw;
     width: 90vw;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 8px auto;
     border: 1px solid transparent;
-    box-shadow: 0 0 4px 4px rgb(252 252 252 / 20%);
+    box-shadow: 0 0 4px 4px rgb(218, 214, 104, 0.3);
     transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 

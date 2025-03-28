@@ -10,15 +10,32 @@
     }
   }
 
-.header {
-    // background: linear-gradient(135deg, rgba(2,23,17,1) 63%, rgba(1,156,95,1) 97%, rgba(1,172,104,1) 100%);
+body {
     background: radial-gradient(27rem circle at bottom right,  
         rgba(1, 196, 118, 1) 5%,
         rgba(1, 172, 104, 1) 30%,  
         rgba(2, 23, 17, 1) 120%
     );
-    height: 100%;
+  }
+
+.header {
+    height: 38vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 3px 72px 3px rgba(218, 214, 104, 0.27);
+    border-radius: 0 0 40px 40px / 0 0 20px 20px;
 }
+
+.header-wave {
+    width: 100%;
+    height: auto;
+    fill: transparent;
+    color: transparent;
+    margin-top: -5px;
+  }
 
 .user-info-container {
     display: flex;
@@ -94,7 +111,7 @@
     background: #01ac68;
     border-radius: 12px;
     border: 1px solid transparent;
-    box-shadow: 0 0 4px 3px rgb(252 252 252 / 20%);
+    box-shadow: 0 0 4px 3px rgb(218, 214, 104, 0.2);
     transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
@@ -132,7 +149,7 @@
     background: #01ac68;
     border-radius: 12px;
     border: 1px solid transparent;
-    box-shadow: 0 0 4px 4px rgb(252 252 252 / 20%);
+    box-shadow: 0 0 4px 4px rgb(218, 214, 104, 0.2);
     transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
@@ -177,70 +194,99 @@
 }
 
 h1 {
-    color: #021711;
+    color: #ffffff;
     font-size: 16px;
     margin: 16px 0 0 16px;
     text-align: center;
+    font-weight: 800;
 }
 
-// .custom-card {
-//     background: white;
-//     border-radius: 12px;
-//     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-//     padding: 16px;
-//     margin: 16px;
-//   }
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    top: 38vh;
+}
+
+.custom-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(2, 23, 17, 0.7);
+    border-radius: 12px;
+    padding: 8px;
+    margin: 8px 16px;
+    border: 1px solid rgba(252, 252, 252, 0.1);
+}
   
-//   .card-header {
-//     display: flex;
-//     align-items: center;
-//     gap: 12px;
-//   }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   
-//   .avatar-container {
-//     width: 40px;
-//     height: 40px;
-//   }
+  .avatar-container {
+    width: 30%;
+    height: 70px;
+  }
   
-//   .avatar {
-//     width: 100%;
-//     height: 100%;
-//     border-radius: 50%;
-//     background-color: #ccc; /* Placeholder for avatar */
-//   }
+  .avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #ccc; /* Placeholder for avatar */
+  }
+
+  .vertical {
+    border-left: 5px dotted black;
+    height: 100px;
+    position: absolute;
+    left: 40%;
+  }
   
-//   .card-header-text {
-//     display: flex;
-//     flex-direction: column;
-//   }
+  .card-header-text {
+    display: flex;
+    flex-direction: column;
+  }
   
-//   .card-title {
-//     font-size: 1.2rem;
-//     font-weight: bold;
-//     margin: 0;
-//   }
+  .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+  }
   
-//   .card-subtitle {
-//     font-size: 0.9rem;
-//     color: gray;
-//     margin: 4px 0 0 0;
-//   }
+  .card-subtitle {
+    font-size: 0.9rem;
+    color: gray;
+    margin: 4px 0 0 0;
+  }
   
-//   .card-content {
-//     margin-top: 12px;
-//   }
+  .card-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .card-content p {
+    font-size: 12px;
+    margin: 0;
+  }
   
-//   .coupon-button {
-//     width: 100%;
-//     background-color: #01ac68;
-//     color: white;
-//     padding: 10px;
-//     border: none;
-//     border-radius: 6px;
-//     font-size: 1rem;
-//     cursor: pointer;
-//   }
-  
-//   .coupon-button:hover {
-//     background-color: #01C476;
-//   }
+  .coupon-button {
+    width: 70%;
+    background-color: #01ac68;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .coupon-button:hover {
+    background-color: #01C476;
+  }
