@@ -16,28 +16,10 @@ body {
         rgba(1, 172, 104, 1) 30%,  
         rgba(2, 23, 17, 1) 120%
     );
-
-    // background: radial-gradient(27rem circle at bottom right,  
-    //     rgba(179, 128, 255, 1) 5%,    
-    //     rgba(136, 78, 190, 1) 30%,  
-    //     rgba(30, 2, 41, 1) 120%     
-    // );
-
-    // background: radial-gradient(27rem circle at bottom right,  
-    //     rgba(255, 220, 128, 1) 5%,  /* Light golden yellow */
-    //     rgba(218, 174, 70, 1) 30%,  /* Warm gold */
-    //     rgba(60, 40, 10, 1) 120%   /* Deep golden brown */
-    // );
-
-    // background: radial-gradient(27rem circle at bottom right,  
-    //     rgba(240, 230, 150, 1) 5%,  /* Soft golden yellow */
-    //     rgba(218, 214, 104, 1) 30%,  /* Muted gold */
-    //     rgba(80, 75, 30, 1) 120%    /* Deep golden brown */
-    // );
   }
 
 .header {
-    height: 38vh;
+    height: 34vh;
     width: 100vw;
     top: 0;
     left: 0;
@@ -214,7 +196,7 @@ body {
 h1 {
     color: #ffffff;
     font-size: 16px;
-    margin: 16px auto 16px auto;
+    margin: 16px auto 8px auto;
     font-weight: 800;
 }
 
@@ -224,7 +206,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    top: 38vh;
+    top: 34vh;
 }
 
 .custom-card {

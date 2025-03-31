@@ -8,19 +8,23 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
 import {MaskitoDirective} from '@maskito/angular';
+import { CommonModule } from '@angular/common';
+import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePage,
-    LoginPage
+    LoginPage,
+    BottomSheetComponent
   ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
     FontAwesomeModule,
-    MaskitoDirective
+    MaskitoDirective,
+    CommonModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
