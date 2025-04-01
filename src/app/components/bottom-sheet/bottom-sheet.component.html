@@ -1,14 +1,70 @@
-<ion-content>
+<!-- <ion-content>
   <div class="sheet-content">
     <h2>Selecione um estabelecimento</h2>
     <p>This is a simple bottom sheet modal.</p>
   </div>
-</ion-content>
+</ion-content> -->
 
-<!-- <div id="bottomSheet" class="bottom-sheet">
-  <div id="handle" class="handle"></div>
-  <div class="sheet-content">
-      <h2>Bottom Sheet</h2>
-      <p>Drag the handle to move the sheet up and down.</p>
+<!-- <div class="bottom-sheet" cdkDrag (cdkDragEnded)="onDragEnd($event)">
+  <div class="handle" cdkDragHandle></div>
+  <div class="content">
+    <h2>Bottom Sheet</h2>
+    <p>Drag up and down to adjust height.</p>
   </div>
 </div> -->
+
+<div class="bottom-sheet-container">
+  <div #bottomSheet class="bottom-sheet">
+    <div #header class="bottom-sheet-header">
+      <div class="handle"></div>
+      <h2 class="title">Escolha um estabelecimento</h2>
+    </div>
+    
+    <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
+      
+      <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
+        <div 
+          *ngFor="let coupon of coupons; trackBy: trackByCouponId" 
+          class="coupon-item" 
+          [class.selected]="coupon.isSelected"
+          (click)="selectCoupon(coupon)"
+        >
+          <div class="coupon-icon">
+            <img [src]="'assets/icons/' + coupon.title.toLowerCase() + '.svg'" alt="Coupon icon">
+          </div>
+          <div class="coupon-info">
+            <div class="coupon-title">
+              {{ coupon.title }}
+              <span class="passengers">4</span>
+            </div>
+            <div class="coupon-timing">
+              13:26 · 3 min de distância
+            </div>
+            <div *ngIf="coupon.title === 'Prioridade'" class="coupon-priority">
+              Embarque priorizado
+            </div>
+          </div>
+          <div class="coupon-pricing">
+            <div class="discounted-price">R$ {{ coupon.discountedPrice.toFixed(2).replace('.', ',') }}</div>
+            <div class="original-price">R$ {{ coupon.originalPrice.toFixed(2).replace('.', ',') }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div #button class="bottom-sheet-button">
+  <button 
+    [disabled]="!isButtonEnabled()" 
+    [class.enabled]="isButtonEnabled()"
+  >
+    {{ getButtonLabel() }}
+  </button>
+</div>
+
+
+
+
+
+

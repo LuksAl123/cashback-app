@@ -9,14 +9,13 @@ import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
 import {MaskitoDirective} from '@maskito/angular';
 import { CommonModule } from '@angular/common';
-import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePage,
-    LoginPage,
-    BottomSheetComponent
+    LoginPage
   ],
   imports: [
     BrowserModule, 
@@ -24,7 +23,8 @@ import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.com
     AppRoutingModule,
     FontAwesomeModule,
     MaskitoDirective,
-    CommonModule
+    CommonModule,
+    DragDropModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
