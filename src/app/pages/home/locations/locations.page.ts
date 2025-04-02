@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./locations.page.scss'],
   standalone: false
 })
+
 export class LocationsPage implements OnInit {
 
   constructor() {}

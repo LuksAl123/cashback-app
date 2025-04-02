@@ -1,70 +1,74 @@
-<!-- <ion-content>
-  <div class="sheet-content">
-    <h2>Selecione um estabelecimento</h2>
-    <p>This is a simple bottom sheet modal.</p>
-  </div>
-</ion-content> -->
-
-<!-- <div class="bottom-sheet" cdkDrag (cdkDragEnded)="onDragEnd($event)">
-  <div class="handle" cdkDragHandle></div>
-  <div class="content">
-    <h2>Bottom Sheet</h2>
-    <p>Drag up and down to adjust height.</p>
-  </div>
-</div> -->
-
-<div class="bottom-sheet-container">
-  <div #bottomSheet class="bottom-sheet">
-    <div #header class="bottom-sheet-header">
-      <div class="handle"></div>
-      <h2 class="title">Escolha um estabelecimento</h2>
-    </div>
-    
-    <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
-      
-      <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
-        <div 
-          *ngFor="let coupon of coupons; trackBy: trackByCouponId" 
-          class="coupon-item" 
-          [class.selected]="coupon.isSelected"
-          (click)="selectCoupon(coupon)"
-        >
-          <div class="coupon-icon">
-            <img [src]="'assets/icons/' + coupon.title.toLowerCase() + '.svg'" alt="Coupon icon">
-          </div>
-          <div class="coupon-info">
-            <div class="coupon-title">
-              {{ coupon.title }}
-              <span class="passengers">4</span>
+<div class="app-container">
+  <div class="bottom-sheet-container">
+    <div #bottomSheet class="bottom-sheet">
+      <div #header class="bottom-sheet-header">
+        <div class="handle"></div>
+        <h2 class="title">Escolha um estabelecimento</h2>
+      </div>
+  
+      <div #searchBar class="search-bar">
+        <div class="search-input-container">
+          <input 
+            type="text" 
+            placeholder="Pesquisar" 
+            [(ngModel)]="searchTerm"
+            class="search-input"
+            aria-label="Pesquisar"
+          >
+          <span class="search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <button *ngIf="searchTerm" (click)="clearSearch()" class="search-clear" aria-label="Clear search">×</button>
+        </div>
+      </div>
+  
+      <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
+        <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
+          <div 
+            *ngFor="let coupon of searchCoupons(); let i = index; trackBy: trackByCouponId"
+            class="coupon-item" 
+            [class.selected]="coupon.isSelected"
+            (click)="selectCoupon(coupon)"
+            [attr.aria-selected]="coupon.isSelected"
+            role="option"
+          >
+            <div class="coupon-icon">
+              <img [src]="'assets/icons/' + coupon.title.toLowerCase() + '.svg'" alt="{{ coupon.title }} icon">
             </div>
-            <div class="coupon-timing">
-              13:26 · 3 min de distância
+            <div class="coupon-info">
+              <div class="coupon-title">
+                {{ coupon.title }}
+                <span class="passengers">4</span>
+              </div>
+              <div class="coupon-timing">
+                13:26 · 3 min de distância
+              </div>
+              <div *ngIf="coupon.title === 'Prioridade'" class="coupon-priority">
+                Embarque priorizado
+              </div>
             </div>
-            <div *ngIf="coupon.title === 'Prioridade'" class="coupon-priority">
-              Embarque priorizado
+            <div class="coupon-pricing">
+              <div class="discounted-price">R$ {{ coupon.discountedPrice.toFixed(2).replace('.', ',') }}</div>
+              <div class="original-price">R$ {{ coupon.originalPrice.toFixed(2).replace('.', ',') }}</div>
             </div>
           </div>
-          <div class="coupon-pricing">
-            <div class="discounted-price">R$ {{ coupon.discountedPrice.toFixed(2).replace('.', ',') }}</div>
-            <div class="original-price">R$ {{ coupon.originalPrice.toFixed(2).replace('.', ',') }}</div>
-          </div>
+          <div class="list-end-spacer"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div #button class="bottom-sheet-button">
+<!-- FIXED BUTTON: Completely separate from bottom sheet with no animations -->
+<div #button class="action-button-container">
   <button 
-    [disabled]="!isButtonEnabled()" 
+    class="action-button"
+    [disabled]="!isButtonEnabled()"
     [class.enabled]="isButtonEnabled()"
   >
     {{ getButtonLabel() }}
   </button>
 </div>
-
-
-
-
-
-
