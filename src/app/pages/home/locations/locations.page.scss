@@ -1,0 +1,31 @@
+.return-button {
+    position: fixed;
+    top: 8vw;
+    left: 4vw;
+    width: 12vw;
+    height: 12vw;
+    border-radius: 50%;
+    background: #01ac68;
+    border: 1px solid transparent;
+    box-shadow: 0 0 4px 4px rgba(1, 196, 118, 0.5);
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.return-button:active {
+    background: #019c5f;
+    border: 1px solid #021711;
+    box-shadow: 0 0 4px 4px #021711;
+}
+
+.return-button fa-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    transition: font-size 0.3s ease-in-out;
+}
+
+.return-button:active fa-icon {
+    font-size: 19px;
+}

@@ -5,7 +5,7 @@
         <div class="handle"></div>
         <h2 class="title">Escolha um estabelecimento</h2>
       </div>
-  
+
       <div #searchBar class="search-bar">
         <div class="search-input-container">
           <input 
@@ -24,7 +24,7 @@
           <button *ngIf="searchTerm" (click)="clearSearch()" class="search-clear" aria-label="Clear search">×</button>
         </div>
       </div>
-  
+
       <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
         <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
           <div 
@@ -59,10 +59,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 </div>
 
-<!-- FIXED BUTTON: Completely separate from bottom sheet with no animations -->
 <div #button class="action-button-container">
   <button 
     class="action-button"
@@ -71,4 +70,6 @@
   >
     {{ getButtonLabel() }}
   </button>
+
 </div>
+
