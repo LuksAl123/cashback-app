@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   ],
   imports: [
     BrowserModule, 
+    BrowserAnimationsModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
     CommonModule,

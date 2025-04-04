@@ -10,11 +10,15 @@ const routes: Routes = [
   {
     path: 'locations',
     loadChildren: () => import('./locations/locations.module').then( m => m.LocationsPageModule)
-  },  {
+  },
+  {
     path: 'coupons',
     loadChildren: () => import('./coupons/coupons.module').then( m => m.CouponsPageModule)
+  },
+  {
+    path: 'cashback',
+    loadChildren: () => import('./cashback/cashback.module').then( m => m.CashbackPageModule)
   }
-
 
 ];
 

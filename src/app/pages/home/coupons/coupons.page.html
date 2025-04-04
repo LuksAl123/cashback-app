@@ -1,24 +1,21 @@
-<header>
+<body>
+  <header>
+    <button class="return-button">
+      <ion-icon class="arrow" name="chevron-back-outline"></ion-icon>
+    </button>
     <h1>Cupons</h1>
-</header>
-
-<ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <div class="container">
-        <div class="bar bar-grey">
-          <div class="option">ONE</div>
-          <div class="option">TWO</div>
-          <div class="option">THREE</div>
-        </div>
-        <div class="bar-outer">
-          <div class="bar bar-purple">
-            <div class="option">ONE</div>
-            <div class="option">TWO</div>
-            <div class="option">THREE</div>
-          </div>
-        </div>
+  </header>
+  <main>
+    <div class="segmented-container">
+      <div class="segmented-control">
+        <button class="segment" (click)="selectSegment($event, 0)">Todos</button>
+        <button class="segment" (click)="selectSegment($event, 1)">Disponíveis</button>
+        <button class="segment" (click)="selectSegment($event, 2)">Ativos</button>
+        <div class="segment-indicator"></div>
       </div>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+    </div>
+    <app-coupon></app-coupon>
+    <app-coupon></app-coupon>
+    <app-coupon></app-coupon>
+  </main>
+</body>
