@@ -1,0 +1,42 @@
+.return-button {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    box-shadow: 0 0 1px 1px rgba(218, 214, 104, 0.9);
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+    padding: 0;
+  }
+  
+  .return-button:active {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #021711;
+    box-shadow: 0 0 1px 1px #021711;
+  }
+  
+  .arrow-back {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    font-size: 16px;
+    color: white;
+    transition: transform 0.15s ease-in-out;
+  }
+  
+  .return-button:active .arrow-back {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 700,
+  'GRAD' 200,
+  'opsz' 20
+}

@@ -110,7 +110,7 @@
     color: #999;
     z-index: 1;
   }
-  
+
   .search-clear {
     position: absolute;
     right: 28px;
@@ -120,7 +120,6 @@
     background: none;
     border: none;
     font-size: 20px;
-    cursor: pointer;
     padding: 0;
     display: flex;
     align-items: center;
@@ -128,7 +127,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    
+
     &:hover {
       background-color: #eee;
     }
@@ -169,7 +168,6 @@
   border-radius: 12px;
   margin-bottom: 8px; // Reduced margin
   border: 1px solid #e0e0e0;
-  cursor: pointer;
   transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent; // Remove tap highlight on mobile
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-coupons',

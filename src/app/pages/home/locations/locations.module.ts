@@ -6,6 +6,7 @@ import { LocationsPageRoutingModule } from './locations-routing.module';
 import { LocationsPage } from './locations.page';
 import { BottomSheetComponent } from 'src/app/components/bottom-sheet/bottom-sheet.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormsModule,
     IonicModule,
     FontAwesomeModule,
-    LocationsPageRoutingModule
+    LocationsPageRoutingModule,
+    SharedModule
   ],
   declarations: [LocationsPage, BottomSheetComponent]
 })

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cashback.page.scss'],
   standalone: false
 })
+
 export class CashbackPage implements OnInit {
 
   constructor() { }

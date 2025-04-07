@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<!-- <ion-content [fullscreen]="true">
   <ion-avatar>
     <ion-img src="assets/imgs/logo.png"></ion-img>
   </ion-avatar>
@@ -54,56 +54,95 @@
     <p class="textLogin">Não tem uma conta? <a href="">Cadastre-se</a></p>
 
   </form>
-</ion-content>
+</ion-content> -->
 
-<!-- <div class="content">
-  <div class="avatar">
-    <img src="assets/imgs/logo.png" alt="Logo">
+<ion-content [fullscreen]="true">
+  <div class="logo">
+    <img src="assets/imgs/logo.png">
   </div>
 
-  <form #f="ngForm" class="form">
-    <div class="list">
-      <div>
-        <div class="input background">
-          <ion-input
-            name="tel"
-            type="tel"
-            placeholder="Telefone"
-            [maskito]="phoneMask"
-            [maskitoElement]="maskPredicate"
-            required>
-          </ion-input>
-        </div>
+  <div class="form-tabs">
+    <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+    <label for="tab-1" class="tab">Login</label>
+    <input id="tab-2" type="radio" name="tab" class="sign-up">
+    <label for="tab-2" class="tab">Cadastro</label>
+
+    <div class="login-signup-form">
+      <div class="sign-in-form">
+        <form class="form">
+          <ion-list lines="none">
+            <div>
+              <ion-item class="input background">
+                <ion-input
+                  name="tel"
+                  type="tel"
+                  placeholder="Telefone"
+                  [maskito]="phoneMask"
+                  [maskitoElement]="maskPredicate"
+                  required>
+                </ion-input>
+              </ion-item>
+            </div>
+
+            <ion-text color="warning" class="ion-text-start">
+              <p class="errorMsg">Telefone é obrigatório</p>
+            </ion-text>
+
+            <ion-item class="input background">
+              <ion-input
+                name="password"
+                placeholder="Senha"
+                required
+                minlength="8">
+              </ion-input>
+              <fa-icon class="eye" [icon]="faEye"></fa-icon>
+            </ion-item> 
+
+            <ion-text color="warning" class="ion-text-start">
+              <p class="errorMsg">Senha é obrigatória</p>
+            </ion-text>
+
+            <ion-item class="background ion-margin-vertical">
+              <ion-checkbox class="ion-margin-start" slot="start"></ion-checkbox>
+              <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
+              <ion-text class="textLogin ion-margin-end" slot="end">
+                <a href="">Recuperar senha</a>
+              </ion-text>
+            </ion-item>
+
+            <button class="ion-text-center" disabled>
+              <p>Login</p>
+            </button>
+          </ion-list>
+        </form>
       </div>
 
-      <p class="errorMsg warning">Telefone é obrigatório</p>
+      <div class="sign-up-form">
+        <form class="form">
+          <ion-list lines="none">
+            <div>
+              <ion-item class="input background">
+                <ion-input
+                  name="tel"
+                  type="tel"
+                  placeholder="Telefone"
+                  [maskito]="phoneMask"
+                  [maskitoElement]="maskPredicate"
+                  required>
+                </ion-input>
+              </ion-item>
+            </div>
 
-      <div class="input background">
-        <ion-icon color="primary" slot="end" name="eye-outline"></ion-icon>
-        <ion-input
-          name="password"
-          placeholder="Senha"
-          required
-          minlength="8">
-        </ion-input>
+            <ion-text color="warning" class="ion-text-start">
+              <p class="errorMsg">Telefone é obrigatório</p>
+            </ion-text>
+
+            <button class="ion-text-center sign-up-button" disabled>
+              <p>Cadastrar</p>
+            </button>
+          </ion-list>
+        </form>
       </div>
-
-      <p class="errorMsg warning">Senha é obrigatória</p>
-
-      <div class="background margin-vertical row">
-        <input type="checkbox" id="remember">
-        <label for="remember" class="textLogin">Lembrar senha</label>
-        <a href="" class="textLogin">Recuperar senha</a>
-      </div>
-
-      <button type="submit" class="btn" [disabled]="!f.valid">
-        <p>Login</p>
-      </button>
     </div>
-
-    <p class="textLogin bottomMsg">Não tem uma conta? <a href="">Cadastre-se</a></p>
-  </form>
-</div> -->
-
-
-
+  </div>
+</ion-content>
