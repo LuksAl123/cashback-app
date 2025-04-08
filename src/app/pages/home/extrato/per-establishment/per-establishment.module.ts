@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ExtratoPageRoutingModule } from './extrato-routing.module';
-import { ExtratoPage } from './extrato.page';
+import { PerEstablishmentPageRoutingModule } from './per-establishment-routing.module';
+import { PerEstablishmentPage } from './per-establishment.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -11,9 +11,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ExtratoPageRoutingModule,
+    PerEstablishmentPageRoutingModule,
     SharedModule
   ],
-  declarations: [ExtratoPage]
+  declarations: [PerEstablishmentPage]
 })
-export class ExtratoPageModule {}
+
+export class PerEstablishmentPageModule {}

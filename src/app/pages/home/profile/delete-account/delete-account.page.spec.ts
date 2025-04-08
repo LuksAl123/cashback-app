@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ExcludeAccountPage } from './exclude-account.page';
+import { ExcludeAccountPage } from './delete-account.page';
 
 describe('ExcludeAccountPage', () => {
   let component: ExcludeAccountPage;

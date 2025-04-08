@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ExcludeAccountPage } from './exclude-account.page';
+import { ExcludeAccountPage } from './delete-account.page';
 
 const routes: Routes = [
   {

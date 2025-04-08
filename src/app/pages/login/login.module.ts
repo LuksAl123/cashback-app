@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginPage } from './login.page';
 import { MaskitoDirective } from '@maskito/angular';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { MaskitoDirective } from '@maskito/angular';
     FormsModule,
     IonicModule,
     LoginPageRoutingModule,
-    FontAwesomeModule,
+    SharedModule,
     MaskitoDirective
   ],
   declarations: [LoginPage]

@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>extrato</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">extrato</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<body>
+  <header>
+    <app-back-button></app-back-button>
+    <h1>Saldo</h1>
+  </header>
+  <main>
+    <p>Cashback total</p>
+    <div class="balance">
+        <span>R$ 0.00</span>
+    </div>
+    <div class="list-establishments">
+      <h1>Saldo por estabelecimento</h1>
+      <div class="establishment-container">
+        <div class="avatar">
+          <img src="assets/imgs/logo.png" alt="Logo">
+        </div>
+        <div class="content">
+          <h1 class="title">BIT SHOP</h1>
+          <p class="establishment-balance">R$ 100,00</p>
+        </div>
+        <div class="arrow-container">
+          <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>

@@ -1,0 +1,51 @@
+<body>
+  <header>
+    <app-back-button></app-back-button>
+    <h1>Extrato</h1>
+  </header>
+  <main>
+    <div class="container">
+      <div class="balance-container">
+        <div class="balance">
+          <p>Cashback disponível</p>
+          <div class="balance-value">
+            <span>R$ 0.00</span>
+            <fa-icon class="eye" [icon]="faEye"></fa-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="establishment-container">
+        <div class="avatar">
+          <img src="assets/imgs/logo.png" alt="Logo">
+        </div>
+        <span>BIT SHOP</span>
+      </div>
+    </div>
+    <div class="list-establishments">
+      <div class="header">
+        <h1>Extrato</h1>
+        <span class="swap-icon material-symbols-outlined">swap_vert</span>
+      </div>
+      <div class="extract-container">
+        <div class="content">
+          <span class="date-time">10/04/2025 10:00</span>
+          <p class="extract-description">Utilizou cashback</p>
+        </div>
+        <div class="extract-balance">
+          <span>+R$ 100,00</span>
+        </div>
+      </div>
+      <div class="extract-container">
+        <div class="content">
+          <span class="date-time">10/04/2025 10:00</span>
+          <p class="extract-description">Utilizou cashback</p>
+        </div>
+        <div class="extract-balance">
+          <span>+R$ 100,00</span>
+          <p class="extract-expiration">Expira em 10/04/2025</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>

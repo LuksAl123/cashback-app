@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ExtratoPage
+  },  {
+    path: 'per-establishment',
+    loadChildren: () => import('./per-establishment/per-establishment.module').then( m => m.PerEstablishmentPageModule)
   }
+
 ];
 
 @NgModule({

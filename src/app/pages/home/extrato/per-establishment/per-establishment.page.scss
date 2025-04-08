@@ -1,0 +1,214 @@
+header {
+  width: 100%;
+  height: 10vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 3px 72px 3px rgba(218, 214, 104, 0.27);
+  border-radius: 0 0 40px 40px / 0 0 20px 20px;
+  margin-bottom: 8px;
+}
+
+header h1 {
+  color: white;
+  font-size: 24px;
+  margin: 0;
+  font-weight: 100;
+  font-family: Poppins, sans-serif;
+  font-weight: 200;
+}
+
+body {
+  background: radial-gradient(27rem circle at bottom right,  
+      rgba(1, 196, 118, 1) 5%,
+      rgba(1, 172, 104, 1) 30%,  
+      rgba(2, 23, 17, 1) 120%
+  );
+}
+
+main {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 88%;
+  padding-bottom: 2vh;
+}
+
+.container {
+  width: 100%;
+  height: 12vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 2vh 0;
+}
+
+.balance-container {
+  width: 50vw;
+  height: 12vh;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: start;
+  position: relative;
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.3);
+  margin: 0 2vh 0 5vw;
+}
+
+.establishment-container {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 24px;
+  width: 40vw;
+  height: 12vh;
+  margin: 0 5vw 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.establishment-container .avatar {
+  width: 40%;
+  height: 40%;
+  margin-bottom: 2vh;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.balance {
+  font-family: Poppins, sans-serif;
+  font-weight: 200;
+  font-size: 1.5rem;
+  border-radius: 24px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 0;
+}
+
+.balance > p {
+  color: white;
+  font-weight: 200;
+  font-size: 0.9rem;
+  align-self: center;
+  margin: 1vh 0 0 0;
+  font-family: Poppins, sans-serif;
+}
+
+.balance-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.balance-value span {
+  font-weight: 200;
+  font-size: 2rem;
+  margin-right: 4vw;
+  line-height: 1.4;
+}
+
+.balance-value .eye {
+  align-self: center;
+  font-size: 1rem;
+}
+
+.extract-container {
+  height: 10vh;
+  min-height: 10vh;
+  width: 80vw;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  font-family: Poppins, sans-serif;
+}
+
+.content {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.date-time {
+  color: white;
+  font-size: 12px;
+  margin-left: 1rem;
+  font-weight: 200;
+  font-family: Poppins, sans-serif;
+}
+
+.extract-description {
+  color: white;
+  font-size: 16px;
+  margin-left: 1rem;
+  font-weight: 300;
+  font-family: Poppins, sans-serif;
+}
+
+.list-establishments {
+  width: 90vw;
+  height: 70vh;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 1vh 0;
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  margin: 2vh 0 4vh 0;
+}
+
+.header > h1 {
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: Poppins, sans-serif;
+  text-align: center;
+  margin: 0;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.swap-icon {
+  position: absolute;
+  right: 4vw;
+  top: 2vh;
+}

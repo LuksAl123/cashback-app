@@ -1,0 +1,179 @@
+header {
+    width: 100%;
+    height: 10vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 3px 72px 3px rgba(218, 214, 104, 0.27);
+    border-radius: 0 0 40px 40px / 0 0 20px 20px;
+    margin-bottom: 8px;
+}
+
+header h1 {
+    color: white;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 100;
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+}
+
+body {
+  background: radial-gradient(27rem circle at bottom right,  
+        rgba(1, 196, 118, 1) 5%,
+        rgba(1, 172, 104, 1) 30%,  
+        rgba(2, 23, 17, 1) 120%
+    );
+}
+
+main {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  padding-bottom: 2vh;
+}
+
+.establishment-container {
+    height: 10vh;
+    min-height: 10vh;
+    width: 80vw;
+    border-radius: 16px;
+    margin: 2vh auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    background-color: rgba(2, 23, 17, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+    0 0 1px 1px rgba(218, 214, 104, 0.9),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+ }
+
+.establishment-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 27%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  pointer-events: none;
+}
+
+.avatar {
+  width: 30%;
+  height: 100%;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    transform: scale(1.2);
+    object-fit: cover;
+}
+
+.content {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.title {
+    color: white;
+    font-size: 18px;
+    margin: 0;
+    font-weight: 400;
+    font-family: Poppins, sans-serif;
+}
+
+.establishment-balance {
+  color: white;
+  font-size: 18px;
+  margin: 0;
+  font-weight: 200;
+  font-family: Poppins, sans-serif;
+}
+
+.arrow-container {
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  font-size: 16px;
+  color: white;
+}
+
+.balance {
+ font-family: Poppins, sans-serif;
+ font-weight: 200;
+ font-size: 1.5rem;
+ border: 1px solid rgba(255, 255, 255, 0.25);
+ border-radius: 24px;
+ width: auto;
+ height: 8vh;
+ display: flex;
+ flex-direction: row;
+ justify-content: center;
+ align-items: center;
+ position: relative;
+ z-index: 10;
+ background: rgba(2, 23, 17, 1);
+ box-shadow: 0 0 8px rgba(218, 214, 104, 0.3);
+ padding: 0 16px;
+ margin-bottom: -4vh; /* Make it overlap by placing it 4vh into the list */
+}
+
+.balance span {
+  margin: 0 8px;
+  font-size: 1.5rem;
+}
+
+main > p {
+  color: white;
+  font-weight: 300;
+  font-size: 1.2rem;
+  align-self: center;
+  margin: 1vh 0 2vh 0;
+  z-index: 5;
+  font-family: Poppins, sans-serif;
+  font-size: 1.2rem;
+}
+
+.list-establishments {
+  width: 90vw;
+  height: 70vh;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 6vh;
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.list-establishments > h1 {
+  color: white;
+  font-size: 16px;
+  margin: 1vh auto;
+  font-weight: 300;
+  font-family: Poppins, sans-serif;
+}

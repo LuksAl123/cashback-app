@@ -37,14 +37,14 @@ main {
 
 .container {
   margin: 8px auto;
-  width: 70%;
+  width: 80%;
   height: auto;
 }
 
 .container p {
     font-family: Poppins, sans-serif;
     font-weight: 300;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 button {
@@ -53,7 +53,7 @@ button {
   margin: 8px auto;
   border-radius: 10px;
   background: #01C476;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 4px 4px rgba(218, 214, 104, 0.3);
   transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 }

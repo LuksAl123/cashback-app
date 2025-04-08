@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-exclude-account',
-  templateUrl: './exclude-account.page.html',
-  styleUrls: ['./exclude-account.page.scss'],
+  selector: 'app-delete-account',
+  templateUrl: './delete-account.page.html',
+  styleUrls: ['./delete-account.page.scss'],
   standalone: false
 })
 export class ExcludeAccountPage implements OnInit {

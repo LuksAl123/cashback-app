@@ -13,7 +13,7 @@ import { BackButtonComponent } from '../components/back-button/back-button.compo
     FontAwesomeModule,
     IonicModule
   ],
-  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent]
+  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule]
 })
 
 export class SharedModule { }
