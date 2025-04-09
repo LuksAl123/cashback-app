@@ -1,0 +1,211 @@
+header {
+    width: 100%;
+    height: 10vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 3px 72px 3px rgba(218, 214, 104, 0.27);
+    border-radius: 0 0 40px 40px / 0 0 20px 20px;
+    margin-bottom: 1rem;
+}
+
+header h1 {
+    color: white;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 100;
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+}
+
+body {
+  background: radial-gradient(27rem circle at bottom right,  
+        rgba(1, 196, 118, 1) 5%,
+        rgba(1, 172, 104, 1) 30%,  
+        rgba(2, 23, 17, 1) 120%
+    );
+}
+
+main {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+}
+
+.establishment-container {
+    width: 50vw;
+    height: 50vw;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.avatar {
+    height: 5rem;
+    width: 5rem;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.5);
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-container > span {
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.phone-button, .email-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.phone-button button, .email-button button {
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.phone-button button:active, .email-button button:active {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(0.95);
+    transition: 0.2s ease-in-out;
+}
+
+.phone-button span, .email-button span {
+    color: white;
+    font-size: 0.75rem;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+}
+
+fa-icon {
+    color: white;
+    font-size: 1rem;
+}
+
+
+.content {
+    width: 92vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.content h2 {
+    color: white;
+    font-size: 20px;
+    margin: 0.5rem 0 1rem 0;
+    font-weight: 200;
+    font-family: Poppins, sans-serif;
+    width: 100%;
+    text-align: center;
+}
+
+.coupons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.coupon {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 1rem;
+    min-width: 150px;
+    flex-shrink: 0;
+}
+
+.coupon span {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-weight: 300;
+}
+
+.coupon-icon {
+    width: 3rem;
+    height: 3rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coupon-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.5);
+}
+
+.location p, .rules p {
+    color: white;
+    font-size: 0.7rem;
+    margin: 6px 0;
+    font-weight: 200;
+    font-family: Poppins, sans-serif;
+    width: 100%;
+    text-align: left;
+}

@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { LoginPageRoutingModule } from './login-routing.module';
-import { LoginPage } from './login.page';
-import { MaskitoDirective } from '@maskito/angular';
+import { EstablishmentPageRoutingModule } from './establishment-routing.module';
+import { EstablishmentPage } from './establishment.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -12,11 +11,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule,
-    SharedModule,
-    MaskitoDirective
+    EstablishmentPageRoutingModule,
+    SharedModule
   ],
-  declarations: [LoginPage]
+  declarations: [EstablishmentPage]
 })
 
-export class LoginPageModule {}
+export class EstablishmentPageModule {}

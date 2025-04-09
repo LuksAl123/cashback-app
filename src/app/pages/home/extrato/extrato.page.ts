@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-extrato',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class ExtratoPage implements OnInit {
+
+  faEye = faEye;
 
   constructor() { }
 

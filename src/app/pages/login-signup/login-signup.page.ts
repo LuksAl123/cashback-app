@@ -3,9 +3,9 @@ import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-login-signup',
+  templateUrl: './login-signup.page.html',
+  styleUrls: ['./login-signup.page.scss'],
   standalone: false
 })
 
