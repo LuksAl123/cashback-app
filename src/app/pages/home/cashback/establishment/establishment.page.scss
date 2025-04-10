@@ -132,7 +132,6 @@ fa-icon {
     font-size: 1rem;
 }
 
-
 .content {
     width: 92vw;
     height: auto;
@@ -158,7 +157,6 @@ fa-icon {
     justify-content: flex-start;
     align-items: center;
     flex-direction: row;
-    gap: 1rem;
     width: 100%;
     overflow-x: auto;
 }
@@ -170,7 +168,7 @@ fa-icon {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    margin: 0 0.5rem 0.5rem 0;
     padding: 0.25rem 1rem;
     min-width: 150px;
     flex-shrink: 0;
@@ -200,11 +198,20 @@ fa-icon {
     transform: scale(1.5);
 }
 
+.rules {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .location p, .rules p {
     color: white;
     font-size: 0.7rem;
-    margin: 6px 0;
+    margin: 0.25rem 0;
     font-weight: 200;
+    line-height: 1;
     font-family: Poppins, sans-serif;
     width: 100%;
     text-align: left;

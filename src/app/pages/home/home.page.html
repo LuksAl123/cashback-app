@@ -17,27 +17,27 @@
           <span>Cashback total</span>
           <p>R$ 0,00</p>
         </div>
-        <button class="extract-button">
+        <button class="extract-button" routerLink="/home/extrato">
           <p>Extrato</p>
         </button>
       </div>
 
       <div class="button-container">
-        <button class="button">
+        <button class="button" routerLink="/home/locations">
           <div>
             <fa-icon [icon]="faLocationDot"></fa-icon>
             <p>Locais</p>
           </div>
         </button>
 
-        <button class="button">
+        <button class="button" routerLink="/home/coupons">
           <div>
             <fa-icon [icon]="faTicket"></fa-icon>
             <p>Cupons</p>
           </div>
         </button>
 
-        <button class="button">
+        <button class="button" routerLink="/home/cashback">
           <div>
             <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
             <p>Cashback</p>

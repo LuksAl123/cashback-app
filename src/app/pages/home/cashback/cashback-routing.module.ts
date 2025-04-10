@@ -7,11 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: CashbackPage
-  },  {
+  },
+  {
     path: 'establishment',
     loadChildren: () => import('./establishment/establishment.module').then( m => m.EstablishmentPageModule)
   }
-
 ];
 
 @NgModule({

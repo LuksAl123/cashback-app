@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MaskitoOptions, MaskitoElementPredicate } from '@maskito/core';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +9,8 @@ import { MaskitoOptions, MaskitoElementPredicate } from '@maskito/core';
 })
 
 export class ProfilePage implements OnInit {
+
+  faArrowRightFromBracket = faArrowRightFromBracket;
 
   constructor() { }
 

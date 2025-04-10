@@ -1,0 +1,49 @@
+<body>
+  <div class="header">
+    <div class="header-container">
+      <div class="avatar-container">
+        <div class="avatar">
+          <img src="assets/imgs/logo.png" alt="Logo">
+        </div>
+        <p>Para poder acompanhar seu saldo de cashback e ativar cupons, você precisa entrar na suc onta.</p>
+      </div>
+      <button class="welcome-button">
+        <p>Entrar ou cadastrar-se</p>
+      </button>
+    </div>
+
+    <div class="button-container">
+      <button class="button">
+        <div>
+          <fa-icon [icon]="faLocationDot"></fa-icon>
+          <p>Locais</p>
+        </div>
+      </button>
+
+      <button class="button">
+        <div>
+          <fa-icon [icon]="faTicket"></fa-icon>
+          <p>Cupons</p>
+        </div>
+      </button>
+
+      <button class="button">
+        <div>
+          <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+          <p>Cashback</p>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <h1>Cupons de desconto</h1>
+
+    <app-coupon></app-coupon>
+    <app-coupon></app-coupon>
+    <app-coupon></app-coupon>
+
+  </div>
+
+</body>
