@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faCircleUser, faEye, faLocationDot, faTicket, faMoneyBillTransfer } from '@fortawesome/free-solid-svg-icons';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-welcome',
@@ -16,10 +17,10 @@ export class WelcomePage implements OnInit {
   faTicket = faTicket;
   faMoneyBillTransfer = faMoneyBillTransfer;
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-
+    this.apiService.fetchCampaignData();
   }
 
 }
