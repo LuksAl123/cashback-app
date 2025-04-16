@@ -749,7 +749,7 @@
 //   }
 // }
 
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, HostListener, Renderer2 } from '@angular/core';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 
@@ -819,12 +819,31 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   preventNextVisibilityUpdate = false;
   isRestoringState = false;
   visibilityChangeAnimationId: any = null; // For tracking and cancelling animations (accepts GSAP Tween)
+  
+  // NEW: Flag to prevent initial animation
+  initialRenderCompleted = false;
 
   // NEW: Store timeout IDs for proper cleanup
   private timeoutIds: number[] = [];
 
-  constructor() {
+  constructor(private renderer: Renderer2) {
     gsap.registerPlugin(Draggable);
+    
+    // NEW: Set initial position using DEFAULT_BREAKPOINT immediately at construction time
+    this.prePositionBottomSheet();
+  }
+  
+  // NEW: Pre-position the bottom sheet at DEFAULT_BREAKPOINT before component is fully initialized
+  prePositionBottomSheet(): void {
+    // Use setTimeout to ensure this runs after the first render cycle
+    setTimeout(() => {
+      const sheetElements = document.querySelectorAll('.bottom-sheet');
+      if (sheetElements.length > 0) {
+        const y = this.windowHeight * (1 - this.DEFAULT_BREAKPOINT);
+        this.renderer.setStyle(sheetElements[0], 'transform', `translateY(${y}px)`);
+        this.renderer.setStyle(sheetElements[0], 'height', `${this.windowHeight}px`);
+      }
+    }, 0);
   }
 
   ngOnInit(): void {
@@ -833,9 +852,22 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
     // Add class to body to prevent background scrolling
     document.body.classList.add('bottom-sheet-open');
+    
+    // NEW: Add initial transform to CSS style for immediate positioning
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .bottom-sheet {
+        transform: translateY(${this.windowHeight * (1 - this.DEFAULT_BREAKPOINT)}px);
+        height: ${this.windowHeight}px;
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   ngAfterViewInit(): void {
+    // NEW: Mark as ready to skip initial animation
+    this.initialRenderCompleted = true;
+    
     // Set initial position at DEFAULT_BREAKPOINT
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
@@ -1065,6 +1097,7 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     // Initial position at DEFAULT_BREAKPOINT or last known breakpoint if restoring
     const initialBreakpoint = this.isRestoringState ? this.lastKnownBreakpoint : this.currentBreakpoint;
 
+    // MODIFIED: Use gsap.set without animation for initial positioning
     gsap.set(this.bottomSheet.nativeElement, {
       y: this.windowHeight * (1 - initialBreakpoint),
       height: this.windowHeight

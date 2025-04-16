@@ -1,12 +1,16 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiService implements OnInit{
-  
+
+  private apiUrl = 'https://api.gcashback.com.br/Trotas/campanhas/';
+  private authToken = environment.apiKey;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -14,16 +18,21 @@ export class ApiService implements OnInit{
   }
 
   fetchCampaignData() {
-    const apiUrl = 'https://api.gcashback.com.br/Trotas/campanhas/';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}` 
+    });
+
     const requestBody = {
-      tiporota: "GET",       
+      tiporota: "GET",
       campanhasativas: "SIM"
     };
 
-    console.log('Attempting to POST data to:', apiUrl);
+    console.log('Attempting to POST data to:', this.apiUrl);
     console.log('Request Body:', requestBody);
+    console.log('Request Headers:', headers);
 
-    this.http.post<any>(apiUrl, requestBody).subscribe({
+    this.http.post<any>(this.apiUrl, requestBody, { headers }).subscribe({
       next: (response) => {
         console.log('Data received successfully:', response);
       },
@@ -40,3 +49,4 @@ export class ApiService implements OnInit{
     });
   }
 }
+

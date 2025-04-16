@@ -407,6 +407,7 @@
   pointer-events: none;
 }
 
+/* IMPORTANT: Add initial positioning to prevent flash */
 .bottom-sheet {
   position: absolute;
   top: 0;
@@ -425,8 +426,8 @@
   touch-action: pan-y;
   pointer-events: auto;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
-  transform: translateZ(0); // Hardware acceleration for smoother animations
-  will-change: transform; // Optimization for animations
+  transform: translateY(60%); /* Initial positioning at DEFAULT_BREAKPOINT (60%) */
+  will-change: transform; /* Optimization for animations */
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -452,7 +453,7 @@
   }
 
   .title {
-    margin: 0 0 4px 0; // Reduced bottom margin
+    margin: 0 0 4px 0; /* Reduced bottom margin */
     padding: 0 16px;
     font-size: 18px;
     font-weight: 200;
@@ -464,7 +465,7 @@
 
 /* Optimized search bar */
 .search-bar {
-  padding: 0 16px 4px; // Reduced bottom padding
+  padding: 0 16px 4px; /* Reduced bottom padding */
   background-color: transparent;
   position: relative;
   z-index: 5;
@@ -531,13 +532,13 @@
   }
 }
 
-// FIXED: Content area with precise padding
+/* FIXED: Content area with precise padding */
 .bottom-sheet-content {
   flex: 1;
   overflow: hidden;
-  padding: 4px 16px 8px 16px; // CRITICAL: Increased bottom padding to 8px for better border visibility
+  padding: 4px 16px 8px 16px; /* CRITICAL: Increased bottom padding to 8px for better border visibility */
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain; // Prevent scroll chaining
+  overscroll-behavior-y: contain; /* Prevent scroll chaining */
 
   &.scrollable {
     overflow-y: auto;
@@ -553,22 +554,22 @@
   padding-bottom: 0;
 
   .scrollable & {
-    padding-bottom: 80px; // Additional padding for scrollable state
+    padding-bottom: 80px; /* Additional padding for scrollable state */
   }
 }
 
-// Establishment wrapper styling
+/* Establishment wrapper styling */
 .establishment-wrapper {
-  margin-bottom: 8px; // Reduced margin
+  margin-bottom: 8px; /* Reduced margin */
   transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent; // Remove tap highlight on mobile
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
   cursor: pointer;
 
   &.selected {
-    margin-bottom: 12px !important; // CRITICAL: Increased bottom margin for selected item
-    padding-bottom: 0 !important; // CRITICAL: Ensure enough space at the bottom
+    margin-bottom: 12px !important; /* CRITICAL: Increased bottom margin for selected item */
+    padding-bottom: 0 !important; /* CRITICAL: Ensure enough space at the bottom */
   }
-  
+
   &.selected app-establishment ::ng-deep .establishment-container {
     box-shadow: 
       0 0 1px 1px rgba(1, 196, 118, 0.9),
@@ -578,14 +579,13 @@
   }
 }
 
-// FIX: Increased spacer height to ensure the last item is fully visible
+/* FIX: Increased spacer height to ensure the last item is fully visible */
 .list-end-spacer {
-  height: 24px; // Increased height for better spacing
+  height: 24px; /* Increased height for better spacing */
   width: 100%;
 }
 
 /* CRITICAL: Fixed button container that always stays at the bottom of the screen */
-/* BEGIN CUSTOM DIVIDER - You can modify this section for fine-tuning */
 .action-button-container {
   position: fixed !important;
   bottom: 0 !important;
@@ -610,7 +610,6 @@
   margin-top: 0 !important;
   will-change: auto !important;
 }
-/* END CUSTOM DIVIDER */
 
 .action-button {
   width: 92vw !important;
@@ -626,7 +625,7 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  -webkit-tap-highlight-color: transparent !important; // Remove tap highlight on mobile
+  -webkit-tap-highlight-color: transparent !important; /* Remove tap highlight on mobile */
   font-family: Poppins, sans-serif !important;
   line-height: 1.2 !important;
   transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out, font-size 0.3s ease-in-out !important;
@@ -646,14 +645,14 @@
   }
 }
 
-// Prevent background scrolling when the bottom sheet is expanded
+/* Prevent background scrolling when the bottom sheet is expanded */
 :host-context(body.bottom-sheet-open) {
   overflow: hidden;
 }
 
-// Precise height adjustments for different device sizes
+/* Precise height adjustments for different device sizes */
 @media (max-width: 375px) {
-  // iPhone SE and similar small screens
+  /* iPhone SE and similar small screens */
   .bottom-sheet-header {
     min-height: 50px;
 
@@ -675,7 +674,7 @@
     margin-bottom: 6px;
 
     &.selected {
-      margin-bottom: 10px !important; // Slightly smaller for small screens
+      margin-bottom: 10px !important; /* Slightly smaller for small screens */
     }
   }
 
@@ -686,12 +685,12 @@
 }
 
 @media (min-width: 376px) and (max-width: 428px) {
-  // iPhone 12 Pro, 14 Pro Max and similar screens
+  /* iPhone 12 Pro, 14 Pro Max and similar screens */
   .establishment-wrapper {
     margin-bottom: 7px;
 
     &.selected {
-      margin-bottom: 11px !important; // Adjusted for medium screens
+      margin-bottom: 11px !important; /* Adjusted for medium screens */
     }
   }
 
