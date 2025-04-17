@@ -14,7 +14,6 @@ export class ApiService implements OnInit{
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.fetchCampaignData();
   }
 
   fetchCampaignData() {
