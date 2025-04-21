@@ -20,7 +20,7 @@ export class WelcomePage implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    this.apiService.fetchCampaignData();
+    this.apiService.getCampaignData();
   }
 
 }

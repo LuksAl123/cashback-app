@@ -1,51 +1,77 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Observable, throwError, pipe } from 'rxjs';
+import { shareReplay, catchError, tap } from 'rxjs/operators';
+
+export interface CampaignData {
+  // Define properties based on what the API actually returns
+  // Example:
+  // id: number;
+  // name: string;
+  // active: boolean;
+  // details: any;
+  // ... or maybe it's an array: CampaignItem[]
+  [key: string]: any;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ApiService implements OnInit{
+export class ApiService {
 
   private apiUrl = 'https://api.gcashback.com.br/Trotas/campanhas/';
   private authToken = environment.apiKey;
+  private sharedCampaignData$: Observable<CampaignData> | null = null;
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
+  getCampaignData(): Observable<CampaignData> {
+
+    if (!this.sharedCampaignData$) {
+      console.log('Creating shared observable - Preparing to fetch campaign data...');
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'token': `${this.authToken}`
+      });
+
+      const requestBody = {
+        tiporota: "GET",
+        campanhasativas: "SIM"
+      };
+
+      this.sharedCampaignData$ = this.http.post<CampaignData>(this.apiUrl, requestBody, { headers }).pipe(
+        tap(response => {
+          console.log('Data received from API:', response);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error fetching campaign data:', error);
+          console.error(`Status: ${error.status}, Message: ${error.message}`);
+          if (error.error) {
+            console.error('Server Error Details:', error.error);
+          }
+
+          this.sharedCampaignData$ = null;
+
+          return throwError(() => new Error('Failed to load campaign data. API error occurred.'));
+        }),
+        shareReplay({ bufferSize: 1, refCount: false })
+      );
+    } else {
+      console.log('Returning cached campaign data observable.');
+    }
+    return this.sharedCampaignData$;
   }
 
-  fetchCampaignData() {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'token': `${this.authToken}` 
-    });
+  clearCache(): void {
+    this.sharedCampaignData$ = null;
+    console.log('Campaign data cache cleared.');
+  }
 
-    const requestBody = {
-      tiporota: "GET",
-      campanhasativas: "SIM"
-    };
-
-    console.log('Attempting to POST data to:', this.apiUrl);
-    console.log('Request Body:', requestBody);
-    console.log('Request Headers:', headers);
-
-    this.http.post<any>(this.apiUrl, requestBody, { headers }).subscribe({
-      next: (response) => {
-        console.log('Data received successfully:', response);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error fetching data:', error);
-        console.error(`Status: ${error.status}, Message: ${error.message}`);
-        if (error.error) {
-          console.error('Server Error Details:', error.error);
-        }
-      },
-      complete: () => {
-        console.log('HTTP request completed.');
-      }
-    });
+  forceRefresh(): Observable<CampaignData> {
+    this.clearCache();
+    return this.getCampaignData();
   }
 }
-
