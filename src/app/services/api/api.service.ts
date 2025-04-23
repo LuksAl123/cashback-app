@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, throwError, pipe } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { shareReplay, catchError, tap } from 'rxjs/operators';
 
 export interface CampaignData {
@@ -63,15 +63,5 @@ export class ApiService {
       console.log('Returning cached campaign data observable.');
     }
     return this.sharedCampaignData$;
-  }
-
-  clearCache(): void {
-    this.sharedCampaignData$ = null;
-    console.log('Campaign data cache cleared.');
-  }
-
-  forceRefresh(): Observable<CampaignData> {
-    this.clearCache();
-    return this.getCampaignData();
   }
 }
