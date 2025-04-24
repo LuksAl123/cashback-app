@@ -5,14 +5,12 @@ import { Observable, throwError } from 'rxjs';
 import { shareReplay, catchError, tap } from 'rxjs/operators';
 
 export interface CampaignData {
-  // Define properties based on what the API actually returns
-  // Example:
-  // id: number;
-  // name: string;
-  // active: boolean;
-  // details: any;
-  // ... or maybe it's an array: CampaignItem[]
-  [key: string]: any;
+  id: number;
+  codeempresa: number;
+  nomecampanha: string;
+  tipo: string;
+  cp_perc_descontocliente: number;
+  vr_comprasacimade: number;
 }
 
 @Injectable({
@@ -27,7 +25,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getCampaignData(): Observable<CampaignData> {
+  getCampaignData(): Observable<any> {
 
     if (!this.sharedCampaignData$) {
       console.log('Creating shared observable - Preparing to fetch campaign data...');

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, CampaignData } from '../../services/api/api.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -11,22 +11,37 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class CouponComponent implements OnInit {
-  
-  campaignData: CampaignData | null = null;
+  campaignData: any = null;
   errorMsg: string | null = null;
+  isLoading: boolean = true;
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
+    this.loadCoupons();
+  }
+
+  get discountCoupons() {
+    if (this.campaignData && this.campaignData.detalhe) {
+      return this.campaignData.detalhe.filter((coupon: any) => coupon.tipo === 'CUPOM DE DESCONTO');
+    }
+    return [];
+  }
+
+  loadCoupons() {
+    this.isLoading = true;
+    
     this.apiService.getCampaignData()
       .pipe(
         catchError(error => {
           this.errorMsg = error.message || 'Could not load data.';
+          this.isLoading = false;
           return of(null);
         })
       )
-      .subscribe(data => {
-        this.campaignData = data;
+      .subscribe(response => {
+        this.campaignData = response;
+        this.isLoading = false;
       });
   }
 }

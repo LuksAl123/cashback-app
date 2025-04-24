@@ -1,17 +1,41 @@
-<div class="custom-card">
-  <div class="card-content">
-    <div class="logo-background">
-      <div class="logo-container">
-        <img class="logo" src="/assets/imgs/logo.svg" alt="Logo SVG"/>
+<div *ngIf="isLoading" class="loading-container">
+  <div class="spinner"></div>
+  <p>Carregando cupons...</p>
+</div>
+
+<div *ngIf="!isLoading">
+  <div class="coupons-container" *ngIf="campaignData && campaignData.detalhe && campaignData.detalhe.length > 0">
+    <ng-container *ngIf="discountCoupons.length > 0; else noCoupons">
+      <div class="custom-card" *ngFor="let coupon of discountCoupons">
+        <div class="card-content">
+          <div class="logo-background">
+            <div class="logo-container">
+              <img class="logo" src="/assets/imgs/logo.svg" alt="Logo SVG"/>
+            </div>
+          </div>
+          <div class="info-container">
+            <p class="title">{{ coupon.nomecampanha }}</p>
+            <p class="sub-title">GALAGO SISTEMAS</p>
+            <p class="description">
+              Receba {{ coupon.cp_perc_descontocliente }}% de desconto para compras a partir de {{ coupon.vr_comprasacimade }} reais.
+            </p>
+          </div>
+          <button class="cupon-button">
+            <p>Abrir cupom</p>
+          </button>
+        </div>
       </div>
+    </ng-container>
+  </div>
+
+  <ng-template #noCoupons>
+    <div class="empty-state">
+      <img src="/assets/imgs/empty-coupon.svg" alt="No coupons available"/>
+      <p>Não há cupons de desconto disponíveis no momento.</p>
     </div>
-    <div class="info-container">
-      <p class="title">Dia das Crianças</p>
-      <p class="sub-title">GALAGO SISTEMAS</p>
-      <p class="description">Receba 10% de desconto para compras a partir de 100 reais.</p>
-    </div>
-    <button class="cupon-button">
-      <p>Abrir cupom</p>
-    </button>
+  </ng-template>
+
+  <div *ngIf="errorMsg" class="error-container">
+    <p>{{ errorMsg }}</p>
   </div>
 </div>
