@@ -8,23 +8,22 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 })
 
 export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
+  
   activeSegment: number = 0;
   private resizeListener: any = null;
 
   constructor() {}
 
   ngOnInit() {
-    // Initial setup
   }
 
   ngAfterViewInit() {
-    // Set initial active segment
     setTimeout(() => {
       const firstSegment = document.querySelector('.segment');
       if (firstSegment) {
         firstSegment.classList.add('segment-active');
       }
-      
+
       // Position the indicator initially
       this.updateIndicatorPosition(this.activeSegment);
       
@@ -70,7 +69,7 @@ export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
     const container = document.querySelector('.segmented-control') as HTMLElement;
     
     if (!segments.length || !indicator || !container) return;
-    
+  
     // Get the selected segment and its dimensions
     const selectedSegment = segments[index] as HTMLElement;
     const segmentRect = selectedSegment.getBoundingClientRect();
@@ -82,7 +81,7 @@ export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
     // Calculate exact left position relative to container
     // Subtract container's left position to get the relative position
     const leftPosition = segmentRect.left - containerRect.left;
-    
+  
     // Apply the exact dimensions with a small adjustment for padding
     indicator.style.width = `${width - 4}px`; // -4px for the padding
     indicator.style.left = `${leftPosition + 2}px`; // +2px for the left padding

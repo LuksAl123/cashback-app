@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, CampaignData } from '../../services/api/api.service';
+import { ApiService } from '../../services/api/api.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class CouponComponent implements OnInit {
+  
   campaignData: any = null;
   errorMsg: string | null = null;
   isLoading: boolean = true;
@@ -30,7 +31,7 @@ export class CouponComponent implements OnInit {
 
   loadCoupons() {
     this.isLoading = true;
-    
+
     this.apiService.getCampaignData()
       .pipe(
         catchError(error => {

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,8 @@ import { provideHttpClient } from '@angular/common/http';
   providers: [ 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideHttpClient()
+    // If you have interceptors, provide them here using withInterceptors:
+    // provideHttpClient(withInterceptors([YourInterceptorClass]))
   ],
   bootstrap: [AppComponent],
 })
