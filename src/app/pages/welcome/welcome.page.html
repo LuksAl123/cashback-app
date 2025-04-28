@@ -38,12 +38,20 @@
 
   <div class="content">
 
-    <h1>Cupons de desconto</h1>
-
-    <app-coupon></app-coupon>
-    <app-coupon></app-coupon>
-    <app-coupon></app-coupon>
-
+    <ng-container *ngIf="!isCouponLoading">
+      <h1>Cupons de desconto</h1>
+    </ng-container>
+    
+    <app-loading *ngIf="isCouponLoading" [message]="'Carregando cupons'"></app-loading>
+    <app-coupon 
+      (loadingChange)="isCouponLoading = $event">
+    </app-coupon>
+    <app-coupon 
+      (loadingChange)="isCouponLoading = $event">
+    </app-coupon>
+    <app-coupon 
+      (loadingChange)="isCouponLoading = $event">
+    </app-coupon>
+  
   </div>
-
 </body>

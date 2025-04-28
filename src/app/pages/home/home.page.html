@@ -1,15 +1,17 @@
   <body>
     <div class="header">
-      <div class="user-info-container" [routerLink]="['/home/profile']">
-        <div class="user-info-box">
-          <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
-          <div class="user-info">
-            <span>Olá,</span>
-            <p>Lucas Alves de Melo do Nascimento</p>
+      <div class="header-content">
+        <div class="user-info-container" [routerLink]="['/home/profile']">
+          <div class="user-info-box">
+            <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
+            <div class="user-info">
+              <span>Olá,</span>
+              <p>Lucas Alves de Melo do Nascimento</p>
+            </div>
+            <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
           </div>
-          <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
+          <fa-icon class="eye" [icon]="faEye"></fa-icon>
         </div>
-        <fa-icon class="eye" [icon]="faEye"></fa-icon>
       </div>
 
       <div class="cashback-info">
@@ -48,11 +50,14 @@
 
     <div class="content">
 
-      <h1>Seus cupons</h1>
+      <ng-container *ngIf="!isCouponLoading">
+        <h1>Seus cupons</h1>
+      </ng-container>
 
-      <app-coupon></app-coupon>
-      <app-coupon></app-coupon>
-      <app-coupon></app-coupon>
+      <app-loading *ngIf="isCouponLoading" [message]="'Carregando cupons'"></app-loading>
+      <app-coupon 
+        (loadingChange)="isCouponLoading = $event">
+      </app-coupon>
   
     </div>
   

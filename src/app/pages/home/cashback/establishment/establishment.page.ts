@@ -16,5 +16,4 @@ export class EstablishmentPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

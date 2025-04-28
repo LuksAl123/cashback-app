@@ -4,6 +4,9 @@
     <h1>Cashback</h1>
   </header>
   <main>
-    <app-establishment></app-establishment>
+    <app-loading *ngIf="isEstablishmentLoading" [message]="'Carregando cashback'"></app-loading>
+    <app-establishment
+      (loadingChange)="isEstablishmentLoading = $event">
+    </app-establishment>
   </main>
 </body>

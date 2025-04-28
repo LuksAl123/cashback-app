@@ -16,6 +16,8 @@ body {
         rgba(1, 172, 104, 1) 30%,  
         rgba(2, 23, 17, 1) 120%
     );
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
 .header {
@@ -23,10 +25,12 @@ body {
     width: 100vw;
     top: 0;
     left: 0;
-    position: fixed;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 3px 72px 3px rgba(218, 214, 104, 0.27);
     border-radius: 0 0 40px 40px / 0 0 20px 20px;
+    position: sticky;
+    z-index: 10;
+    background-color: #021711;
 }
 
 .header-container {
@@ -170,7 +174,7 @@ body {
 h1 {
     color: #ffffff;
     font-size: 16px;
-    margin: 16px auto 8px auto;
+    margin: 16px auto 0 auto;
     font-weight: 600;
     line-height: 1.2;
     font-family: Poppins, sans-serif;
@@ -183,5 +187,4 @@ h1 {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    top: 34vh;
 }

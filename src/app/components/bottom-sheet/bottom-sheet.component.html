@@ -101,15 +101,14 @@
 
       <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
         <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
-          <div 
+          <div
             *ngFor="let establishment of searchEstablishments(); let i = index; trackBy: trackByEstablishmentId"
-            class="establishment-wrapper" 
-            [class.selected]="establishment.isSelected"
+            class="establishment-wrapper"
             (click)="selectEstablishment(establishment)"
             [attr.aria-selected]="establishment.isSelected"
             role="option"
           >
-            <app-establishment></app-establishment>
+            <app-establishment [establishment]="establishment" [isSelected]="establishment.isSelected"></app-establishment>
           </div>
           <div class="list-end-spacer"></div>
         </div>

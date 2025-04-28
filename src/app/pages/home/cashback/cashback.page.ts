@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class CashbackPage implements OnInit {
+  isEstablishmentLoading: boolean = true;
 
   constructor() { }
 

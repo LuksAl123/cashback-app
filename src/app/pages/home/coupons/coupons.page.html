@@ -12,8 +12,9 @@
         <div class="segment-indicator"></div>
       </div>
     </div>
-    <app-coupon></app-coupon>
-    <app-coupon></app-coupon>
-    <app-coupon></app-coupon>
+    <app-loading *ngIf="isCouponLoading" [message]="'Carregando cupons'"></app-loading>
+    <app-coupon 
+      (loadingChange)="isCouponLoading = $event">
+    </app-coupon>
   </main>
 </body>

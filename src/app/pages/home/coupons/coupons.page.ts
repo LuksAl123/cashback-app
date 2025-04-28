@@ -9,6 +9,8 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
   
+  isCouponLoading: boolean = true;
+
   activeSegment: number = 0;
   private resizeListener: any = null;
 

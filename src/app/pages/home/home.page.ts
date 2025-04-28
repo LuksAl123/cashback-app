@@ -11,6 +11,8 @@ import { faEye } from '@fortawesome/free-regular-svg-icons';
 
 export class HomePage implements OnInit {
 
+  isCouponLoading: boolean = true;
+
   faLocationDot = faLocationDot;
   faMoneyBillTransfer = faMoneyBillTransfer;
   faTicket = faTicket;

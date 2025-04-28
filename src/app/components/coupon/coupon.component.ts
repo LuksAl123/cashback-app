@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -11,7 +11,9 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class CouponComponent implements OnInit {
-  
+
+  @Output() loadingChange = new EventEmitter<boolean>();
+
   campaignData: any = null;
   errorMsg: string | null = null;
   isLoading: boolean = true;
@@ -31,18 +33,23 @@ export class CouponComponent implements OnInit {
 
   loadCoupons() {
     this.isLoading = true;
+    this.loadingChange.emit(this.isLoading);
 
     this.apiService.getCampaignData()
       .pipe(
         catchError(error => {
           this.errorMsg = error.message || 'Could not load data.';
           this.isLoading = false;
+          this.loadingChange.emit(this.isLoading);
           return of(null);
         })
       )
       .subscribe(response => {
-        this.campaignData = response;
-        this.isLoading = false;
+        setTimeout(() => {
+          this.campaignData = response;
+          this.isLoading = false;
+          this.loadingChange.emit(this.isLoading);
+        }, 2000);
       });
   }
 }

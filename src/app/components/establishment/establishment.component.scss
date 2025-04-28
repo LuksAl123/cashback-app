@@ -2,7 +2,7 @@
     height: 12vh;
     width: 90vw;
     border-radius: 20px;
-    margin: 2vh auto;
+    margin: 0.5rem auto 1rem auto;
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -16,7 +16,7 @@
     0 5px 15px rgba(0, 0, 0, 0.3);
  }
 
- .establishment-container::before {
+.establishment-container::before {
   content: '';
   position: absolute;
   top: 0;
