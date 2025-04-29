@@ -10,6 +10,8 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export class LocationsPage implements OnInit {
 
+  isCouponLoading: boolean = true;
+
   faArrowLeft = faArrowLeft;
 
   constructor() {}

@@ -27,33 +27,15 @@
 
       <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
         <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
-          <div 
-            *ngFor="let coupon of searchCoupons(); let i = index; trackBy: trackByCouponId"
-            class="coupon-item" 
-            [class.selected]="coupon.isSelected"
-            (click)="selectCoupon(coupon)"
-            [attr.aria-selected]="coupon.isSelected"
+          <div
+            *ngFor="let establishment of searchEstablishments(); let i = index; trackBy: trackByEstablishmentId"
+            class="establishment-wrapper" 
+            [class.selected]="establishment.isSelected"
+            (click)="selectEstablishment(establishment)"
+            [attr.aria-selected]="establishment.isSelected"
             role="option"
           >
-            <div class="coupon-icon">
-              <img [src]="'assets/icons/' + coupon.title.toLowerCase() + '.svg'" alt="{{ coupon.title }} icon">
-            </div>
-            <div class="coupon-info">
-              <div class="coupon-title">
-                {{ coupon.title }}
-                <span class="passengers">4</span>
-              </div>
-              <div class="coupon-timing">
-                13:26 · 3 min de distância
-              </div>
-              <div *ngIf="coupon.title === 'Prioridade'" class="coupon-priority">
-                Embarque priorizado
-              </div>
-            </div>
-            <div class="coupon-pricing">
-              <div class="discounted-price">R$ {{ coupon.discountedPrice.toFixed(2).replace('.', ',') }}</div>
-              <div class="original-price">R$ {{ coupon.originalPrice.toFixed(2).replace('.', ',') }}</div>
-            </div>
+            <app-establishment></app-establishment>
           </div>
           <div class="list-end-spacer"></div>
         </div>
@@ -68,7 +50,7 @@
     [disabled]="!isButtonEnabled()"
     [class.enabled]="isButtonEnabled()"
   >
-    {{ getButtonLabel() }}
+    <p>{{ getButtonLabel() }}</p>
   </button>
 </div> -->
 
@@ -101,14 +83,13 @@
 
       <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
         <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
-          <div
-            *ngFor="let establishment of searchEstablishments(); let i = index; trackBy: trackByEstablishmentId"
-            class="establishment-wrapper"
-            (click)="selectEstablishment(establishment)"
-            [attr.aria-selected]="establishment.isSelected"
-            role="option"
-          >
-            <app-establishment [establishment]="establishment" [isSelected]="establishment.isSelected"></app-establishment>
+          <div class="establishment-wrapper">
+            <app-establishment 
+              [selectedEstablishmentId]="selectedEstablishmentId"
+              [orderedEstablishmentIds]="getOrderedEstablishmentIds()"
+              (establishmentsLoaded)="onEstablishmentsLoaded($event)"
+              (establishmentSelected)="onEstablishmentSelected($event)"
+            ></app-establishment>
           </div>
           <div class="list-end-spacer"></div>
         </div>

@@ -1,4 +1,5 @@
 <main>
-  <app-bottom-sheet></app-bottom-sheet>
+  <app-loading *ngIf="isCouponLoading" [message]="'Carregando lojas'"></app-loading>
+  <app-bottom-sheet (loadingChange)="isCouponLoading = $event"></app-bottom-sheet>
   <app-back-button></app-back-button>
 </main>
