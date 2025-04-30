@@ -89,6 +89,7 @@
               [orderedEstablishmentIds]="getOrderedEstablishmentIds()"
               (establishmentsLoaded)="onEstablishmentsLoaded($event)"
               (establishmentSelected)="onEstablishmentSelected($event)"
+              (loadingChange)="onLoadingChange($event)"
             ></app-establishment>
           </div>
           <div class="list-end-spacer"></div>
@@ -99,7 +100,7 @@
 </div>
 
 <div #button class="action-button-container">
-  <button 
+  <button
     class="action-button"
     [disabled]="!isButtonEnabled()"
     [class.enabled]="isButtonEnabled()"

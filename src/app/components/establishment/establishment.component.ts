@@ -76,6 +76,7 @@ import { Establishment } from 'src/app/interface/establishment';
   styleUrls: ['./establishment.component.scss'],
   standalone: false
 })
+
 export class EstablishmentComponent implements OnInit {
   // Replace simple Input with getter/setter
   private _selectedEstablishmentId: number | null = null;
@@ -91,7 +92,7 @@ export class EstablishmentComponent implements OnInit {
   get selectedEstablishmentId(): number | null {
     return this._selectedEstablishmentId;
   }
-  
+
   // Add proper getter/setter for orderedEstablishmentIds
   private _orderedEstablishmentIds: number[] = [];
   
@@ -107,11 +108,11 @@ export class EstablishmentComponent implements OnInit {
       }, 0);
     }
   }
-  
+
   get orderedEstablishmentIds(): number[] {
     return this._orderedEstablishmentIds;
   }
-  
+
   @Output() loadingChange = new EventEmitter<boolean>();
   @Output() establishmentsLoaded = new EventEmitter<Establishment[]>();
   @Output() establishmentSelected = new EventEmitter<Establishment>();
@@ -119,11 +120,11 @@ export class EstablishmentComponent implements OnInit {
   campaignData: any = null;
   errorMsg: string | null = null;
   isLoading: boolean = true;
-  
+
   // Create a private property to store establishments
   private _establishments: Establishment[] = [];
   private _baseEstablishments: Establishment[] = []; // Store original data
-  
+
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
@@ -137,7 +138,7 @@ export class EstablishmentComponent implements OnInit {
     }
     return this._establishments;
   }
-  
+
   // Helper method to generate establishments from campaign data
   private getEstablishmentsFromData(): Establishment[] {
     if (this.campaignData && this.campaignData.detalhe) {
@@ -159,34 +160,34 @@ export class EstablishmentComponent implements OnInit {
   // Updated method to update establishments display with ordering
   private updateEstablishmentsDisplay(): void {
     console.log('updateEstablishmentsDisplay called');
-    
+
     // First, ensure we have the base data
     if (this._baseEstablishments.length === 0 && this.campaignData && this.campaignData.detalhe) {
       this._baseEstablishments = this.getEstablishmentsFromData();
     }
-    
+
     // If we don't have base data yet, return
     if (this._baseEstablishments.length === 0) {
       console.log('No base establishments data yet');
       this._establishments = [];
       return;
     }
-    
+
     // Apply selection state to all establishments
     this._baseEstablishments.forEach(est => {
       est.isSelected = est.id === this._selectedEstablishmentId;
     });
-    
+
     // If we have non-empty ordering info, apply it
     if (this._orderedEstablishmentIds && this._orderedEstablishmentIds.length > 0) {
       console.log('Applying custom order to establishments:', this._orderedEstablishmentIds);
-      
+
       // Create a new array based on the ordering
       const ordered: Establishment[] = [];
-      
+
       // Track which IDs we've already processed
       const processedIds = new Set<number>();
-      
+
       // First, add all establishments that are in the ordered list
       this._orderedEstablishmentIds.forEach(id => {
         const found = this._baseEstablishments.find(est => est.id === id);
@@ -195,14 +196,14 @@ export class EstablishmentComponent implements OnInit {
           processedIds.add(id);
         }
       });
-      
+
       // Then add any establishments that aren't in the ordered list
       this._baseEstablishments.forEach(est => {
         if (!processedIds.has(est.id)) {
           ordered.push({...est}); // Create a new object to ensure change detection
         }
       });
-      
+
       // Only reassign if the order has actually changed
       if (JSON.stringify(ordered.map(e => e.id)) !== JSON.stringify(this._establishments.map(e => e.id))) {
         console.log('Order has changed, updating establishments');
@@ -213,7 +214,7 @@ export class EstablishmentComponent implements OnInit {
       // No ordering, just use base establishments
       this._establishments = this._baseEstablishments.map(est => ({...est})); // Create new objects
     }
-    
+
     console.log('Final establishments order:', this._establishments.map(est => est.id));
   }
 
@@ -236,14 +237,14 @@ export class EstablishmentComponent implements OnInit {
           console.log('Campaign data loaded:', this.campaignData);
           this.isLoading = false;
           this.loadingChange.emit(this.isLoading);
-          
+
           // Update base establishments from the API
           this._baseEstablishments = this.getEstablishmentsFromData();
           console.log('Base establishments:', this._baseEstablishments.map(est => est.id));
-          
+
           // Now update the display with any ordering
           this.updateEstablishmentsDisplay();
-          
+
           // Emit the establishments data to the parent component
           this.establishmentsLoaded.emit(this._baseEstablishments);
         }, 2000);

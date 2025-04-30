@@ -781,7 +781,7 @@
 //   }
 // }
 
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, HostListener, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ElementRef, ViewChild, AfterViewInit, HostListener, Renderer2 } from '@angular/core';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Establishment } from 'src/app/interface/establishment';
@@ -794,6 +794,11 @@ import { Establishment } from 'src/app/interface/establishment';
 })
 
 export class BottomSheetComponent implements OnInit, AfterViewInit {
+
+  @Output() loadingChange = new EventEmitter<boolean>();
+
+  isLoading: boolean = true;
+
   @ViewChild('bottomSheet') bottomSheet!: ElementRef;
   @ViewChild('sheetContent') sheetContent!: ElementRef;
   @ViewChild('header') header!: ElementRef;
@@ -853,7 +858,8 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // No longer select first establishment by default - will happen when data loads
+    this.loadingChange.emit(this.isLoading);
+    
     document.body.classList.add('bottom-sheet-open');
 
     const style = document.createElement('style');
@@ -866,6 +872,12 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     document.head.appendChild(style);
   }
 
+  onLoadingChange(isLoading: boolean): void {
+    this.isLoading = isLoading;
+    console.log('Bottom sheet loading state changed:', isLoading);
+    this.loadingChange.emit(isLoading);
+  }
+
   onEstablishmentsLoaded(establishments: Establishment[]): void {
     this.establishments = establishments;
     
@@ -873,7 +885,7 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     if (establishments.length > 0 && !this.selectedEstablishmentId) {
       this.onEstablishmentSelected(establishments[0]);
     }
-    
+
     // Recalculate min breakpoint after establishments are loaded
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
@@ -914,18 +926,18 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     if (!this.establishments || this.establishments.length === 0) {
       return [];
     }
-    
+  
     const ids = this.establishments.map(establishment => establishment.id);
-    
+  
     // Only log if the IDs actually changed to avoid log spam
     const newIdsString = JSON.stringify(ids);
     const cachedIdsString = JSON.stringify(this.cachedOrderedIds);
-    
+  
     if (newIdsString !== cachedIdsString) {
       console.log('Providing ordered IDs to child:', ids);
       this.cachedOrderedIds = [...ids];
     }
-    
+
     return this.cachedOrderedIds;
   }
 
@@ -1220,13 +1232,13 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   calculateMinBreakpoint(): void {
     if (!this.header || !this.button || !this.searchBar || !this.couponsList) return;
-  
+
     // Add a short delay to ensure render cycle completes
     this.addTimeoutCallback(() => {
       // Step 1: Get precise measurements of each component
       const headerHeight = this.header.nativeElement.offsetHeight;
       const searchBarHeight = this.searchBar.nativeElement.offsetHeight;
-  
+
       // Step 2: Find an establishment and measure its height
       // Since we know the height should be consistent, just use the first one
       const establishmentContainers = document.querySelectorAll('.establishment-container');
@@ -1236,28 +1248,28 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
       } else {
         selectedEstablishmentHeight = 96; // Fallback height
       }
-  
+
       // CRITICAL: Add extra space for border visibility and to ensure the entire component is visible
       selectedEstablishmentHeight += 16; // Increased padding to ensure the bottom is fully visible
-  
+
       // Step 3: Measure button height
       const buttonHeight = this.button.nativeElement.offsetHeight;
-  
+
       // Step 4: Calculate necessary space with adjustment for border
       const adjustment = 16; // Increased adjustment for better stability and visibility
       const exactContentHeight = headerHeight + searchBarHeight + selectedEstablishmentHeight + buttonHeight + adjustment;
-  
+
       // Step 5: Calculate as percentage of window height
       this.actualMinBreakpoint = exactContentHeight / this.windowHeight;
-  
+
       // Step 6: Apply minimum threshold to ensure it doesn't get too small
       this.actualMinBreakpoint = Math.max(this.actualMinBreakpoint, this.MIN_BREAKPOINT_BASE);
-  
+
       // Step 7: Ensure sufficient separation from DEFAULT breakpoint
       if (this.DEFAULT_BREAKPOINT - this.actualMinBreakpoint < this.MIN_SEPARATION) {
         this.actualMinBreakpoint = this.DEFAULT_BREAKPOINT - this.MIN_SEPARATION;
       }
-  
+
       // Step 8: Update draggable bounds
       if (this.draggableInstance) {
         this.draggableInstance.applyBounds({
@@ -1265,7 +1277,7 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
           maxY: this.windowHeight * (1 - this.actualMinBreakpoint) + 1
         });
       }
-  
+
       // Step 9: Update position if currently at min height and not restoring or dragging
       if (this.currentBreakpoint === this.actualMinBreakpoint && !this.isDragging && !this.isRestoringState) {
         this.updateBottomSheetPosition();
@@ -1295,7 +1307,7 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   // Optimized method to scroll to selected establishment
   scrollToSelectedEstablishment(): void {
     if (!this.sheetContent) return;
-    
+
     // Just scroll to top since with the API the selected item will be at the top
     gsap.to(this.sheetContent.nativeElement, {
       scrollTop: 0,

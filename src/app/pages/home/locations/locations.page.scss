@@ -29,3 +29,12 @@
 .return-button:active fa-icon {
     font-size: 19px;
 }
+
+app-bottom-sheet {
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+    
+    &.visible {
+      opacity: 1;
+    }
+}

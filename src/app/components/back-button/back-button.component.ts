@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { NavigationService } from 'src/app/services/navigation/navigation.service';
 
 @Component({
   selector: 'app-back-button',
@@ -11,8 +12,14 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 export class BackButtonComponent implements OnInit {
   faArrowLeft = faArrowLeft;
 
-  constructor() { }
+  constructor(private navigationService: NavigationService) {}
 
   ngOnInit() {}
 
+  goBack(): void {
+    const previousUrl = this.navigationService.getPreviousUrl();
+    if (previousUrl) {
+      this.navigationService.navigateTo(previousUrl);
+    }
+  }
 }

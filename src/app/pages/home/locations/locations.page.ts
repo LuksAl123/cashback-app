@@ -11,12 +11,25 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 export class LocationsPage implements OnInit {
 
   isCouponLoading: boolean = true;
+  bottomSheetVisible: boolean = false;
 
   faArrowLeft = faArrowLeft;
 
   constructor() {}
 
   ngOnInit() {
+  }
+
+  onLoadingChange(isLoading: boolean): void {
+    this.isCouponLoading = isLoading;
+
+    if (!isLoading) {
+      setTimeout(() => {
+        this.bottomSheetVisible = true;
+      }, 300);
+    } else {
+      this.bottomSheetVisible = false;
+    }
   }
 
 }
