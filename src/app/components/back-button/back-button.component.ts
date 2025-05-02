@@ -16,7 +16,7 @@ export class BackButtonComponent implements OnInit {
 
   ngOnInit() {}
 
-  goBack(): void {
+  goBack() {
     const previousUrl = this.navigationService.getPreviousUrl();
     if (previousUrl) {
       this.navigationService.navigateTo(previousUrl);

@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+
 export class NavigationService {
 
   private url: string[] = [];
