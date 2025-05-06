@@ -1,25 +1,28 @@
-  <div class="coupons-container" *ngIf="campaignData && campaignData.detalhe && campaignData.detalhe.length > 0">
-    <ng-container *ngIf="discountCoupons.length > 0; else noCoupons">
-      <div class="custom-card" *ngFor="let coupon of discountCoupons">
-        <div class="card-content">
-          <div class="logo-background">
-            <div class="logo-container">
-              <img class="logo" src="/assets/imgs/logo.svg" alt="Logo SVG"/>
-            </div>
+<div class="coupons-container" *ngIf="campaignData && campaignData.detalhe && campaignData.detalhe.length > 0">
+  <ng-container *ngIf="filteredCoupons.length > 0; else noCoupons">
+    <div class="custom-card" *ngFor="let coupon of filteredCoupons">
+      <div class="card-content">
+        <div class="logo-background">
+          <div class="logo-container">
+            <img class="logo" src="/assets/imgs/logo.svg" alt="Logo SVG"/>
           </div>
-          <div class="info-container">
-            <p class="title">{{ coupon.nomecampanha }}</p>
-            <p class="sub-title">GALAGO SISTEMAS</p>
-            <p class="description">
-              Receba {{ coupon.cp_perc_descontocliente }}% de desconto para compras a partir de {{ coupon.vr_comprasacimade }} reais.
-            </p>
-          </div>
-          <button class="cupon-button">
-            <p>Abrir cupom</p>
-          </button>
         </div>
+        <div class="info-container">
+          <p class="title">{{ coupon.nomecampanha }}</p>
+          <p class="sub-title">GALAGO SISTEMAS</p>
+          <p class="description">
+            Receba {{ coupon.cp_perc_descontocliente }}% de desconto para compras a partir de {{ coupon.vr_comprasacimade }} reais.
+          </p>
+        </div>
+        <button 
+          class="cupon-button" 
+          [class.active]="coupon.isActive && isOnCouponsPage" 
+          (click)="activateCoupon(coupon, $event)">
+          <p>{{ getButtonText(coupon) }}</p>
+        </button>
       </div>
-    </ng-container>
+    </div>
+  </ng-container>
 
   <ng-template #noCoupons>
     <div class="empty-state">

@@ -67,7 +67,7 @@ export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
     indicator.style.width = `${width - 4}px`;
     indicator.style.left = `${leftPosition + 2}px`;
     indicator.style.transform = 'none';
-    
+
     if (index === segments.length - 1) {
       const rightEdge = containerRect.right - 2;
       const indicatorRight = leftPosition + width;

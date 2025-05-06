@@ -67,9 +67,9 @@ export class CouponComponent implements OnInit, OnDestroy {
     // Apply filters based on the selected segment
     switch (this.currentFilter) {
       case CouponFilterType.AVAILABLE:
-        return coupons.filter(coupon => !coupon.isActive);
+        return coupons.filter((coupon: any) => !coupon.isActive);
       case CouponFilterType.ACTIVE:
-        return coupons.filter(coupon => coupon.isActive);
+        return coupons.filter((coupon: any) => coupon.isActive);
       case CouponFilterType.ALL:
       default:
         return coupons;
