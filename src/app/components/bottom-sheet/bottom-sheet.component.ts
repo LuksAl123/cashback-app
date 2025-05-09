@@ -859,7 +859,7 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadingChange.emit(this.isLoading);
-    
+
     document.body.classList.add('bottom-sheet-open');
 
     const style = document.createElement('style');
@@ -894,30 +894,30 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   onEstablishmentSelected(establishment: Establishment): void {
     console.log('Selected establishment:', establishment);
-    
+
     // Update the ID
     this.selectedEstablishmentId = establishment.id;
     this.currentEstablishment = establishment;
-    
+
     // Make sure all establishments have correct selection state
     this.establishments.forEach(est => {
       est.isSelected = est.id === establishment.id;
     });
-    
+
     // If at min breakpoint, make sure selected is visible
     if (this.currentBreakpoint === this.actualMinBreakpoint) {
       this.moveSelectedEstablishmentToFirst();
     }
-    
+
     // Force recalculation of min height and button position
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
       this.setButtonToDefaultPosition();
-      
+
       if (this.currentBreakpoint === this.actualMinBreakpoint) {
         this.updateBottomSheetPosition();
       }
-      
+
       this.saveBottomSheetState();
     }, 50);
   }
@@ -926,13 +926,13 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     if (!this.establishments || this.establishments.length === 0) {
       return [];
     }
-  
+
     const ids = this.establishments.map(establishment => establishment.id);
-  
+
     // Only log if the IDs actually changed to avoid log spam
     const newIdsString = JSON.stringify(ids);
     const cachedIdsString = JSON.stringify(this.cachedOrderedIds);
-  
+
     if (newIdsString !== cachedIdsString) {
       console.log('Providing ordered IDs to child:', ids);
       this.cachedOrderedIds = [...ids];
