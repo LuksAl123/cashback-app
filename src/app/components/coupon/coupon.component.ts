@@ -130,18 +130,7 @@ export class CouponComponent implements OnInit, OnDestroy {
   }
 
   activateCoupon(coupon: any, event: Event) {
-    // Prevent default action if this is just a status display
-    if (coupon.isActive) {
-      event.preventDefault();
-      return;
-    }
-
-    // Add your activation logic here
     console.log('Activating coupon:', coupon.id);
-    // Example implementation:
-    // this.apiService.activateCoupon(coupon.id).subscribe(response => {
-    //   coupon.isActive = true;
-    //   coupon.dataAtivacao = new Date();
-    // });
+    
   }
 }
