@@ -205,5 +205,4 @@ export class LoginPage implements OnInit {
     console.log('Registration data:', this.signupData);
     this.router.navigate(['/home']);
   }
-
 }
