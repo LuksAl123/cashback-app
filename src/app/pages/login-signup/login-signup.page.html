@@ -38,97 +38,6 @@
                 minlength="8">
               </ion-input>
               <fa-icon class="eye" [icon]="faEye"></fa-icon>
-            </ion-item> 
-
-            <ion-text color="warning" class="ion-text-start">
-              <p class="errorMsg">Senha é obrigatória</p>
-            </ion-text>
-
-            <ion-item class="background ion-margin-vertical">
-              <ion-checkbox class="ion-margin-start" slot="start"></ion-checkbox>
-              <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
-              <ion-text class="textLogin ion-margin-end" slot="end">
-                <a href="">Recuperar senha</a>
-              </ion-text>
-            </ion-item>
-
-            <button class="ion-text-center" routerLink="/home">
-              <p>Login</p>
-            </button>
-          </ion-list>
-        </form>
-      </div>
-
-      <div class="sign-up-form">
-        <form class="form">
-          <ion-list lines="none">
-            <div>
-              <ion-item class="input background">
-                <ion-input
-                  name="tel"
-                  type="tel"
-                  placeholder="Telefone"
-                  [maskito]="phoneMask"
-                  [maskitoElement]="maskPredicate"
-                  required>
-                </ion-input>
-              </ion-item>
-            </div>
-
-            <ion-text color="warning" class="ion-text-start">
-              <p class="errorMsg">Telefone é obrigatório</p>
-            </ion-text>
-
-            <button class="ion-text-center sign-up-button" disabled>
-              <p>Cadastrar</p>
-            </button>
-          </ion-list>
-        </form>
-      </div>
-    </div>
-  </div>
-</ion-content> -->
-
-<ion-content [fullscreen]="true">
-  <div class="logo">
-    <img src="assets/imgs/logo.png">
-  </div>
-
-  <div class="form-tabs">
-    <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-    <label for="tab-1" class="tab">Login</label>
-    <input id="tab-2" type="radio" name="tab" class="sign-up">
-    <label for="tab-2" class="tab">Cadastro</label>
-
-    <div class="login-signup-form">
-      <div class="sign-in-form">
-        <form class="form">
-          <ion-list lines="none">
-            <div>
-              <ion-item class="input background">
-                <ion-input
-                  name="tel"
-                  type="tel"
-                  placeholder="Telefone"
-                  [maskito]="phoneMask"
-                  [maskitoElement]="maskPredicate"
-                  required>
-                </ion-input>
-              </ion-item>
-            </div>
-
-            <ion-text color="warning" class="ion-text-start">
-              <p class="errorMsg">Telefone é obrigatório</p>
-            </ion-text>
-
-            <ion-item class="input background">
-              <ion-input
-                name="password"
-                placeholder="Senha"
-                required
-                minlength="8">
-              </ion-input>
-              <fa-icon class="eye" [icon]="faEye"></fa-icon>
             </ion-item>
 
             <ion-text color="warning" class="ion-text-start">
@@ -151,7 +60,6 @@
       </div>
 
       <div class="sign-up-form">
-        <!-- Step 1: Phone number input -->
         <form class="form" *ngIf="signupStep === 1">
           <ion-list lines="none">
             <div>
@@ -182,7 +90,6 @@
           </ion-list>
         </form>
 
-        <!-- Step 2: Verification code -->
         <form class="form" *ngIf="signupStep === 2">
           <ion-list lines="none">
             <div class="verification-message">
@@ -223,7 +130,6 @@
           </ion-list>
         </form>
 
-        <!-- Step 3: Full registration form -->
         <form class="form" *ngIf="signupStep === 3">
           <ion-list lines="none">
             <div>
@@ -314,6 +220,225 @@
 
             <div class="login-link ion-margin-top">
               <p>Já possui cadastro? <a href="javascript:void(0)" (click)="goToLogin()">Voltar ao acesso</a></p>
+            </div>
+          </ion-list>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content> -->
+
+<ion-content [fullscreen]="true">
+  <div class="logo">
+    <img src="assets/imgs/logo.png" />
+  </div>
+
+  <div class="form-tabs">
+    <input id="tab-1" type="radio" name="tab" class="sign-in" checked/>
+    <label for="tab-1" class="tab">Login</label>
+    <input id="tab-2" type="radio" name="tab" class="sign-up"/>
+    <label for="tab-2" class="tab">Cadastro</label>
+
+    <div class="login-signup-form">
+      <!-- SIGN IN FORM -->
+      <div class="sign-in-form">
+        <form [formGroup]="loginForm" class="form" (ngSubmit)="onLogin()">
+          <ion-list lines="none">
+            <div>
+              <ion-item class="input background">
+                <ion-input
+                  formControlName="tel"
+                  type="tel"
+                  placeholder="Telefone"
+                  [maskito]="phoneMask"
+                  [maskitoElement]="maskPredicate"
+                  required
+                ></ion-input>
+              </ion-item>
+            </div>
+            <ion-text color="warning" class="ion-text-start" *ngIf="loginForm.get('tel')?.touched && loginForm.get('tel')?.invalid">
+              <p class="errorMsg">Telefone é obrigatório</p>
+            </ion-text>
+
+            <ion-item class="input background">
+              <ion-input
+                formControlName="password"
+                [type]="showLoginPassword ? 'text' : 'password'"
+                placeholder="Senha"
+                required
+                minlength="8"
+              ></ion-input>
+              <fa-icon
+                class="eye"
+                [icon]="showLoginPassword ? faEyeSlash : faEye"
+                (click)="toggleLoginPassword()"
+              ></fa-icon>
+            </ion-item>
+            <ion-text color="warning" class="ion-text-start" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+              <p class="errorMsg">Senha é obrigatória</p>
+            </ion-text>
+
+            <ion-item class="background ion-margin-vertical">
+              <ion-checkbox class="ion-margin-start" slot="start"></ion-checkbox>
+              <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
+              <ion-text class="textLogin ion-margin-end" slot="end">
+                <a href="">Recuperar senha</a>
+              </ion-text>
+            </ion-item>
+
+            <button class="ion-text-center" type="submit" [disabled]="loginForm.invalid">
+              <p>Login</p>
+            </button>
+          </ion-list>
+        </form>
+      </div>
+
+      <!-- SIGN UP FORM -->
+      <div class="sign-up-form">
+        <form [formGroup]="signupForm" class="form">
+          <ion-list lines="none">
+            <!-- Step 1 -->
+            <ng-container *ngIf="signupStep === 1">
+              <div>
+                <ion-item class="input background">
+                  <ion-input
+                    formControlName="phone"
+                    type="tel"
+                    placeholder="Telefone"
+                    [maskito]="phoneMask"
+                    [maskitoElement]="maskPredicate"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </div>
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('phone')?.touched && signupForm.get('phone')?.invalid">
+                <p class="errorMsg">Telefone é obrigatório</p>
+              </ion-text>
+
+              <button class="ion-text-center" type="button" (click)="nextStep()">
+                <p>Continuar</p>
+              </button>
+            </ng-container>
+
+            <!-- Step 2 -->
+            <ng-container *ngIf="signupStep === 2">
+              <div class="verification-message">
+                <p>Código enviado para ({{ signupForm.value.phone }})</p>
+                <a href="javascript:void(0)" (click)="goBack(1)">Alterar número</a>
+              </div>
+              <div>
+                <ion-item class="input background">
+                  <ion-input
+                    formControlName="verificationCode"
+                    type="text"
+                    placeholder="Código de Validação"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </div>
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('verificationCode')?.touched && signupForm.get('verificationCode')?.invalid">
+                <p class="errorMsg">Código é obrigatório</p>
+              </ion-text>
+
+              <button
+                class="ion-text-center resend-button"
+                type="button"
+                [disabled]="(resendCountdown$ | async)! > 0"
+                (click)="resendCode()"
+              >
+                <p>Reenviar código ({{ resendCountdown$ | async }})</p>
+              </button>
+
+              <button class="ion-text-center" type="button" (click)="nextStep()">
+                <p>Continuar</p>
+              </button>
+            </ng-container>
+
+            <!-- Step 3 -->
+            <ng-container *ngIf="signupStep === 3">
+              <div>
+                <ion-item class="input background">
+                  <ion-input
+                    formControlName="name"
+                    type="text"
+                    placeholder="Nome"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </div>
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
+                <p class="errorMsg">Nome é obrigatório</p>
+              </ion-text>
+
+              <div>
+                <ion-item class="input background">
+                  <ion-input
+                    formControlName="email"
+                    type="email"
+                    placeholder="Email"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </div>
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
+                <p class="errorMsg">Email é obrigatório</p>
+              </ion-text>
+
+              <div>
+                <ion-item class="input background">
+                  <ion-input
+                    formControlName="password"
+                    [type]="showSignupPassword ? 'text' : 'password'"
+                    placeholder="Senha"
+                    required
+                  ></ion-input>
+                  <fa-icon
+                    class="eye"
+                    [icon]="showSignupPassword ? faEyeSlash : faEye"
+                    (click)="toggleSignupPassword()"
+                  ></fa-icon>
+                </ion-item>
+              </div>
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched">
+                <p class="errorMsg">As senhas não coincidem</p>
+              </ion-text>
+
+              <div>
+                <ion-item class="input background">
+                  <ion-input
+                    formControlName="confirmPassword"
+                    [type]="showSignupPassword ? 'text' : 'password'"
+                    placeholder="Confirme a senha"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </div>
+
+              <div>
+                <ion-item class="input background">
+                  <ion-select formControlName="referral" placeholder="Como nos conheceu?">
+                    <ion-select-option value="social">Redes Sociais</ion-select-option>
+                    <ion-select-option value="friend">Indicação de Amigo</ion-select-option>
+                    <ion-select-option value="search">Busca na Internet</ion-select-option>
+                    <ion-select-option value="ad">Publicidade</ion-select-option>
+                    <ion-select-option value="other">Outro</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('referral')?.touched && signupForm.get('referral')?.invalid">
+                <p class="errorMsg">Este campo é obrigatório</p>
+              </ion-text>
+
+              <button class="ion-text-center" type="button" (click)="submitRegistration()">
+                <p>Continuar</p>
+              </button>
+            </ng-container>
+
+            <div class="login-link ion-margin-top">
+              <p>
+                Já possui cadastro?
+                <a href="javascript:void(0)" (click)="switchToLogin()">Voltar ao acesso</a>
+              </p>
             </div>
           </ion-list>
         </form>
