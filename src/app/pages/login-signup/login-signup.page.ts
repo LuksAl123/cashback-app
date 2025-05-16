@@ -245,6 +245,7 @@ export class LoginPage implements OnInit, OnDestroy {
   readonly phoneMask: MaskitoOptions = {
     mask: ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
   };
+
   readonly maskPredicate: MaskitoElementPredicate = async (el) =>
     (el as HTMLIonInputElement).getInputElement();
 
@@ -356,3 +357,76 @@ export class LoginPage implements OnInit, OnDestroy {
     this.startResend();
   }
 }
+
+// <!DOCTYPE html>
+// <html lang="en-US">
+//   <head>
+//     <meta charset="utf-8">
+//     <meta name="viewport" content="width=device-width">
+//     <title>Simple custom error message</title>
+//     <style>
+//       input:invalid {
+//         border: 2px dashed red;
+//       }
+
+//       input:valid {
+//         border: 2px solid black;
+//       }
+//       form {
+//         margin: 3rem 0;
+//       }
+//     </style>
+//   </head>
+
+// <body>
+//   <form>
+//     <label for="mail">I would like you to provide me with an e-mail address:</label>
+//     <input type="email" id="mail" name="mail">
+//     <button>Submit</button>
+//   </form>
+
+//   <script>
+//   const email = document.getElementById("mail");
+
+//   email.addEventListener("input", function (event) {
+//     if (email.validity.typeMismatch) {
+//       email.setCustomValidity("I am expecting an e-mail address!");
+//     } else {
+//       email.setCustomValidity("");
+//     }
+//   });
+//   </script>
+// </body>
+
+// </html>
+
+////////////////////////////
+
+// import {Component} from '@angular/core';
+// import {FormControl, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+// import {forbiddenNameValidator} from '../shared/forbidden-name.directive';
+// @Component({
+//   selector: 'app-actor-form-reactive',
+//   templateUrl: './actor-form-reactive.component.html',
+//   styleUrls: ['./actor-form-reactive.component.css'],
+//   imports: [ReactiveFormsModule],
+// })
+// export class HeroFormReactiveComponent {
+//   skills = ['Method Acting', 'Singing', 'Dancing', 'Swordfighting'];
+//   actor = {name: 'Tom Cruise', role: 'Romeo', skill: this.skills[3]};
+//   actorForm: FormGroup = new FormGroup({
+//     name: new FormControl(this.actor.name, [
+//       Validators.required,
+//       Validators.minLength(4),
+//       forbiddenNameValidator(/bob/i), // <-- Here's how you pass in the custom validator.
+//     ]),
+//     role: new FormControl(this.actor.role),
+//     skill: new FormControl(this.actor.skill, Validators.required),
+//   });
+//   get name() {
+//     return this.actorForm.get('name');
+//   }
+//   get skill() {
+//     return this.actorForm.get('skill');
+//   }
+// }
