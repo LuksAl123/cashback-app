@@ -14,25 +14,21 @@ import { interval, Observable, startWith, scan, takeWhile, Subscription } from '
 })
 
 export class LoginPage implements OnInit, OnDestroy {
-  // icons
+
   faEye = faEye;
   faEyeSlash = faEyeSlash;
 
-  // form controls
   loginForm!: FormGroup;
   signupForm!: FormGroup;
 
-  // UI state
   mode: 'login' | 'signup' = 'login';
   signupStep = 1;
   showLoginPassword = false;
   showSignupPassword = false;
 
-  // countdown as observable
   resendCountdown$!: Observable<number>;
   private countdownTrigger$!: Subscription;
 
-  // masks
   readonly phoneMask: MaskitoOptions = {
     mask: ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
   };
@@ -43,13 +39,11 @@ export class LoginPage implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
-    // LOGIN FORM
     this.loginForm = this.fb.group({
       tel: ['', [Validators.required, Validators.minLength(10)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
 
-    // SIGNUP FORM (one group for all steps)
     this.signupForm = this.fb.group(
       {
         phone: ['', [Validators.required, Validators.minLength(10)]],
@@ -63,46 +57,38 @@ export class LoginPage implements OnInit, OnDestroy {
       { validators: this.passwordsMatch }
     );
 
-    // initial countdown disabled
-    this.resendCountdown$ = interval(1000).pipe(
-      startWith(-1),
-      takeWhile((v) => v >= 0)
-    );
+    this.resendCountdown$ = interval(1000).pipe(startWith(-1),takeWhile((v) => v >= 0));
   }
 
   ngOnDestroy() {
     this.countdownTrigger$?.unsubscribe();
   }
 
-  // MODE SWITCH
   switchToLogin() {
     this.mode = 'login';
     this.signupStep = 1;
   }
+
   switchToSignup() {
     this.mode = 'signup';
     this.signupStep = 1;
   }
 
-  // LOGIN SUBMIT
   onLogin() {
     if (this.loginForm.invalid) return;
     // handle login logic…
     this.router.navigate(['/home']);
   }
 
-  // SIGNUP WIZARD NAV
   nextStep() {
     if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid) return;
-    if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid)
-      return;
-
+    if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid) return;
     if (this.signupStep === 1) {
       this.startResend();
     }
-
     this.signupStep++;
   }
+
   goBack(step: number) {
     this.signupStep = step;
     if (step === 1) {
@@ -110,70 +96,38 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
-  // PASSWORD TOGGLES
   toggleLoginPassword() {
     this.showLoginPassword = !this.showLoginPassword;
   }
+
   toggleSignupPassword() {
     this.showSignupPassword = !this.showSignupPassword;
   }
 
-  // FINAL SUBMIT
   submitRegistration() {
     if (this.signupForm.invalid) return;
     // handle registration…
     this.router.navigate(['/home']);
   }
 
-  // VALIDATOR
   private passwordsMatch(group: AbstractControl) {
     const pass = group.get('password')!.value;
     const confirm = group.get('confirmPassword')!.value;
     return pass === confirm ? null : { mismatch: true };
   }
 
-  // RESEND LOGIC
   private startResend() {
-    this.resendCountdown$ = interval(1000).pipe(
-      startWith(30),
-      scan((acc) => acc - 1, 30),
-      takeWhile((val) => val >= 0)
-    );
+    this.resendCountdown$ = interval(1000).pipe(startWith(30),scan((acc) => acc - 1, 30),takeWhile((val) => val >= 0));
   }
+
   private stopResend() {
     this.resendCountdown$ = interval(0).pipe(takeWhile(() => false));
   }
+
   resendCode() {
     // simulate resend…
     this.startResend();
   }
 }
 
-// import {Component} from '@angular/core';
-// import {FormControl, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
-// import {forbiddenNameValidator} from '../shared/forbidden-name.directive';
-// @Component({
-//   selector: 'app-actor-form-reactive',
-//   templateUrl: './actor-form-reactive.component.html',
-//   styleUrls: ['./actor-form-reactive.component.css'],
-//   imports: [ReactiveFormsModule],
-// })
-// export class HeroFormReactiveComponent {
-//   skills = ['Method Acting', 'Singing', 'Dancing', 'Swordfighting'];
-//   actor = {name: 'Tom Cruise', role: 'Romeo', skill: this.skills[3]};
-//   actorForm: FormGroup = new FormGroup({
-//     name: new FormControl(this.actor.name, [
-//       Validators.required,
-//       Validators.minLength(4),
-//       forbiddenNameValidator(/bob/i), // <-- Here's how you pass in the custom validator.
-//     ]),
-//     role: new FormControl(this.actor.role),
-//     skill: new FormControl(this.actor.skill, Validators.required),
-//   });
-//   get name() {
-//     return this.actorForm.get('name');
-//   }
-//   get skill() {
-//     return this.actorForm.get('skill');
-//   }
-// }
+
