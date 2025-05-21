@@ -1,70 +1,3 @@
-// import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-// import { catchError, of } from 'rxjs';
-// import { ApiService } from 'src/app/services/api/api.service';
-
-// @Component({
-//   selector: 'app-establishment',
-//   templateUrl: './establishment.component.html',
-//   styleUrls: ['./establishment.component.scss'],
-//   standalone: false
-// })
-
-// export class EstablishmentComponent  implements OnInit {
-
-//   @Output() loadingChange = new EventEmitter<boolean>();
-
-//   // @Input() establishment: Establishment;
-//   // @Input() isSelected: boolean;
-
-//   campaignData: any = null;
-//   errorMsg: string | null = null;
-//   isLoading: boolean = true;
-
-//   constructor(private apiService: ApiService) {}
-
-//   ngOnInit() {
-//     this.loadEstablishments();
-//   }
-
-//   get establishments() {
-//     if (this.campaignData && this.campaignData.detalhe) {
-//       return this.campaignData.detalhe.filter((establishment: any) => establishment.tipo === 'CASHBACK');
-//     }
-//     return [];
-//   }
-
-//   loadEstablishments() {
-//     this.isLoading = true;
-//     this.loadingChange.emit(this.isLoading);
-
-//     this.apiService.getCampaignData()
-//       .pipe(
-//         catchError(error => {
-//           this.errorMsg = error.message || 'Could not load data.';
-//           this.isLoading = false;
-//           this.loadingChange.emit(this.isLoading);
-//           return of(null);
-//         })
-//       )
-//       .subscribe(response => {
-//         setTimeout(() => {
-//           this.campaignData = response;
-//           console.log(this.campaignData);
-//           this.isLoading = false;
-//           this.loadingChange.emit(this.isLoading);
-//         }, 2000);
-//       });
-//   }
-
-//   getFirstTwoNames(fullName: string): string {
-//     if (!fullName) return '';
-
-//     const names = fullName.split(' ');
-
-//     return names.slice(0, 2).join(' ');
-//   }
-// }
-
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
@@ -80,7 +13,7 @@ import { Establishment } from 'src/app/interface/establishment';
 export class EstablishmentComponent implements OnInit {
   // Replace simple Input with getter/setter
   private _selectedEstablishmentId: number | null = null;
-  
+
   @Input() 
   set selectedEstablishmentId(value: number | null) {
     console.log('selectedEstablishmentId changed:', value);
@@ -88,14 +21,14 @@ export class EstablishmentComponent implements OnInit {
     // Force re-evaluation of establishments when ID changes
     this.updateEstablishmentsDisplay();
   }
-  
+
   get selectedEstablishmentId(): number | null {
     return this._selectedEstablishmentId;
   }
 
   // Add proper getter/setter for orderedEstablishmentIds
   private _orderedEstablishmentIds: number[] = [];
-  
+
   @Input() 
   set orderedEstablishmentIds(value: number[]) {
     // Only update if the value actually changes AND has content
@@ -222,7 +155,7 @@ export class EstablishmentComponent implements OnInit {
     this.isLoading = true;
     this.loadingChange.emit(this.isLoading);
 
-    this.apiService.getCampaignData()
+    this.apiService.getCouponData()
       .pipe(
         catchError(error => {
           this.errorMsg = error.message || 'Could not load data.';

@@ -111,7 +111,7 @@ export class CouponComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.loadingChange.emit(this.isLoading);
 
-    this.apiService.getCampaignData()
+    this.apiService.getCouponData()
       .pipe(
         catchError(error => {
           this.errorMsg = error.message || 'Could not load data.';

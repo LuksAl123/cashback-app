@@ -4,6 +4,7 @@ import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-login-signup',
@@ -36,7 +37,11 @@ export class LoginPage implements OnInit, OnDestroy {
   readonly maskPredicate: MaskitoElementPredicate = async (el) =>
     (el as HTMLIonInputElement).getInputElement();
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -81,7 +86,20 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   nextStep() {
-    if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid) return;
+    if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid) {
+      return;
+    } else if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid === false){
+      const rawPhone = this.signupForm.get('phone')?.value?.replace(/\D/g, '');
+      this.apiService.sendVerificationCode(rawPhone).subscribe({
+        next: (response) => {
+          console.log('Verification code sent successfully:', response);
+        },
+        error: (err) => {
+          console.error('Failed to send verification code:', err);
+        }
+    });
+      return;
+    };
     if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid) return;
     if (this.signupStep === 1) {
       this.startResend();
@@ -129,5 +147,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.startResend();
   }
 }
+
+
 
 

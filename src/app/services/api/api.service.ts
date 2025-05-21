@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { shareReplay, catchError, tap } from 'rxjs/operators';
+import { retry } from 'rxjs';
 
 export interface CampaignData {
   id: number;
@@ -19,16 +20,18 @@ export interface CampaignData {
 
 export class ApiService {
 
-  private apiUrl = 'https://api.gcashback.com.br/Trotas/campanhas/';
+  private sharedCouponData$: Observable<CampaignData> | null = null;
   private authToken = environment.apiKey;
-  private sharedCampaignData$: Observable<CampaignData> | null = null;
+  private apiKeyVerification = environment.apiKeyVerification;
+  private verificationCodeUrl = `${environment.apiBase}/Trotas/validausuario/`;
+  private couponUrl = `${environment.apiBase}/Trotas/campanhas/`;
 
   constructor(private http: HttpClient) {}
 
-  getCampaignData(): Observable<any> {
+  getCouponData(): Observable<any> {
 
-    if (!this.sharedCampaignData$) {
-      console.log('Creating shared observable - Preparing to fetch campaign data...');
+    if (!this.sharedCouponData$) {
+      console.log('Creating shared observable - Preparing to fetch coupon data...');
 
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -40,107 +43,57 @@ export class ApiService {
         campanhasativas: "SIM"
       };
 
-      this.sharedCampaignData$ = this.http.post<CampaignData>(this.apiUrl, requestBody, { headers }).pipe(
+      this.sharedCouponData$ = this.http.post<CampaignData>(this.couponUrl, requestBody, { headers }).pipe(
         tap(response => {
           console.log('Data received from API:', response);
         }),
-        catchError((error: HttpErrorResponse) => {
-          console.error('Error fetching campaign data:', error);
-          console.error(`Status: ${error.status}, Message: ${error.message}`);
-          if (error.error) {
-            console.error('Server Error Details:', error.error);
-          }
-
-          this.sharedCampaignData$ = null;
-
-          return throwError(() => new Error('Failed to load campaign data. API error occurred.'));
+        retry({
+          count: 2,
+          delay: 1000,
+          resetOnSuccess: true
         }),
+        catchError(err => this.handleError(err)),
         shareReplay({ bufferSize: 1, refCount: false })
       );
     } else {
-      console.log('Returning cached campaign data observable.');
+      console.log('Returning cached coupon data observable.');
     }
-    return this.sharedCampaignData$;
-  }
-}
-
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable, throwError, timer } from 'rxjs';
-import { shareReplay, catchError, tap, retryWhen, scan, delay } from 'rxjs/operators';
-
-export interface CampaignData {
-  id: number;
-  codeempresa: number;
-  nomecampanha: string;
-  tipo: string;
-  cp_perc_descontocliente: number;
-  vr_comprasacimade: number;
-}
-
-@Injectable({ providedIn: 'root' })
-export class ApiService {
-  private sharedCampaignData$?: Observable<CampaignData>;
-
-  constructor(private http: HttpClient) {}
-
-  /** Public API: Returns a shared, cached Observable of campaign data */
-  getCampaignData(): Observable<CampaignData> {
-    this.sharedCampaignData$ ??= this.fetchCampaignData().pipe(
-      tap(data => console.debug('Campaign data loaded:', data)),                                     // Debug logging :contentReference[oaicite:6]{index=6}
-      retryWhen(errors =>
-        errors.pipe(
-          scan((retryCount, err) => {
-            if (retryCount >= 2 || !(err instanceof HttpErrorResponse)) {
-              throw err;
-            }
-            return retryCount + 1;
-          }, 0),
-          delay(1000)                                                                              // 1s backoff :contentReference[oaicite:7]{index=7}
-        )
-      ),
-      catchError(err => this.handleError(err)),                                                    // Centralized error handling :contentReference[oaicite:8]{index=8}
-      shareReplay({ bufferSize: 1, refCount: true })                                                // Safe caching :contentReference[oaicite:9]{index=9}
-    );
-    return this.sharedCampaignData;
+    return this.sharedCouponData$;
   }
 
-  /** Low-level HTTP POST wrapped for clarity */
-  private fetchCampaignData(): Observable<CampaignData> {
-    return this.http.post<CampaignData>(
-      this.apiUrl,
-      this.requestBody,
-      { headers: this.requestHeaders }
-    );
-  }
+  sendVerificationCode(phone: string): Observable<any> {
 
-  /** API URL from environment */
-  private get apiUrl(): string {
-    return `${environment.apiBase}/Trotas/campanhas/`;                                              // Centralized URL :contentReference[oaicite:10]{index=10}
-  }
-
-  /** Immutable headers getter */
-  private get requestHeaders(): HttpHeaders {
-    return new HttpHeaders({
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'token': environment.apiKey                                                                         // Auth header :contentReference[oaicite:11]{index=11}
+      'token': `${this.authToken}`
     });
+
+    const requestBody = {
+      tiporota: "get",
+      token: `${this.apiKeyVerification}`,
+      telefone: phone
+    };
+
+    return this.http.post<any>(this.verificationCodeUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Verification code sent successfully:', response);
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
   }
 
-  /** Request payload getter */
-  private get requestBody(): { tiporota: 'GET'; campanhasativas: 'SIM' } {
-    return { tiporota: 'GET', campanhasativas: 'SIM' };                                              // Body centralization :contentReference[oaicite:12]{index=12}
-  }
-
-  /** Logs, resets cache on error, and rethrows a clean error */
   private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('Error fetching campaign data:', {
+    console.error('Error fetching data:', {
       status: error.status,
       message: error.message,
       details: error.error
-    });                                                                                            // Rich diagnostics :contentReference[oaicite:13]{index=13}
-    this.sharedCampaignData$ = undefined;                                                          // Clear cache for next attempt
-    return throwError(() => new Error('Failed to load campaign data.'));                            // User-friendly error
+    });
+    this.sharedCouponData$ = null;
+    return throwError(() => new Error('Failed to load data.'));
   }
 }
