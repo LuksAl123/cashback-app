@@ -25,6 +25,7 @@ export class ApiService {
   private apiKeyVerification = environment.apiKeyVerification;
   private verificationCodeUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private couponUrl = `${environment.apiBase}/Trotas/campanhas/`;
+  public verificationCode: string = "";
 
   constructor(private http: HttpClient) {}
 
@@ -77,6 +78,7 @@ export class ApiService {
     return this.http.post<any>(this.verificationCodeUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Verification code sent successfully:', response);
+        this.verificationCode = response.detalhe.codigovalidacao;
       }),
       retry({
         count: 2,

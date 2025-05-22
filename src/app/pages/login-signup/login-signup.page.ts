@@ -61,7 +61,6 @@ export class LoginPage implements OnInit, OnDestroy {
       },
       { validators: this.passwordsMatch }
     );
-
     this.resendCountdown$ = interval(1000).pipe(startWith(-1),takeWhile((v) => v >= 0));
   }
 
@@ -72,11 +71,7 @@ export class LoginPage implements OnInit, OnDestroy {
   switchToLogin() {
     this.mode = 'login';
     this.signupStep = 1;
-  }
-
-  switchToSignup() {
-    this.mode = 'signup';
-    this.signupStep = 1;
+    this.signupForm.reset();
   }
 
   onLogin() {
@@ -86,25 +81,26 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   nextStep() {
+    console.log('Mode:', this.mode);
+    console.log('Step:', this.signupStep);
     if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid) {
       return;
-    } else if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid === false){
-      const rawPhone = this.signupForm.get('phone')?.value?.replace(/\D/g, '');
-      this.apiService.sendVerificationCode(rawPhone).subscribe({
-        next: (response) => {
-          console.log('Verification code sent successfully:', response);
-        },
-        error: (err) => {
-          console.error('Failed to send verification code:', err);
-        }
-    });
-      return;
+    } else if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid === false) {
+      this.sendVerificationCode();
+      this.signupStep++;
     };
-    if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid) return;
+
+    if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid) {
+      return;
+    } else if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid === false) {
+      this.verifyCode() ? this.signupStep++ : null;
+    };
+
     if (this.signupStep === 1) {
       this.startResend();
     }
-    this.signupStep++;
+    console.log('Mode:', this.mode);
+    console.log('Step:', this.signupStep);
   }
 
   goBack(step: number) {
@@ -145,6 +141,26 @@ export class LoginPage implements OnInit, OnDestroy {
   resendCode() {
     // simulate resend…
     this.startResend();
+  }
+
+  sendVerificationCode() {
+    const rawPhone = this.signupForm.get('phone')?.value?.replace(/\D/g, '');
+    this.apiService.sendVerificationCode(rawPhone).subscribe({
+      error: (err) => {
+        console.error('Failed to send verification code:', err);
+      }
+    });
+  }
+
+  verifyCode(): boolean {
+    const enteredCode = this.signupForm.get('verificationCode')?.value;
+    const receivedCode = this.apiService.verificationCode;
+    if (enteredCode === receivedCode) {
+      return true;
+    } else {
+      this.signupForm.get('verificationCode')?.setErrors({ incorrect: true });
+      return false;
+    }
   }
 }
 
