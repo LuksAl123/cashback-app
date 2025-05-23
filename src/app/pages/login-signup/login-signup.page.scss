@@ -15,7 +15,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     padding: 3px 0;
-    margin: 0 20px 1.5rem 20px;
+    margin: 0 20px 1rem 20px;
     display: flex;
     align-items: center;
 }
@@ -53,6 +53,10 @@ ion-list {
     --background: transparent;
 }
 
+.detailBottom {
+    margin: 1rem 0;
+}
+
 ion-input {
     background-color: transparent;
     --placeholder-color: white;
@@ -70,7 +74,13 @@ ion-select {
 }
 
 .errorMsg {
-    margin: 8px 0 16px 32px;
+    margin: -0.25rem 0 0.75rem 32px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.passwordErrorMsg {
+    margin: -0.25rem 0 0 32px;
     font-size: 12px;
     font-weight: 600;
 }
@@ -79,7 +89,7 @@ ion-select {
     font-size: 14px;
     background: transparent;
     text-align: center;
-    margin: 8px 0;
+    margin: 0;
 }
 
 button {
@@ -176,17 +186,24 @@ button:active p {
 .verification-message {
     text-align: center;
     color: white;
-    margin: 0 20px 16px;
+    margin: 0 1.25rem 1rem;
+    gap: 0.5rem;
 }
 
 .verification-message p {
-    margin-bottom: 4px;
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
 }
 
 .verification-message a {
     color: #01C476;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    display: block;
+    margin: 0.5rem 0;
 }
 
 .resend-button {

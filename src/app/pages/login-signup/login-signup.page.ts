@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
@@ -22,7 +22,6 @@ export class LoginPage implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   signupForm!: FormGroup;
 
-  mode: 'login' | 'signup' = 'login';
   signupStep = 1;
   showLoginPassword = false;
   showSignupPassword = false;
@@ -40,13 +39,14 @@ export class LoginPage implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder, 
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       tel: ['', [Validators.required, Validators.minLength(10)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
 
     this.signupForm = this.fb.group(
@@ -57,10 +57,11 @@ export class LoginPage implements OnInit, OnDestroy {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
-        referral: ['', Validators.required],
+        referral: ['', Validators.required]
       },
       { validators: this.passwordsMatch }
     );
+
     this.resendCountdown$ = interval(1000).pipe(startWith(-1),takeWhile((v) => v >= 0));
   }
 
@@ -69,9 +70,12 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   switchToLogin() {
-    this.mode = 'login';
     this.signupStep = 1;
     this.signupForm.reset();
+    const loginTabInput = document.getElementById('tab-1') as HTMLInputElement;
+    if (loginTabInput) {
+      this.renderer.setProperty(loginTabInput, 'checked', true);
+    }
   }
 
   onLogin() {
@@ -81,8 +85,6 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   nextStep() {
-    console.log('Mode:', this.mode);
-    console.log('Step:', this.signupStep);
     if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid) {
       return;
     } else if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid === false) {
@@ -99,8 +101,10 @@ export class LoginPage implements OnInit, OnDestroy {
     if (this.signupStep === 1) {
       this.startResend();
     }
-    console.log('Mode:', this.mode);
-    console.log('Step:', this.signupStep);
+
+    if (this.signupStep === 2) {
+      this.resetCountdown();
+    }
   }
 
   goBack(step: number) {
@@ -108,6 +112,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if (step === 1) {
       this.stopResend();
     }
+    this.signupForm.reset();
   }
 
   toggleLoginPassword() {
@@ -136,6 +141,10 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private stopResend() {
     this.resendCountdown$ = interval(0).pipe(takeWhile(() => false));
+  }
+
+  private resetCountdown() {
+    this.resendCountdown$ = interval(1000).pipe(startWith(30), scan(acc => acc - 1, 30), takeWhile(v => v >= 0));
   }
 
   resendCode() {
