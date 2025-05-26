@@ -92,7 +92,7 @@ ion-select {
     margin: 0;
 }
 
-button {
+.button {
     background: #01C476;
     color: white;
     border-radius: 12px;
@@ -103,21 +103,37 @@ button {
     margin: 0 auto 8px auto;
     border: 1px solid transparent;
     box-shadow: 0 0 4px 4px rgba(218, 214, 104, 0.3);
-    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+    &:disabled {
+        box-shadow: none;
+        opacity: 0.8;
+    }
 }
 
-button:active {
+.button[disabled]:active {
+    box-shadow: none;
+    opacity: 0.8;
+    border: 1px solid transparent;
+    background: #01C476;
+}
+
+.button[disabled]:active p {
+    font-size: 14px;
+}
+
+.button:active {
     background: #019c5f;
     border: 1px solid #021711;
     box-shadow: 0 0 4px 2px #021711;
 }
 
-button p {
+.button p {
     transition: font-size 0.3s ease-in-out;
     font-size: 14px;
 }
 
-button:active p {
+.button:active p {
     font-size: 13px;
 }
 
@@ -207,10 +223,51 @@ button:active p {
 }
 
 .resend-button {
+    background: #01C476;
+    color: white;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    margin: 0 auto 1rem auto;
+    font-weight: 300;
+    height: 12vw;
+    width: 90vw;
+    display: block;
+    opacity: 1;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out, border 0.3s ease-in-out;
+
+  &:disabled {
     background: transparent;
     border: 1px solid #01C476;
     box-shadow: none;
-    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+}
+
+.resend-button:active {
+    background: #019c5f;
+    border: 1px solid #021711;
+    box-shadow: 0 0 4px 2px #021711;
+}
+
+.resend-button p {
+    transition: font-size 0.3s ease-in-out;
+    font-size: 14px;
+}
+
+.resend-button:active p {
+    font-size: 13px;
+}
+
+.resend-button[disabled]:active {
+    background: transparent;
+    border: 1px solid #01C476;
+    box-shadow: none;
+    color: white;
+    opacity: 0.8;
+}
+
+.resend-button[disabled]:active p {
+    font-size: 14px;
 }
 
 .login-link {

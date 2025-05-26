@@ -56,7 +56,7 @@
               </ion-text>
             </ion-item>
 
-            <button class="ion-text-center" type="submit" [disabled]="loginForm.invalid">
+            <button class="ion-text-center button" type="submit" [disabled]="loginForm.invalid">
               <p>Login</p>
             </button>
           </ion-list>
@@ -86,7 +86,7 @@
                 <p class="errorMsg">Telefone é obrigatório</p>
               </ion-text>
 
-              <button class="ion-text-center" type="button" (click)="nextStep()">
+              <button class="ion-text-center button" type="button" (click)="nextStep()">
                 <p>Continuar</p>
               </button>
             </ng-container>
@@ -94,7 +94,7 @@
             <!-- Step 2 -->
             <ng-container *ngIf="signupStep === 2">
               <div class="verification-message">
-                <p>Código enviado para ({{ signupForm.value.phone }})</p>
+                <p>Código enviado para {{ signupForm.value.phone }}</p>
                 <a href="javascript:void(0)" (click)="goBack(1)">Alterar número</a>
               </div>
               <div>
@@ -107,8 +107,12 @@
                   ></ion-input>
                 </ion-item>
               </div>
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('verificationCode')?.touched && signupForm.get('verificationCode')?.invalid">
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('verificationCode')?.touched && signupForm.get('verificationCode')?.invalid && !wrongCode">
                 <p class="errorMsg">Código é obrigatório</p>
+              </ion-text>
+
+              <ion-text color="warning" class="ion-text-start" *ngIf="wrongCode">
+                <p class="errorMsg">Código inválido</p>
               </ion-text>
 
               <button
@@ -117,10 +121,11 @@
                 [disabled]="(resendCountdown$ | async)! > 0"
                 (click)="resendCode()"
               >
-                <p>Reenviar código ({{ resendCountdown$ | async }})</p>
+                <p *ngIf="(resendCountdown$ | async)! > 0">Reenviar código ({{ resendCountdown$ | async }})</p>
+                <p *ngIf="(resendCountdown$ | async)! === 0">Reenviar código</p>
               </button>
 
-              <button class="ion-text-center" type="button" (click)="nextStep()">
+              <button class="ion-text-center button" type="button" (click)="nextStep()">
                 <p>Continuar</p>
               </button>
             </ng-container>
@@ -169,8 +174,13 @@
                     (click)="toggleSignupPassword()"
                   ></fa-icon>
                 </ion-item>
+
+                <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
+                  <p class="errorMsg">A senha deve ter pelo menos 4 caracteres</p>
+                </ion-text>
               </div>
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched">
+
+              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched && !signupForm.get('password')?.errors?.['minlength']">
                 <p class="errorMsg">As senhas não coincidem</p>
               </ion-text>
 
@@ -183,6 +193,9 @@
                     required
                   ></ion-input>
                 </ion-item>
+                <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.get('confirmPassword')?.invalid">
+                  <p class="errorMsg">É obrigatório confirmar a senha</p>
+                </ion-text>
               </div>
 
               <div>
@@ -196,11 +209,14 @@
                   </ion-select>
                 </ion-item>
               </div>
+
               <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('referral')?.touched && signupForm.get('referral')?.invalid">
                 <p class="errorMsg">Este campo é obrigatório</p>
               </ion-text>
 
-              <button class="ion-text-center" type="button" (click)="submitRegistration()">
+              <button class="ion-text-center button" type="button"
+                (click)="submitRegistration()"
+                [disabled]="signupForm.get('password')?.invalid || signupForm.invalid">
                 <p>Continuar</p>
               </button>
             </ng-container>

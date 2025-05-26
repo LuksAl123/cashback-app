@@ -25,6 +25,7 @@ export class ApiService {
   private apiKeyVerification = environment.apiKeyVerification;
   private verificationCodeUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private couponUrl = `${environment.apiBase}/Trotas/campanhas/`;
+  private registerUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
   public verificationCode: string = "";
 
   constructor(private http: HttpClient) {}
@@ -79,6 +80,37 @@ export class ApiService {
       tap(response => {
         console.log('Verification code sent successfully:', response);
         this.verificationCode = response.detalhe.codigovalidacao;
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  registerUser(formValues: any): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "accept",
+      nome: `${formValues.name}`,
+      senha: `${formValues.password}`,
+      telefone: `${formValues.phone}`,
+      codigovalidacao: `${formValues.verificationCode}`,
+      email: `${formValues.email}`,
+      validado: "SIM",
+      loginpessoa: "SIM"
+    };
+
+    return this.http.post<any>(this.registerUserUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Register user successfully:', response);
       }),
       retry({
         count: 2,

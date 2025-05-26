@@ -5,6 +5,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
 import { ApiService } from 'src/app/services/api/api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-signup',
@@ -26,6 +27,8 @@ export class LoginPage implements OnInit, OnDestroy {
   showLoginPassword = false;
   showSignupPassword = false;
 
+  wrongCode: boolean = false;
+
   resendCountdown$!: Observable<number>;
   private countdownTrigger$!: Subscription;
 
@@ -40,7 +43,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private fb: FormBuilder, 
     private router: Router,
     private apiService: ApiService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -55,14 +59,12 @@ export class LoginPage implements OnInit, OnDestroy {
         verificationCode: ['', [Validators.required, Validators.minLength(4)]],
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['', [Validators.required, Validators.minLength(4)]],
         confirmPassword: ['', Validators.required],
         referral: ['', Validators.required]
       },
       { validators: this.passwordsMatch }
     );
-
-    this.resendCountdown$ = interval(1000).pipe(startWith(-1),takeWhile((v) => v >= 0));
   }
 
   ngOnDestroy() {
@@ -89,6 +91,7 @@ export class LoginPage implements OnInit, OnDestroy {
       return;
     } else if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid === false) {
       this.sendVerificationCode();
+      this.startResend();
       this.signupStep++;
     };
 
@@ -97,14 +100,6 @@ export class LoginPage implements OnInit, OnDestroy {
     } else if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid === false) {
       this.verifyCode() ? this.signupStep++ : null;
     };
-
-    if (this.signupStep === 1) {
-      this.startResend();
-    }
-
-    if (this.signupStep === 2) {
-      this.resetCountdown();
-    }
   }
 
   goBack(step: number) {
@@ -125,8 +120,23 @@ export class LoginPage implements OnInit, OnDestroy {
 
   submitRegistration() {
     if (this.signupForm.invalid) return;
-    // handle registration…
-    this.router.navigate(['/home']);
+    this.signupForm.get('phone')?.setValue(this.formatPhone(this.signupForm.get('phone')?.value));
+    this.apiService.registerUser(this.signupForm.value).subscribe({
+      next: (response) => {
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        let errorMsg = 'Erro ao registrar. Tente novamente.';
+        if (err?.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err?.message) {
+          errorMsg = err.message;
+        } else if (typeof err === 'string') {
+          errorMsg = err;
+        }
+        this.showErrorToast(errorMsg);
+      }
+    });
   }
 
   private passwordsMatch(group: AbstractControl) {
@@ -136,24 +146,20 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   private startResend() {
-    this.resendCountdown$ = interval(1000).pipe(startWith(30),scan((acc) => acc - 1, 30),takeWhile((val) => val >= 0));
+    this.resendCountdown$ = interval(1000).pipe(startWith(31),scan((acc) => acc - 1, 31),takeWhile((val) => val >= 0));
   }
 
   private stopResend() {
     this.resendCountdown$ = interval(0).pipe(takeWhile(() => false));
   }
 
-  private resetCountdown() {
-    this.resendCountdown$ = interval(1000).pipe(startWith(30), scan(acc => acc - 1, 30), takeWhile(v => v >= 0));
-  }
-
   resendCode() {
-    // simulate resend…
     this.startResend();
+    this.sendVerificationCode();
   }
 
   sendVerificationCode() {
-    const rawPhone = this.signupForm.get('phone')?.value?.replace(/\D/g, '');
+    const rawPhone = this.formatPhone(this.signupForm.get('phone')?.value);
     this.apiService.sendVerificationCode(rawPhone).subscribe({
       error: (err) => {
         console.error('Failed to send verification code:', err);
@@ -161,18 +167,28 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
+  private formatPhone(phone: string): string {
+    return phone.replace(/\D/g, '');
+  }
+
   verifyCode(): boolean {
     const enteredCode = this.signupForm.get('verificationCode')?.value;
     const receivedCode = this.apiService.verificationCode;
     if (enteredCode === receivedCode) {
+      this.wrongCode = false;
       return true;
     } else {
+      this.wrongCode = true;
       this.signupForm.get('verificationCode')?.setErrors({ incorrect: true });
       return false;
     }
   }
+
+  showErrorToast(message: string) {
+    this.snackBar.open(message, undefined, {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['mat-toolbar', 'mat-warn']
+    });
+  }
 }
-
-
-
-
