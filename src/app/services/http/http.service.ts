@@ -18,7 +18,7 @@ export interface CampaignData {
   providedIn: 'root'
 })
 
-export class ApiService {
+export class HttpService {
 
   private sharedCouponData$: Observable<CampaignData> | null = null;
   private authToken = environment.apiKey;
@@ -26,9 +26,10 @@ export class ApiService {
   private verificationCodeUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private couponUrl = `${environment.apiBase}/Trotas/campanhas/`;
   private registerUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
+  private loginUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
   public verificationCode: string = "";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {} // HttpService update
 
   getCouponData(): Observable<any> {
 
@@ -121,13 +122,41 @@ export class ApiService {
     );
   }
 
+  loginUser(formValues: any): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "GET",
+      loginpessoa: "SIM",
+      telefone: `${formValues.tel}`,
+      senha: `${formValues.password}`
+    };
+
+    return this.http.post<any>(this.loginUserUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Login user successfully:', response);
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('Error fetching data:', {
       status: error.status,
       message: error.message,
       details: error.error
     });
-    this.sharedCouponData$ = null;
+    this.sharedCouponData$ = null; // HttpService update
     return throwError(() => new Error('Failed to load data.'));
   }
 }

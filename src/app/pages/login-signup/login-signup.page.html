@@ -36,7 +36,7 @@
                 [type]="showLoginPassword ? 'text' : 'password'"
                 placeholder="Senha"
                 required
-                minlength="8"
+                minlength="4"
               ></ion-input>
               <fa-icon
                 class="eye"
@@ -49,14 +49,14 @@
             </ion-text>
 
             <ion-item class="background">
-              <ion-checkbox class="ion-margin-start" slot="start"></ion-checkbox>
+              <ion-checkbox class="ion-margin-start" slot="start" [(ngModel)]="rememberPassword"></ion-checkbox>
               <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
               <ion-text class="textLogin ion-margin-end" slot="end">
                 <a href="">Recuperar senha</a>
               </ion-text>
             </ion-item>
 
-            <button class="ion-text-center button" type="submit" [disabled]="loginForm.invalid">
+            <button class="ion-text-center button" type="submit" (click)="onLogin()" [disabled]="loginForm.invalid">
               <p>Login</p>
             </button>
           </ion-list>

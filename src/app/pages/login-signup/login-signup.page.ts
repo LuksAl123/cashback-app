@@ -4,7 +4,7 @@ import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
-import { ApiService } from 'src/app/services/api/api.service';
+import { HttpService } from 'src/app/services/http/http.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -29,6 +29,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
   wrongCode: boolean = false;
 
+  rememberPassword: boolean = false;
+
   resendCountdown$!: Observable<number>;
   private countdownTrigger$!: Subscription;
 
@@ -42,16 +44,22 @@ export class LoginPage implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder, 
     private router: Router,
-    private apiService: ApiService,
+    private httpService: HttpService,
     private renderer: Renderer2,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
+    const rememberedPhone = localStorage.getItem('rememberedPhone') || '';
+    const rememberedPassword = localStorage.getItem('rememberedPassword') || '';
+    const rememberPasswordChecked = localStorage.getItem('rememberPasswordChecked') === 'true';
+
     this.loginForm = this.fb.group({
-      tel: ['', [Validators.required, Validators.minLength(10)]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
+      tel: [rememberedPhone, [Validators.required, Validators.minLength(10)]],
+      password: [rememberedPassword, [Validators.required, Validators.minLength(4)]]
     });
+
+    this.rememberPassword = rememberPasswordChecked;
 
     this.signupForm = this.fb.group(
       {
@@ -82,8 +90,33 @@ export class LoginPage implements OnInit, OnDestroy {
 
   onLogin() {
     if (this.loginForm.invalid) return;
-    // handle login logic…
-    this.router.navigate(['/home']);
+    this.loginForm.get('tel')?.setValue(this.formatPhone(this.loginForm.get('tel')?.value));
+    this.httpService.loginUser(this.loginForm.value).subscribe({
+      next: (response) => {
+        localStorage.setItem('sessionActive', 'true');
+        if (this.rememberPassword) {
+          localStorage.setItem('rememberedPhone', this.loginForm.value.tel);
+          localStorage.setItem('rememberedPassword', this.loginForm.value.password);
+          localStorage.setItem('rememberPasswordChecked', 'true');
+        } else {
+          localStorage.removeItem('rememberedPhone');
+          localStorage.removeItem('rememberedPassword');
+          localStorage.setItem('rememberPasswordChecked', 'false');
+        }
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        let errorMsg = 'Erro ao fazer login. Tente novamente.';
+        if (err?.error?.message) {
+          errorMsg = err.error.message;
+        } else if (err?.message) {
+          errorMsg = err.message;
+        } else if (typeof err === 'string') {
+          errorMsg = err;
+        }
+        this.showErrorToast(errorMsg);
+      }
+    });
   }
 
   nextStep() {
@@ -121,7 +154,7 @@ export class LoginPage implements OnInit, OnDestroy {
   submitRegistration() {
     if (this.signupForm.invalid) return;
     this.signupForm.get('phone')?.setValue(this.formatPhone(this.signupForm.get('phone')?.value));
-    this.apiService.registerUser(this.signupForm.value).subscribe({
+    this.httpService.registerUser(this.signupForm.value).subscribe({
       next: (response) => {
         this.router.navigate(['/home']);
       },
@@ -160,7 +193,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   sendVerificationCode() {
     const rawPhone = this.formatPhone(this.signupForm.get('phone')?.value);
-    this.apiService.sendVerificationCode(rawPhone).subscribe({
+    this.httpService.sendVerificationCode(rawPhone).subscribe({
       error: (err) => {
         console.error('Failed to send verification code:', err);
       }
@@ -173,7 +206,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   verifyCode(): boolean {
     const enteredCode = this.signupForm.get('verificationCode')?.value;
-    const receivedCode = this.apiService.verificationCode;
+    const receivedCode = this.httpService.verificationCode;
     if (enteredCode === receivedCode) {
       this.wrongCode = false;
       return true;

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, OnDestroy, Output, Input, Optional } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api/api.service';
+import { HttpService } from 'src/app/services/http/http.service';
 import { CouponFilterService, CouponFilterType } from '../../services/coupon-filter.service';
 import { of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class CouponComponent implements OnInit, OnDestroy {
   private filterSubscription: Subscription | null = null;
 
   constructor(
-    private apiService: ApiService,
+    private httpService: HttpService,
     private router: Router,
     @Optional() private couponFilterService: CouponFilterService
   ) {}
@@ -111,7 +111,7 @@ export class CouponComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.loadingChange.emit(this.isLoading);
 
-    this.apiService.getCouponData()
+    this.httpService.getCouponData()
       .pipe(
         catchError(error => {
           this.errorMsg = error.message || 'Could not load data.';

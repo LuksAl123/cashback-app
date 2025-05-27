@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { catchError, of } from 'rxjs';
-import { ApiService } from 'src/app/services/api/api.service';
+import { HttpService } from 'src/app/services/http/http.service';
 import { Establishment } from 'src/app/interface/establishment';
 
 @Component({
@@ -58,7 +58,7 @@ export class EstablishmentComponent implements OnInit {
   private _establishments: Establishment[] = [];
   private _baseEstablishments: Establishment[] = []; // Store original data
 
-  constructor(private apiService: ApiService) {}
+  constructor(private httpService: HttpService) {}
 
   ngOnInit() {
     this.loadEstablishments();
@@ -155,7 +155,7 @@ export class EstablishmentComponent implements OnInit {
     this.isLoading = true;
     this.loadingChange.emit(this.isLoading);
 
-    this.apiService.getCouponData()
+    this.httpService.getCouponData()
       .pipe(
         catchError(error => {
           this.errorMsg = error.message || 'Could not load data.';
