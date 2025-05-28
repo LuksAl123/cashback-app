@@ -5,17 +5,34 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
 import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from 'src/app/services/toast/toast.service';
+
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login-signup',
   templateUrl: './login-signup.page.html',
   styleUrls: ['./login-signup.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+  standalone: false,
+  animations: [
+    trigger('routeAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(40px)' }),
+        animate('400ms ease', style({ opacity: 1, transform: 'none' }))
+      ]),
+      transition(':leave', [
+        animate('400ms ease', style({ opacity: 0, transform: 'translateX(-40px)' }))
+      ])
+    ])
+  ]
 })
 
 export class LoginPage implements OnInit, OnDestroy {
+
+  goToForgotPassword() {
+    this.router.navigate(['/login-signup/forgot-password']);
+  }
 
   faEye = faEye;
   faEyeSlash = faEyeSlash;
@@ -28,8 +45,6 @@ export class LoginPage implements OnInit, OnDestroy {
   showSignupPassword = false;
 
   wrongCode: boolean = false;
-
-  rememberPassword: boolean = false;
 
   resendCountdown$!: Observable<number>;
   private countdownTrigger$!: Subscription;
@@ -46,7 +61,7 @@ export class LoginPage implements OnInit, OnDestroy {
     private router: Router,
     private httpService: HttpService,
     private renderer: Renderer2,
-    private snackBar: MatSnackBar
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -56,10 +71,9 @@ export class LoginPage implements OnInit, OnDestroy {
 
     this.loginForm = this.fb.group({
       tel: [rememberedPhone, [Validators.required, Validators.minLength(10)]],
-      password: [rememberedPassword, [Validators.required, Validators.minLength(4)]]
+      password: [rememberedPassword, [Validators.required, Validators.minLength(4)]],
+      rememberPassword: [rememberPasswordChecked]
     });
-
-    this.rememberPassword = rememberPasswordChecked;
 
     this.signupForm = this.fb.group(
       {
@@ -94,7 +108,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.httpService.loginUser(this.loginForm.value).subscribe({
       next: (response) => {
         localStorage.setItem('sessionActive', 'true');
-        if (this.rememberPassword) {
+        if (this.loginForm.value.rememberPassword) {
           localStorage.setItem('rememberedPhone', this.loginForm.value.tel);
           localStorage.setItem('rememberedPassword', this.loginForm.value.password);
           localStorage.setItem('rememberPasswordChecked', 'true');
@@ -103,7 +117,11 @@ export class LoginPage implements OnInit, OnDestroy {
           localStorage.removeItem('rememberedPassword');
           localStorage.setItem('rememberPasswordChecked', 'false');
         }
-        this.router.navigate(['/home']);
+        if (response.codmensagem === 2) {
+          this.router.navigate(['/home']);
+        } else {
+          this.toastService.show(response.mensagem, 'error');
+        }
       },
       error: (err) => {
         let errorMsg = 'Erro ao fazer login. Tente novamente.';
@@ -114,7 +132,7 @@ export class LoginPage implements OnInit, OnDestroy {
         } else if (typeof err === 'string') {
           errorMsg = err;
         }
-        this.showErrorToast(errorMsg);
+        this.toastService.show(errorMsg, 'error');
       }
     });
   }
@@ -167,7 +185,7 @@ export class LoginPage implements OnInit, OnDestroy {
         } else if (typeof err === 'string') {
           errorMsg = err;
         }
-        this.showErrorToast(errorMsg);
+        this.toastService.show(errorMsg, 'error');
       }
     });
   }
@@ -215,13 +233,5 @@ export class LoginPage implements OnInit, OnDestroy {
       this.signupForm.get('verificationCode')?.setErrors({ incorrect: true });
       return false;
     }
-  }
-
-  showErrorToast(message: string) {
-    this.snackBar.open(message, undefined, {
-      duration: 2000,
-      verticalPosition: 'top',
-      panelClass: ['mat-toolbar', 'mat-warn']
-    });
   }
 }

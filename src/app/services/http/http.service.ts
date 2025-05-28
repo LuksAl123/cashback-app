@@ -147,7 +147,6 @@ export class HttpService {
       }),
       catchError(err => this.handleError(err))
     );
-
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

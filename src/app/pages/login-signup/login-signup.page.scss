@@ -280,3 +280,14 @@ ion-select {
     color: #01C476;
     text-decoration: none;
 }
+
+.my-custom-error-toast {
+    background: #1a1a2e;
+    font-family: Poppins, sans-serif;
+    color: #fff;
+    text-align: center;
+    font-weight: 300;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+}

@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { ToastService } from './toast.service';
 
-import { CouponFilterService } from './coupon-filter.service';
-
-describe('CouponFilterService', () => {
-  let service: CouponFilterService;
+describe('ToastService', () => {
+  let service: ToastService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CouponFilterService);
+    service = TestBed.inject(ToastService);
   });
 
   it('should be created', () => {

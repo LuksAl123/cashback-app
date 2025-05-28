@@ -1,14 +1,15 @@
 <ion-content [fullscreen]="true">
-  <div class="logo">
-    <img src="assets/imgs/logo.png" />
-  </div>
+  <div class="login-signup-wrapper" [@routeAnimation]>
+    <div class="logo">
+      <img src="assets/imgs/logo.png" />
+    </div>
 
-  <div class="form-tabs">
-    <input id="tab-1" type="radio" name="tab" class="sign-in" checked/>
-    <label for="tab-1" class="tab">Login</label>
-    <input id="tab-2" type="radio" name="tab" class="sign-up"/>
-    <label for="tab-2" class="tab">Cadastro</label>
-
+    <div class="form-tabs">
+      <input id="tab-1" type="radio" name="tab" class="sign-in" checked/>
+      <label for="tab-1" class="tab">Login</label>
+      <input id="tab-2" type="radio" name="tab" class="sign-up"/>
+      <label for="tab-2" class="tab">Cadastro</label>
+    </div>
     <div class="login-signup-form">
       <!-- SIGN IN FORM -->
       <div class="sign-in-form">
@@ -49,14 +50,14 @@
             </ion-text>
 
             <ion-item class="background">
-              <ion-checkbox class="ion-margin-start" slot="start" [(ngModel)]="rememberPassword"></ion-checkbox>
+              <ion-checkbox class="ion-margin-start" slot="start" formControlName="rememberPassword"></ion-checkbox>
               <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
-              <ion-text class="textLogin ion-margin-end" slot="end">
+              <ion-text class="textLogin ion-margin-end" slot="end" (click)="goToForgotPassword()">
                 <a href="">Recuperar senha</a>
               </ion-text>
             </ion-item>
 
-            <button class="ion-text-center button" type="submit" (click)="onLogin()" [disabled]="loginForm.invalid">
+            <button class="ion-text-center button" type="submit" [disabled]="loginForm.invalid">
               <p>Login</p>
             </button>
           </ion-list>

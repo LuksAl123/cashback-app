@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, OnDestroy, Output, Input, Optional } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/services/http/http.service';
-import { CouponFilterService, CouponFilterType } from '../../services/coupon-filter.service';
+import { CouponFilterService, CouponFilterType } from '../../services/coupon-filter/coupon-filter.service';
 import { of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
