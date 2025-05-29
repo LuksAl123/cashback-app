@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
-
 import { trigger, transition, style, animate } from '@angular/animations';
+import { GlobalService } from 'src/app/services/global/global.service';
 
 @Component({
   selector: 'app-login-signup',
@@ -17,25 +17,27 @@ import { trigger, transition, style, animate } from '@angular/animations';
   standalone: false,
   animations: [
     trigger('routeAnimation', [
-      transition(':enter', [
+      transition('forward => *', [
         style({ opacity: 0, transform: 'translateX(40px)' }),
         animate('400ms ease', style({ opacity: 1, transform: 'none' }))
       ]),
+      transition('backward => *', [
+        style({ opacity: 0, transform: 'translateX(-40px)' }),
+        animate('400ms ease', style({ opacity: 1, transform: 'none' }))
+      ]),
       transition(':leave', [
-        animate('400ms ease', style({ opacity: 0, transform: 'translateX(-40px)' }))
+        animate('400ms ease', style({ opacity: 0 }))
       ])
     ])
-  ]
+  ],
 })
 
 export class LoginPage implements OnInit, OnDestroy {
 
-  goToForgotPassword() {
-    this.router.navigate(['/login-signup/forgot-password']);
-  }
-
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+
+  animationDirection = 'forward';
 
   loginForm!: FormGroup;
   signupForm!: FormGroup;
@@ -61,7 +63,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private router: Router,
     private httpService: HttpService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private global: GlobalService
   ) {}
 
   ngOnInit() {
@@ -233,5 +236,10 @@ export class LoginPage implements OnInit, OnDestroy {
       this.signupForm.get('verificationCode')?.setErrors({ incorrect: true });
       return false;
     }
+  }
+
+  goToForgotPassword() {
+    this.global.direction = 'forward';
+    this.router.navigate(['/login-signup/forgot-password']);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { GlobalService } from 'src/app/services/global/global.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -9,12 +9,16 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./forgot-password.page.scss'],
   animations: [
     trigger('routeAnimation', [
-      transition(':enter', [
+      transition('forward => *', [
         style({ opacity: 0, transform: 'translateX(40px)' }),
         animate('400ms ease', style({ opacity: 1, transform: 'none' }))
       ]),
+      transition('backward => *', [
+        style({ opacity: 0, transform: 'translateX(-40px)' }),
+        animate('400ms ease', style({ opacity: 1, transform: 'none' }))
+      ]),
       transition(':leave', [
-        animate('400ms ease', style({ opacity: 0, transform: 'translateX(-40px)' }))
+        animate('400ms ease', style({ opacity: 0 }))
       ])
     ])
   ],
@@ -22,11 +26,18 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 
 export class ForgotPasswordPage implements OnInit {
+
+  animationDirection = 'forward';
+
   forgotPasswordForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private global: GlobalService
+  ) { }
 
   ngOnInit() {
+    this.animationDirection = this.global.direction;
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -37,7 +48,4 @@ export class ForgotPasswordPage implements OnInit {
     alert('Password reset link sent (mock).');
   }
 
-  goBackToLogin() {
-    this.router.navigate(['/login-signup']);
-  }
 }

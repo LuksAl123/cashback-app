@@ -1,15 +1,17 @@
 <ion-content [fullscreen]="true">
-  <div class="login-signup-wrapper" [@routeAnimation]>
+  <div class="login-signup-wrapper" [@routeAnimation]="animationDirection">
     <div class="logo">
-      <img src="assets/imgs/logo.png" />
+      <img src="assets/imgs/logo.png"/>
     </div>
 
+    <input id="tab-1" type="radio" name="tab" class="sign-in" checked/>
+    <input id="tab-2" type="radio" name="tab" class="sign-up"/>
+
     <div class="form-tabs">
-      <input id="tab-1" type="radio" name="tab" class="sign-in" checked/>
       <label for="tab-1" class="tab">Login</label>
-      <input id="tab-2" type="radio" name="tab" class="sign-up"/>
       <label for="tab-2" class="tab">Cadastro</label>
     </div>
+
     <div class="login-signup-form">
       <!-- SIGN IN FORM -->
       <div class="sign-in-form">
@@ -52,8 +54,8 @@
             <ion-item class="background">
               <ion-checkbox class="ion-margin-start" slot="start" formControlName="rememberPassword"></ion-checkbox>
               <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
-              <ion-text class="textLogin ion-margin-end" slot="end" (click)="goToForgotPassword()">
-                <a href="">Recuperar senha</a>
+              <ion-text class="textLogin ion-margin-end" slot="end" (click)="goToForgotPassword()" style="cursor:pointer;">
+                Recuperar senha
               </ion-text>
             </ion-item>
 

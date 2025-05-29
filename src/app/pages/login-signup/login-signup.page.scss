@@ -14,7 +14,6 @@
 .input {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 10px;
-    padding: 3px 0;
     margin: 0 20px 1rem 20px;
     display: flex;
     align-items: center;
@@ -154,7 +153,8 @@ ion-select {
     transition: all 0.3s;
 }
 
-.form-tabs input[type="radio"] {
+input[type="radio"].sign-in,
+input[type="radio"].sign-up {
     display: none;
 }
 
@@ -193,8 +193,8 @@ ion-select {
     transform: rotateY(0);
 }
 
-.sign-in:checked + .tab,
-.sign-up:checked + .tab {
+input[type="radio"].sign-in:checked ~ .form-tabs label[for="tab-1"],
+input[type="radio"].sign-up:checked ~ .form-tabs label[for="tab-2"] {
     color: #01C476;
     border-color: #01C476;
 }
@@ -279,15 +279,4 @@ ion-select {
 .login-link a {
     color: #01C476;
     text-decoration: none;
-}
-
-.my-custom-error-toast {
-    background: #1a1a2e;
-    font-family: Poppins, sans-serif;
-    color: #fff;
-    text-align: center;
-    font-weight: 300;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    letter-spacing: 0.5px;
 }

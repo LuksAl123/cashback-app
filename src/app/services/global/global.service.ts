@@ -8,4 +8,6 @@ export class GlobalService {
 
   constructor() { }
 
+  public direction: 'forward' | 'backward' = 'forward';
+
 }
