@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { ToastComponent } from './components/toast/toast.component';
 
@@ -17,17 +17,17 @@ import { ToastComponent } from './components/toast/toast.component';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    BrowserAnimationsModule,
+    IonicModule.forRoot({
+      animated: false,
+    }),
     AppRoutingModule,
     CommonModule,
     DragDropModule
   ],
   providers: [ 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideHttpClient(),
-    provideAnimations()
-    // If you have interceptors, provide them here using withInterceptors:
-    // provideHttpClient(withInterceptors([YourInterceptorClass]))
+    provideHttpClient()
   ],
   bootstrap: [AppComponent],
 })

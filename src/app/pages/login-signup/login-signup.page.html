@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div class="login-signup-wrapper" [@routeAnimation]="animationDirection">
+  <div class="login-signup-wrapper">
     <div class="logo">
       <img src="assets/imgs/logo.png"/>
     </div>
@@ -54,7 +54,7 @@
             <ion-item class="background">
               <ion-checkbox class="ion-margin-start" slot="start" formControlName="rememberPassword"></ion-checkbox>
               <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
-              <ion-text class="textLogin ion-margin-end" slot="end" (click)="goToForgotPassword()" style="cursor:pointer;">
+              <ion-text class="textLogin ion-margin-end" slot="end" (click)="goToForgotPassword()">
                 Recuperar senha
               </ion-text>
             </ion-item>

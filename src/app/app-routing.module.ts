@@ -9,15 +9,11 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'login-signup',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login-signup',
     loadChildren: () => import('./pages/login-signup/login-signup.module').then( m => m.LoginPageModule)
-  },
-  {
-    path: 'teste',
-    loadChildren: () => import('./pages/teste/teste.module').then( m => m.TestePageModule)
   },
   {
     path: 'welcome',
