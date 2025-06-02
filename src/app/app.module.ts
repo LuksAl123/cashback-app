@@ -9,6 +9,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
 import { ToastComponent } from './components/toast/toast.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,10 @@ import { ToastComponent } from './components/toast/toast.component';
     }),
     AppRoutingModule,
     CommonModule,
-    DragDropModule
+    DragDropModule,
+    GoogleMapsModule
   ],
-  providers: [ 
+  providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideHttpClient()
   ],
