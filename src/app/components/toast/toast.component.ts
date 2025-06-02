@@ -11,9 +11,11 @@ export class ToastComponent implements OnInit {
   private _message: string = '';
 
   @Input()
+  
   set message(val: string) {
     this._message = val ? val.replace(/^\s*-\s*/, '') : '';
   }
+
   get message(): string {
     return this._message;
   }

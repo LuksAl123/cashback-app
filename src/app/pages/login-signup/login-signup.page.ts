@@ -90,18 +90,18 @@ export class LoginPage implements OnInit, OnDestroy {
     this.loginForm.get('tel')?.setValue(this.formatPhone(this.loginForm.get('tel')?.value));
     this.httpService.loginUser(this.loginForm.value).subscribe({
       next: (response) => {
-        localStorage.setItem('sessionActive', 'true');
-        if (this.loginForm.value.rememberPassword) {
-          localStorage.setItem('rememberedPhone', this.loginForm.value.tel);
-          localStorage.setItem('rememberedPassword', this.loginForm.value.password);
-          localStorage.setItem('rememberPasswordChecked', 'true');
-        } else {
-          localStorage.removeItem('rememberedPhone');
-          localStorage.removeItem('rememberedPassword');
-          localStorage.setItem('rememberPasswordChecked', 'false');
-        }
         if (response.codmensagem === 2) {
           this.router.navigate(['/home']);
+          localStorage.setItem('sessionActive', 'true');
+          if (this.loginForm.value.rememberPassword) {
+            localStorage.setItem('rememberedPhone', this.loginForm.value.tel);
+            localStorage.setItem('rememberedPassword', this.loginForm.value.password);
+            localStorage.setItem('rememberPasswordChecked', 'true');
+          } else {
+            localStorage.removeItem('rememberedPhone');
+            localStorage.removeItem('rememberedPassword');
+            localStorage.setItem('rememberPasswordChecked', 'false');
+          }
         } else {
           this.toastService.show(response.mensagem, 'error');
         }
