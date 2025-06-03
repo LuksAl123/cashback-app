@@ -6,15 +6,18 @@ import { EstablishmentComponent } from '../components/establishment/establishmen
 import { IonicModule } from '@ionic/angular';
 import { BackButtonComponent } from '../components/back-button/back-button.component';
 import { LoadingComponent } from '../components/loading/loading.component';
+import { MapComponent } from '../components/map/map.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
-  declarations: [CouponComponent, EstablishmentComponent, BackButtonComponent, LoadingComponent],
+  declarations: [CouponComponent, EstablishmentComponent, BackButtonComponent, LoadingComponent, MapComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,
-    IonicModule
+    IonicModule,
+    GoogleMapsModule
   ],
-  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent]
+  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent, MapComponent]
 })
 
 export class SharedModule { }

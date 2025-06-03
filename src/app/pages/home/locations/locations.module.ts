@@ -19,4 +19,5 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   declarations: [LocationsPage, BottomSheetComponent]
 })
+
 export class LocationsPageModule {}

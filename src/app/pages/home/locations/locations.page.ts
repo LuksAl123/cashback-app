@@ -11,7 +11,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 export class LocationsPage implements OnInit {
 
   isCouponLoading: boolean = true;
-  bottomSheetVisible: boolean = false;
+  visible: boolean = false;
 
   faArrowLeft = faArrowLeft;
 
@@ -25,10 +25,10 @@ export class LocationsPage implements OnInit {
 
     if (!isLoading) {
       setTimeout(() => {
-        this.bottomSheetVisible = true;
+        this.visible = true;
       }, 300);
     } else {
-      this.bottomSheetVisible = false;
+      this.visible = false;
     }
   }
 
