@@ -33,7 +33,7 @@ export class MapComponent implements OnInit {
     disableDefaultUI: true,
     maxZoom: 15,
     minZoom: 8,
-    clickableIcons: true,
+    clickableIcons: false,
     center: this.center,
     zoom: this.zoom
   };

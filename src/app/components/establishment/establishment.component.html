@@ -1,35 +1,7 @@
-<!-- <div class="establishments-container" *ngIf="campaignData && campaignData.detalhe && campaignData.detalhe.length > 0">
-  <ng-container *ngIf="establishments.length > 0; else noEstablishments">
-    <div class="establishment-container" *ngFor="let establishment of establishments">
-      <div class="avatar">
-        <img src="assets/imgs/logo.png" alt="Logo">
-      </div>
-      <div class="content">
-        <p class="title">{{ getFirstTwoNames(establishment.nomeempresa) }}</p>
-        <p class="description">Receba {{ establishment.cb_perc_creditoporcompra }}% de cashback para compras a partir de {{ establishment.vr_comprasacimade }} reais.</p>
-      </div>
-      <div class="arrow-container">
-        <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
-      </div>
-    </div>
-  </ng-container>
-
-  <ng-template #noEstablishments>
-    <div class="empty-state">
-      <img src="assets/imgs/empty-establishment.svg" alt="No establishments available"/>
-      <p>Não há estabelecimentos disponíveis no momento.</p>
-    </div>
-  </ng-template>
-
-  <div *ngIf="errorMsg" class="error-container">
-    <p>{{ errorMsg }}</p>
-  </div>
-</div> -->
-
 <div class="establishments-container" *ngIf="campaignData && campaignData.detalhe && campaignData.detalhe.length > 0">
   <ng-container *ngIf="establishments.length > 0; else noEstablishments">
-    <div 
-      class="establishment-container" 
+    <div
+      class="establishment-container"
       *ngFor="let establishment of establishments"
       [class.selected]="establishment.id === selectedEstablishmentId"
       (click)="onEstablishmentClick(establishment)"
