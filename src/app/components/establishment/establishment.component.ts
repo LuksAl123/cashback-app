@@ -14,7 +14,7 @@ export class EstablishmentComponent implements OnInit {
   // Replace simple Input with getter/setter
   private _selectedEstablishmentId: number | null = null;
 
-  @Input() 
+  @Input()
   set selectedEstablishmentId(value: number | null) {
     console.log('selectedEstablishmentId changed:', value);
     this._selectedEstablishmentId = value;
@@ -26,10 +26,10 @@ export class EstablishmentComponent implements OnInit {
     return this._selectedEstablishmentId;
   }
 
-  // Add proper getter/setter for orderedEstablishmentIds
+  // Add proper getter/setter for orderedEstablishmentIds 
   private _orderedEstablishmentIds: number[] = [];
 
-  @Input() 
+  @Input()
   set orderedEstablishmentIds(value: number[]) {
     // Only update if the value actually changes AND has content
     if (value && value.length > 0 && JSON.stringify(value) !== JSON.stringify(this._orderedEstablishmentIds)) {

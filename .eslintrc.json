@@ -5,14 +5,31 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest",
         "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
+      "plugins": ["simple-import-sort"],
       "extends": [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              ["^react", "^@?\\w", "^\\p{L}*\\/.*"],           
+              ["^@.*", "^@.*/.*"],                             
+              ["^\\$.*$"],                                     
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],                
+              ["^\\.\\./\\.\\./.+", "^\\.\\./.+", "^\\.\\/.+"],
+              ["^./styles$"],                                  
+            ],
+          },
+        ],
+        "simple-import-sort/exports": "error",
         "@angular-eslint/prefer-standalone": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
