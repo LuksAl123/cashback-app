@@ -26,7 +26,7 @@ export class EstablishmentComponent implements OnInit {
     return this._selectedEstablishmentId;
   }
 
-  // Add proper getter/setter for orderedEstablishmentIds 
+  // Add proper getter/setter for orderedEstablishmentIds
   private _orderedEstablishmentIds: number[] = [];
 
   @Input()
@@ -54,9 +54,8 @@ export class EstablishmentComponent implements OnInit {
   errorMsg: string | null = null;
   isLoading: boolean = true;
 
-  // Create a private property to store establishments
   private _establishments: Establishment[] = [];
-  private _baseEstablishments: Establishment[] = []; // Store original data
+  private _baseEstablishments: Establishment[] = [];
 
   constructor(private httpService: HttpService) {}
 
@@ -64,7 +63,6 @@ export class EstablishmentComponent implements OnInit {
     this.loadEstablishments();
   }
 
-  // Update the establishments getter
   get establishments(): Establishment[] {
     if (this._establishments.length === 0) {
       this.updateEstablishmentsDisplay();
@@ -72,36 +70,27 @@ export class EstablishmentComponent implements OnInit {
     return this._establishments;
   }
 
-  // Helper method to generate establishments from campaign data
   private getEstablishmentsFromData(): Establishment[] {
     if (this.campaignData && this.campaignData.detalhe) {
       return this.campaignData.detalhe
         .filter((est: any) => est.tipo === 'CASHBACK')
-        .map((est: any, index: number) => ({
-          id: est.id || index + 1,
+        .map((est: any) => ({
+          id: est.id,
           nomeempresa: est.nomeempresa,
           cb_perc_creditoporcompra: est.cb_perc_creditoporcompra,
           vr_comprasacimade: est.vr_comprasacimade,
           tipo: est.tipo,
-          isSelected: est.id === this._selectedEstablishmentId || 
-                     (index + 1) === this._selectedEstablishmentId
+          isSelected: est.id === this._selectedEstablishmentId
         }));
     }
     return [];
   }
 
-  // Updated method to update establishments display with ordering
   private updateEstablishmentsDisplay(): void {
-    console.log('updateEstablishmentsDisplay called');
-
-    // First, ensure we have the base data
     if (this._baseEstablishments.length === 0 && this.campaignData && this.campaignData.detalhe) {
       this._baseEstablishments = this.getEstablishmentsFromData();
     }
-
-    // If we don't have base data yet, return
     if (this._baseEstablishments.length === 0) {
-      console.log('No base establishments data yet');
       this._establishments = [];
       return;
     }
@@ -170,15 +159,9 @@ export class EstablishmentComponent implements OnInit {
           console.log('Campaign data loaded:', this.campaignData);
           this.isLoading = false;
           this.loadingChange.emit(this.isLoading);
-
-          // Update base establishments from the API
           this._baseEstablishments = this.getEstablishmentsFromData();
-          console.log('Base establishments:', this._baseEstablishments.map(est => est.id));
-
-          // Now update the display with any ordering
+          console.log('Base establishments:', this._baseEstablishments);
           this.updateEstablishmentsDisplay();
-
-          // Emit the establishments data to the parent component
           this.establishmentsLoaded.emit(this._baseEstablishments);
         }, 2000);
       });
