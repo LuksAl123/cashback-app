@@ -11,7 +11,7 @@ import { Establishment } from 'src/app/interface/establishment';
 })
 
 export class EstablishmentComponent implements OnInit {
-  // Replace simple Input with getter/setter
+
   private _selectedEstablishmentId: number | null = null;
 
   @Input()
@@ -26,7 +26,6 @@ export class EstablishmentComponent implements OnInit {
     return this._selectedEstablishmentId;
   }
 
-  // Add proper getter/setter for orderedEstablishmentIds
   private _orderedEstablishmentIds: number[] = [];
 
   @Input()
@@ -74,19 +73,24 @@ export class EstablishmentComponent implements OnInit {
     if (this.campaignData && this.campaignData.detalhe) {
       return this.campaignData.detalhe
         .filter((est: any) => est.tipo === 'CASHBACK')
-        .map((est: any) => ({
-          id: est.id,
-          nomeempresa: est.nomeempresa,
-          cb_perc_creditoporcompra: est.cb_perc_creditoporcompra,
-          vr_comprasacimade: est.vr_comprasacimade,
-          tipo: est.tipo,
-          isSelected: est.id === this._selectedEstablishmentId
-        }));
+        .map((est: any) => {
+          const isSelected = est.id === this._selectedEstablishmentId;
+          console.log('isSelected:', isSelected, 'est.id:', est.id, 'selectedId:', this._selectedEstablishmentId);
+          return {
+            id: est.id,
+            nomeempresa: est.nomeempresa,
+            cb_perc_creditoporcompra: est.cb_perc_creditoporcompra,
+            vr_comprasacimade: est.vr_comprasacimade,
+            tipo: est.tipo,
+            isSelected: isSelected
+          };
+        });
     }
     return [];
   }
 
   private updateEstablishmentsDisplay(): void {
+
     if (this._baseEstablishments.length === 0 && this.campaignData && this.campaignData.detalhe) {
       this._baseEstablishments = this.getEstablishmentsFromData();
     }
@@ -94,10 +98,10 @@ export class EstablishmentComponent implements OnInit {
       this._establishments = [];
       return;
     }
-
     // Apply selection state to all establishments
     this._baseEstablishments.forEach(est => {
       est.isSelected = est.id === this._selectedEstablishmentId;
+      console.log("isSelected2:", est.isSelected);
     });
 
     // If we have non-empty ordering info, apply it
@@ -156,11 +160,9 @@ export class EstablishmentComponent implements OnInit {
       .subscribe(response => {
         setTimeout(() => {
           this.campaignData = response;
-          console.log('Campaign data loaded:', this.campaignData);
           this.isLoading = false;
           this.loadingChange.emit(this.isLoading);
           this._baseEstablishments = this.getEstablishmentsFromData();
-          console.log('Base establishments:', this._baseEstablishments);
           this.updateEstablishmentsDisplay();
           this.establishmentsLoaded.emit(this._baseEstablishments);
         }, 2000);

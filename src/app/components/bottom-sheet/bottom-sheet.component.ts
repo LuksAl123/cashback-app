@@ -76,9 +76,7 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadingChange.emit(this.isLoading);
-
     document.body.classList.add('bottom-sheet-open');
-
     const style = document.createElement('style');
     style.innerHTML = `
       .bottom-sheet {
@@ -91,18 +89,15 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   onLoadingChange(isLoading: boolean): void {
     this.isLoading = isLoading;
-    console.log('Bottom sheet loading state changed:', isLoading);
     this.loadingChange.emit(isLoading);
   }
 
   onEstablishmentsLoaded(establishments: Establishment[]): void {
     this.establishments = establishments;
-    
     // Select first establishment by default if available
     if (establishments.length > 0 && !this.selectedEstablishmentId) {
       this.onEstablishmentSelected(establishments[0]);
     }
-
     // Recalculate min breakpoint after establishments are loaded
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
