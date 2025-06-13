@@ -18,7 +18,7 @@ export class EstablishmentComponent implements OnInit {
   set selectedEstablishmentId(value: number | null) {
     console.log('selectedEstablishmentId changed:', value);
     this._selectedEstablishmentId = value;
-    // Force re-evaluation of establishments when ID changes
+    console.log("teste");
     this.updateEstablishmentsDisplay();
   }
 
@@ -30,11 +30,9 @@ export class EstablishmentComponent implements OnInit {
 
   @Input()
   set orderedEstablishmentIds(value: number[]) {
-    // Only update if the value actually changes AND has content
     if (value && value.length > 0 && JSON.stringify(value) !== JSON.stringify(this._orderedEstablishmentIds)) {
       console.log('orderedEstablishmentIds changed with non-empty array:', value);
-      this._orderedEstablishmentIds = [...value]; // Create a new array to ensure change detection
-      // Force update of establishments display when ordering changes
+      this._orderedEstablishmentIds = [...value];
       setTimeout(() => {
         this.updateEstablishmentsDisplay();
       }, 0);
@@ -73,48 +71,43 @@ export class EstablishmentComponent implements OnInit {
     if (this.campaignData && this.campaignData.detalhe) {
       return this.campaignData.detalhe
         .filter((est: any) => est.tipo === 'CASHBACK')
-        .map((est: any) => {
-          const isSelected = est.id === this._selectedEstablishmentId;
-          console.log('isSelected:', isSelected, 'est.id:', est.id, 'selectedId:', this._selectedEstablishmentId);
-          return {
+        .map((est: any) => ({
             id: est.id,
             nomeempresa: est.nomeempresa,
             cb_perc_creditoporcompra: est.cb_perc_creditoporcompra,
             vr_comprasacimade: est.vr_comprasacimade,
             tipo: est.tipo,
-            isSelected: isSelected
-          };
-        });
+            isSelected: est.id === this._selectedEstablishmentId
+          }));
     }
     return [];
   }
 
   private updateEstablishmentsDisplay(): void {
 
+    console.log("teste2");
     if (this._baseEstablishments.length === 0 && this.campaignData && this.campaignData.detalhe) {
       this._baseEstablishments = this.getEstablishmentsFromData();
     }
+    console.log("teste3");
     if (this._baseEstablishments.length === 0) {
       this._establishments = [];
       return;
     }
-    // Apply selection state to all establishments
+    console.log("teste4");
     this._baseEstablishments.forEach(est => {
       est.isSelected = est.id === this._selectedEstablishmentId;
       console.log("isSelected2:", est.isSelected);
     });
 
-    // If we have non-empty ordering info, apply it
     if (this._orderedEstablishmentIds && this._orderedEstablishmentIds.length > 0) {
       console.log('Applying custom order to establishments:', this._orderedEstablishmentIds);
-
-      // Create a new array based on the ordering
+      console.log("teste5");
       const ordered: Establishment[] = [];
 
       // Track which IDs we've already processed
       const processedIds = new Set<number>();
 
-      // First, add all establishments that are in the ordered list
       this._orderedEstablishmentIds.forEach(id => {
         const found = this._baseEstablishments.find(est => est.id === id);
         if (found) {
@@ -137,10 +130,9 @@ export class EstablishmentComponent implements OnInit {
       }
     } else {
       console.log('No custom ordering, using base order');
-      // No ordering, just use base establishments
-      this._establishments = this._baseEstablishments.map(est => ({...est})); // Create new objects
+      this._establishments = this._baseEstablishments.map(est => ({...est}));
     }
-
+    console.log("teste6");
     console.log('Final establishments order:', this._establishments.map(est => est.id));
   }
 
