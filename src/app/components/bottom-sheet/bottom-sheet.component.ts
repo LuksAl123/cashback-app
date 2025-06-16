@@ -94,11 +94,9 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   onEstablishmentsLoaded(establishments: Establishment[]): void {
     this.establishments = establishments;
-    // Select first establishment by default if available
     if (establishments.length > 0 && !this.selectedEstablishmentId) {
       this.onEstablishmentSelected(establishments[0]);
     }
-    // Recalculate min breakpoint after establishments are loaded
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
     }, 50);
@@ -107,21 +105,17 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   onEstablishmentSelected(establishment: Establishment): void {
     console.log('Selected establishment:', establishment);
 
-    // Update the ID
     this.selectedEstablishmentId = establishment.id;
     this.currentEstablishment = establishment;
 
-    // Make sure all establishments have correct selection state
     this.establishments.forEach(est => {
       est.isSelected = est.id === establishment.id;
     });
 
-    // If at min breakpoint, make sure selected is visible
     if (this.currentBreakpoint === this.actualMinBreakpoint) {
       this.moveSelectedEstablishmentToFirst();
     }
 
-    // Force recalculation of min height and button position
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
       this.setButtonToDefaultPosition();
@@ -141,7 +135,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
     const ids = this.establishments.map(establishment => establishment.id);
 
-    // Only log if the IDs actually changed to avoid log spam
     const newIdsString = JSON.stringify(ids);
     const cachedIdsString = JSON.stringify(this.cachedOrderedIds);
 
@@ -154,31 +147,23 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Mark as ready to skip initial animation
     this.initialRenderCompleted = true;
 
-    // Set initial position at DEFAULT_BREAKPOINT
     this.addTimeoutCallback(() => {
       this.calculateMinBreakpoint();
       this.setupBottomSheet();
 
-      // Set button to default position at bottom of screen initially
       this.setButtonToDefaultPosition();
 
-      // After initial setup, observe for any DOM mutations (size changes)
-      // to recalculate the min breakpoint if necessary
       this.setupResizeObserver();
 
-      // Add visibility change listener to handle tab switching
       this.setupVisibilityChangeListeners();
     }, 100);
   }
 
-  // Helper method to store timeout IDs for cleanup
   private addTimeoutCallback(callback: Function, delay: number): void {
     const timeoutId = window.setTimeout(() => {
       callback();
-      // Remove from array once executed
       const index = this.timeoutIds.indexOf(timeoutId);
       if (index !== -1) {
         this.timeoutIds.splice(index, 1);
@@ -187,38 +172,29 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     this.timeoutIds.push(timeoutId);
   }
 
-  // Setup MutationObserver to detect size changes in elements
   setupResizeObserver(): void {
     if (window.ResizeObserver) {
       const resizeObserver = new ResizeObserver(entries => {
         if (this.currentBreakpoint === this.actualMinBreakpoint) {
           this.calculateMinBreakpoint();
-          // Always use default button position
           this.setButtonToDefaultPosition();
         }
       });
-
-      // Observe the critical elements whose size changes might affect our calculations
       if (this.header) resizeObserver.observe(this.header.nativeElement);
       if (this.searchBar) resizeObserver.observe(this.searchBar.nativeElement);
       if (this.couponsList) resizeObserver.observe(this.couponsList.nativeElement);
     }
   }
 
-  // REVISED: Enhanced visibility change listeners with proper state preservation
   setupVisibilityChangeListeners(): void {
-    // Handle visibility change (tab switching)
     document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
 
-    // Handle window focus/blur events
     window.addEventListener('focus', this.handleWindowFocus.bind(this));
     window.addEventListener('blur', this.handleWindowBlur.bind(this));
 
-    // Additional pageshow event for more reliable detection
     window.addEventListener('pageshow', this.handlePageShow.bind(this));
   }
 
-  // NEW: Handle document visibility change
   handleVisibilityChange(): void {
     if (this.preventNextVisibilityUpdate) {
       this.preventNextVisibilityUpdate = false;
@@ -226,38 +202,30 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     }
 
     if (!document.hidden) {
-      // Tab became visible again - restore state after a short delay
       this.addTimeoutCallback(() => {
         this.restoreBottomSheetState();
       }, 50);
     } else {
-      // Tab hidden - save current state
       this.saveBottomSheetState();
     }
   }
 
-  // NEW: Handle window focus
   handleWindowFocus(): void {
     if (this.preventNextVisibilityUpdate) {
       this.preventNextVisibilityUpdate = false;
       return;
     }
 
-    // Window gained focus - restore state after a short delay
     this.addTimeoutCallback(() => {
       this.restoreBottomSheetState();
     }, 50);
   }
 
-  // NEW: Handle window blur
   handleWindowBlur(): void {
-    // Window lost focus - save current state
     this.saveBottomSheetState();
   }
 
-  // NEW: Handle pageshow event
   handlePageShow(event: any): void {
-    // If page is restored from bfcache
     if (event.persisted) {
       this.addTimeoutCallback(() => {
         this.restoreBottomSheetState();
@@ -265,7 +233,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // NEW: Save the exact state of the bottom sheet
   saveBottomSheetState(): void {
     this.lastKnownBreakpoint = this.currentBreakpoint;
 
@@ -273,79 +240,64 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
       this.lastKnownScrollTop = this.sheetContent.nativeElement.scrollTop;
     }
 
-    // Cancel any ongoing animations
     if (this.visibilityChangeAnimationId) {
       gsap.killTweensOf(this.bottomSheet.nativeElement);
       this.visibilityChangeAnimationId = null;
     }
   }
 
-  // NEW: Restore the exact state of the bottom sheet
   restoreBottomSheetState(): void {
     if (!this.bottomSheet || this.isRestoringState) return;
 
     this.isRestoringState = true;
 
-    // 1. Ensure min breakpoint calculation is up-to-date
     this.calculateMinBreakpoint();
 
-    // 2. Ensure button is properly positioned
     this.setButtonToDefaultPosition();
 
-    // 3. Set correct scroll state
     this.isScrollEnabled = this.lastKnownBreakpoint === this.EXPANDED_BREAKPOINT;
 
-    // 4. Restore exact sheet position
     this.visibilityChangeAnimationId = gsap.set(this.bottomSheet.nativeElement, {
       y: this.windowHeight * (1 - this.lastKnownBreakpoint),
       onComplete: () => {
-        // 5. Update component state
+        
         this.currentBreakpoint = this.lastKnownBreakpoint;
 
-        // 6. Restore scroll position if at expanded breakpoint
         if (this.isScrollEnabled && this.sheetContent) {
           this.sheetContent.nativeElement.scrollTop = this.lastKnownScrollTop;
         }
 
-        // 7. Reset restoration flag
         this.isRestoringState = false;
         this.visibilityChangeAnimationId = null;
 
-        // 8. Move selected establishment to top if at min breakpoint
         if (this.currentBreakpoint === this.actualMinBreakpoint) {
           this.moveSelectedEstablishmentToFirst();
           this.scrollToSelectedEstablishment();
-          this.synchronizeEstablishmentData(); // Add this line
+          this.synchronizeEstablishmentData();
         }
       }
     });
   }
 
   ngOnDestroy(): void {
-    // Stop button visibility checks
     this.maintainButtonVisibility = false;
 
-    // Remove class from body when component is destroyed
     document.body.classList.remove('bottom-sheet-open');
 
-    // Clean up event listeners
     document.removeEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
     window.removeEventListener('focus', this.handleWindowFocus.bind(this));
     window.removeEventListener('blur', this.handleWindowBlur.bind(this));
     window.removeEventListener('pageshow', this.handlePageShow.bind(this));
 
-    // Kill any ongoing GSAP animations
     gsap.killTweensOf(this.bottomSheet.nativeElement);
     if (this.sheetContent) {
       gsap.killTweensOf(this.sheetContent.nativeElement);
     }
 
-    // Clean up draggable instance
     if (this.draggableInstance) {
       this.draggableInstance.kill();
     }
 
-    // Clear any pending timeouts
     this.timeoutIds.forEach(id => window.clearTimeout(id));
     this.timeoutIds = [];
   }
@@ -356,15 +308,12 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     this.calculateMinBreakpoint();
     this.setupBottomSheet();
 
-    // Always use default position for button
     this.setButtonToDefaultPosition();
   }
 
-  // Set button to default bottom position
   setButtonToDefaultPosition(): void {
     if (!this.button) return;
 
-    // Always force the button to be at the bottom of the screen with fixed position
     gsap.set(this.button.nativeElement, {
       position: 'fixed',
       top: 'auto',
@@ -379,64 +328,52 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   }
 
   setupBottomSheet(): void {
-    // Reset any existing animation
     if (this.draggableInstance) {
       this.draggableInstance.kill();
     }
 
-    // Initial position at DEFAULT_BREAKPOINT or last known breakpoint if restoring
     const initialBreakpoint = this.isRestoringState ? this.lastKnownBreakpoint : this.currentBreakpoint;
 
-    // MODIFIED: Use gsap.set without animation for initial positioning
     gsap.set(this.bottomSheet.nativeElement, {
       y: this.windowHeight * (1 - initialBreakpoint),
       height: this.windowHeight
     });
 
-    // Create draggable instance with stricter bounds
     this.draggableInstance = Draggable.create(this.bottomSheet.nativeElement, {
       type: 'y',
       bounds: {
-        minY: this.windowHeight * (1 - this.EXPANDED_BREAKPOINT) - 1, // Prevent dragging above EXPANDED_BREAKPOINT
-        maxY: this.windowHeight * (1 - this.actualMinBreakpoint) + 1 // Prevent dragging below actualMinBreakpoint
+        minY: this.windowHeight * (1 - this.EXPANDED_BREAKPOINT) - 1,
+        maxY: this.windowHeight * (1 - this.actualMinBreakpoint) + 1
       },
-      edgeResistance: 0.95, // Increased resistance near the edges for smoother behavior
-      inertia: true, // Enable physics-based animation
-      overshootTolerance: 0, // Prevent overshooting
+      edgeResistance: 0.95,
+      inertia: true,
+      overshootTolerance: 0,
       onDragStart: () => {
         this.isDragging = true;
-        this.dragStartTime = Date.now(); // Record drag start time
-        this.isAnimatingToMinBreakpoint = false; // Reset animation flag
-        this.preventNextVisibilityUpdate = true; // Prevent visibility changes during drag
+        this.dragStartTime = Date.now();
+        this.isAnimatingToMinBreakpoint = false;
+        this.preventNextVisibilityUpdate = true;
 
-        // Save initial scroll position
         if (this.sheetContent) {
           this.initialScrollTop = this.sheetContent.nativeElement.scrollTop;
         }
 
-        // Disable scrolling while dragging
         this.isScrollEnabled = false;
 
-        // Record initial y position for determining drag direction
         this.previousY = this.draggableInstance.y;
 
-        // When starting to drag, set button to default position
         this.setButtonToDefaultPosition();
       },
       onDrag: this.onDrag.bind(this),
       onDragEnd: this.onDragEnd.bind(this),
       onThrowComplete: () => {
         this.isDragging = false;
-        // Save current state after drag completes
         this.saveBottomSheetState();
 
-        // Enable scrolling only if at expanded breakpoint
         this.isScrollEnabled = this.currentBreakpoint === this.EXPANDED_BREAKPOINT;
 
-        // Reset prevention flag after drag
         this.preventNextVisibilityUpdate = false;
 
-        // Ensure button stays in default position
         this.setButtonToDefaultPosition();
       }
     })[0];
@@ -445,7 +382,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   calculateMinBreakpoint(): void {
     if (!this.header || !this.button || !this.searchBar || !this.couponsList) return;
 
-    // Add a short delay to ensure render cycle completes
     this.addTimeoutCallback(() => {
       // Step 1: Get precise measurements of each component
       const headerHeight = this.header.nativeElement.offsetHeight;
@@ -458,13 +394,11 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
       if (establishmentContainers.length > 0) {
         selectedEstablishmentHeight = establishmentContainers[0].clientHeight;
       } else {
-        selectedEstablishmentHeight = 96; // Fallback height
+        selectedEstablishmentHeight = 96;
       }
 
-      // CRITICAL: Add extra space for border visibility and to ensure the entire component is visible
-      selectedEstablishmentHeight += 16; // Increased padding to ensure the bottom is fully visible
+      selectedEstablishmentHeight += 16;
 
-      // Step 3: Measure button height
       const buttonHeight = this.button.nativeElement.offsetHeight;
 
       // Step 4: Calculate necessary space with adjustment for border
@@ -497,7 +431,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     }, 50);
   }
 
-  // New method to update bottom sheet position with better timing
   updateBottomSheetPosition(): void {
     gsap.to(this.bottomSheet.nativeElement, {
       y: this.windowHeight * (1 - this.actualMinBreakpoint),
@@ -516,7 +449,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // Optimized method to scroll to selected establishment
   scrollToSelectedEstablishment(): void {
     if (!this.sheetContent) return;
 
@@ -531,70 +463,54 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   onDrag(): void {
     if (!this.draggableInstance) return;
 
-    // Get current position
     const currentY = this.draggableInstance.y;
 
-    // Determine drag direction with improved sensitivity
-    if (currentY > this.previousY + 1) { // Added threshold to ignore tiny movements
-      // Dragging down
+    if (currentY > this.previousY + 1) {
       this.lastDragDirection = -1;
-    } else if (currentY < this.previousY - 1) { // Added threshold to ignore tiny movements
-      // Dragging up
+    } else if (currentY < this.previousY - 1) {
       this.lastDragDirection = 1;
     }
 
-    // Store previous position for next comparison
     this.previousY = currentY;
 
-    // Enforce bounds with stronger resistance to prevent visual glitches
     const maxY = this.windowHeight * (1 - this.actualMinBreakpoint);
     const minY = this.windowHeight * (1 - this.EXPANDED_BREAKPOINT);
 
     if (currentY < minY) {
-      // Trying to drag above expanded limit - snap back immediately to prevent disconnection
       gsap.to(this.bottomSheet.nativeElement, {
         y: minY,
-        duration: 0.1, // Faster correction to avoid visual glitch
+        duration: 0.1,
         ease: "power2.out"
       });
       this.draggableInstance.update(true);
     } else if (currentY > maxY) {
-      // Trying to drag below min limit - snap back immediately
       gsap.to(this.bottomSheet.nativeElement, {
         y: maxY,
-        duration: 0.1, // Faster correction to avoid visual glitch
+        duration: 0.1,
         ease: "power2.out"
       });
       this.draggableInstance.update(true);
     }
 
-    // During dragging, always use default button position at bottom
     this.setButtonToDefaultPosition();
   }
 
   onDragEnd(): void {
     if (!this.draggableInstance) return;
 
-    // Get current position as percentage of window height
     const position = 1 - (this.draggableInstance.y / this.windowHeight);
 
-    // Calculate drag duration for improved snapping logic
     const dragDuration = Date.now() - this.dragStartTime;
-    const isQuickDrag = dragDuration < 300; // Consider drags shorter than 300ms as "quick flicks"
+    const isQuickDrag = dragDuration < 300;
 
-    // Improved snapping logic for different scenarios
     let targetBreakpoint;
 
-    // Determine target breakpoint based on current position, drag direction, and drag speed
     if (this.lastDragDirection === 1) {
-      // Dragging up
       if (position >= this.EXPANDED_BREAKPOINT - this.SNAP_TOLERANCE_UP || 
           (position >= this.DEFAULT_BREAKPOINT + (this.SNAP_TOLERANCE_UP / 2) && isQuickDrag)) {
-        // Either close to EXPANDED or quick upward flick from above DEFAULT
         targetBreakpoint = this.EXPANDED_BREAKPOINT;
       } else if (position >= this.DEFAULT_BREAKPOINT - this.SNAP_TOLERANCE_UP || 
                 (position >= this.actualMinBreakpoint + (this.SNAP_TOLERANCE_UP / 2) && isQuickDrag)) {
-        // Either close to DEFAULT or quick upward flick from above MIN
         targetBreakpoint = this.DEFAULT_BREAKPOINT;
       } else {
         targetBreakpoint = this.actualMinBreakpoint;
@@ -671,10 +587,8 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // Improved scrollToTop method with smoother animation
   scrollToTop(): void {
     if (this.sheetContent) {
-      // Scroll the content to top with animation
       gsap.to(this.sheetContent.nativeElement, {
         scrollTop: 0,
         duration: 0.2,
@@ -684,49 +598,31 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   }
 
   selectEstablishment(establishment: Establishment): void {
-    // Only proceed if this is a different establishment
     if (!establishment.isSelected) {
-      // Deselect all establishments first
       this.establishments.forEach(c => c.isSelected = false);
-  
-      // Select the clicked establishment
       establishment.isSelected = true;
   
-      // Only move selected establishment to top if we're at MIN breakpoint
       if (this.currentBreakpoint === this.actualMinBreakpoint) {
         this.moveSelectedEstablishmentToFirst();
       }
-  
-      // Force recalculation of min height and button position
       this.addTimeoutCallback(() => {
         this.calculateMinBreakpoint();
-  
-        // Ensure button stays in default position
         this.setButtonToDefaultPosition();
-  
-        // If currently at min height, animate to the new min height for perfect fit
         if (this.currentBreakpoint === this.actualMinBreakpoint) {
           this.updateBottomSheetPosition();
         }
-  
-        // Save state after establishment selection
         this.saveBottomSheetState();
       }, 50);
     }
   }
 
   moveSelectedEstablishmentToFirst(): void {
-    // Find the selected establishment
     const selectedEstablishment = this.establishments.find(establishment => establishment.isSelected);
     if (!selectedEstablishment) {
       console.log('No selected establishment found');
       return;
     }
-  
-    // Find the index of the selected establishment
     const selectedIndex = this.establishments.findIndex(establishment => establishment.isSelected);
-  
-    // If it's already the first one, do nothing
     if (selectedIndex <= 0) {
       console.log('Selected establishment already at first position');
       return;
@@ -734,41 +630,29 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   
     console.log('Moving establishment ID', selectedEstablishment.id, 'from position', selectedIndex, 'to first position');
   
-    // Create a new array with the selected establishment first
-    // This is cleaner than splice operations
     const reorderedEstablishments = [
       selectedEstablishment,
       ...this.establishments.slice(0, selectedIndex),
       ...this.establishments.slice(selectedIndex + 1)
     ];
-  
-    // Replace the entire array at once
     this.establishments = reorderedEstablishments;
     
     console.log('New establishment order:', this.establishments.map(e => e.id));
     
-    // Force the child component to fully refresh by first clearing the selectedEstablishmentId
     const currentId = this.selectedEstablishmentId;
     this.selectedEstablishmentId = null;
     
-    // Clear the cached IDs to ensure proper update
     this.cachedOrderedIds = [];
     
-    // Use a longer timeout to ensure the Angular change detection has completed one cycle
     setTimeout(() => {
-      // Restore the selected ID, forcing a second change detection cycle
       this.selectedEstablishmentId = currentId;
-      // Scroll to top to ensure visibility
       this.scrollToTop();
-    }, 50); // Increased timeout for more reliable operation
+    }, 50);
     
-    // Ensure button stays in default position
     this.setButtonToDefaultPosition();
   }
 
   synchronizeEstablishmentData(): void {
-    // This method forces the establishment component to refresh its data
-    // by toggling the selectedEstablishmentId
     if (this.selectedEstablishmentId !== null) {
       const currentId = this.selectedEstablishmentId;
       this.selectedEstablishmentId = null;
@@ -798,7 +682,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     return establishment.id;
   }
 
-  // Improved search functionality
   searchEstablishments(): Establishment[] {
     if (!this.searchTerm || this.searchTerm.trim() === '') {
       return this.establishments;
@@ -811,16 +694,11 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
       (establishment.vr_comprasacimade + '').includes(term)
     );
 
-    // If we're at MIN_HEIGHT, ensure the selected establishment
-    // is visible by putting it at the top of the filtered results
     if (this.currentBreakpoint === this.actualMinBreakpoint && filteredEstablishments.length > 0) {
       const selectedEstablishment = filteredEstablishments.find(establishment => establishment.isSelected);
 
       if (selectedEstablishment) {
-        // Remove the selected establishment from its current position
         const filteredWithoutSelected = filteredEstablishments.filter(e => !e.isSelected);
-
-        // Return with selected establishment at the top
         return [selectedEstablishment, ...filteredWithoutSelected];
       }
     }
@@ -831,15 +709,10 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
   clearSearch(): void {
     this.searchTerm = '';
 
-    // When clearing search, ensure selected establishment is at the top if at MIN breakpoint
     if (this.currentBreakpoint === this.actualMinBreakpoint) {
       this.moveSelectedEstablishmentToFirst();
     }
-
-    // Ensure button stays in default position
     this.setButtonToDefaultPosition();
-
-    // Save state after clearing search
     this.saveBottomSheetState();
   }
 }

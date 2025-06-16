@@ -9,8 +9,8 @@
       <div #searchBar class="search-bar">
         <div class="search-input-container">
           <input
-            type="text" 
-            placeholder="Pesquisar" 
+            type="text"
+            placeholder="Pesquisar"
             [(ngModel)]="searchTerm"
             class="search-input"
             aria-label="Pesquisar"
@@ -28,7 +28,7 @@
       <div #sheetContent class="bottom-sheet-content" [class.scrollable]="isScrollEnabled">
         <div #couponsList class="coupons-list" [class.no-scroll]="!isScrollEnabled || isDragging">
           <div class="establishment-wrapper">
-            <app-establishment 
+            <app-establishment
               [selectedEstablishmentId]="selectedEstablishmentId"
               [orderedEstablishmentIds]="getOrderedEstablishmentIds()"
               (establishmentsLoaded)="onEstablishmentsLoaded($event)"
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div #button class="action-button-container">

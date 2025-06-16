@@ -18,7 +18,6 @@ export class EstablishmentComponent implements OnInit {
   set selectedEstablishmentId(value: number | null) {
     console.log('selectedEstablishmentId changed:', value);
     this._selectedEstablishmentId = value;
-    console.log("teste");
     this.updateEstablishmentsDisplay();
   }
 
@@ -85,16 +84,16 @@ export class EstablishmentComponent implements OnInit {
 
   private updateEstablishmentsDisplay(): void {
 
-    console.log("teste2");
     if (this._baseEstablishments.length === 0 && this.campaignData && this.campaignData.detalhe) {
       this._baseEstablishments = this.getEstablishmentsFromData();
     }
-    console.log("teste3");
+
+    //Quando inicializa o input, return acionado
     if (this._baseEstablishments.length === 0) {
       this._establishments = [];
       return;
     }
-    console.log("teste4");
+
     this._baseEstablishments.forEach(est => {
       est.isSelected = est.id === this._selectedEstablishmentId;
       console.log("isSelected2:", est.isSelected);
@@ -102,10 +101,9 @@ export class EstablishmentComponent implements OnInit {
 
     if (this._orderedEstablishmentIds && this._orderedEstablishmentIds.length > 0) {
       console.log('Applying custom order to establishments:', this._orderedEstablishmentIds);
-      console.log("teste5");
       const ordered: Establishment[] = [];
 
-      // Track which IDs we've already processed
+      // Track which IDs we've already processed~
       const processedIds = new Set<number>();
 
       this._orderedEstablishmentIds.forEach(id => {
@@ -132,7 +130,6 @@ export class EstablishmentComponent implements OnInit {
       console.log('No custom ordering, using base order');
       this._establishments = this._baseEstablishments.map(est => ({...est}));
     }
-    console.log("teste6");
     console.log('Final establishments order:', this._establishments.map(est => est.id));
   }
 
