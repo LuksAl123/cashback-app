@@ -597,25 +597,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
     }
   }
 
-  selectEstablishment(establishment: Establishment): void {
-    if (!establishment.isSelected) {
-      this.establishments.forEach(c => c.isSelected = false);
-      establishment.isSelected = true;
-  
-      if (this.currentBreakpoint === this.actualMinBreakpoint) {
-        this.moveSelectedEstablishmentToFirst();
-      }
-      this.addTimeoutCallback(() => {
-        this.calculateMinBreakpoint();
-        this.setButtonToDefaultPosition();
-        if (this.currentBreakpoint === this.actualMinBreakpoint) {
-          this.updateBottomSheetPosition();
-        }
-        this.saveBottomSheetState();
-      }, 50);
-    }
-  }
-
   moveSelectedEstablishmentToFirst(): void {
     const selectedEstablishment = this.establishments.find(establishment => establishment.isSelected);
     if (!selectedEstablishment) {
@@ -627,28 +608,29 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
       console.log('Selected establishment already at first position');
       return;
     }
-  
+
     console.log('Moving establishment ID', selectedEstablishment.id, 'from position', selectedIndex, 'to first position');
-  
+
     const reorderedEstablishments = [
       selectedEstablishment,
       ...this.establishments.slice(0, selectedIndex),
       ...this.establishments.slice(selectedIndex + 1)
     ];
+
     this.establishments = reorderedEstablishments;
-    
+
     console.log('New establishment order:', this.establishments.map(e => e.id));
-    
+
     const currentId = this.selectedEstablishmentId;
     this.selectedEstablishmentId = null;
-    
+
     this.cachedOrderedIds = [];
-    
+
     setTimeout(() => {
       this.selectedEstablishmentId = currentId;
       this.scrollToTop();
     }, 50);
-    
+
     this.setButtonToDefaultPosition();
   }
 
@@ -664,7 +646,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   getButtonLabel(): string {
     if (!this.currentEstablishment) return 'Escolher estabelecimento';
-    
     return `Escolher ${this.getEstablishmentName(this.currentEstablishment)}`;
   }
 
@@ -680,30 +661,6 @@ export class BottomSheetComponent implements OnInit, AfterViewInit {
 
   trackByEstablishmentId(index: number, establishment: Establishment): number {
     return establishment.id;
-  }
-
-  searchEstablishments(): Establishment[] {
-    if (!this.searchTerm || this.searchTerm.trim() === '') {
-      return this.establishments;
-    }
-
-    const term = this.searchTerm.toLowerCase().trim();
-    const filteredEstablishments = this.establishments.filter(establishment => 
-      establishment.nomeempresa.toLowerCase().includes(term) || 
-      (establishment.cb_perc_creditoporcompra + '').includes(term) ||
-      (establishment.vr_comprasacimade + '').includes(term)
-    );
-
-    if (this.currentBreakpoint === this.actualMinBreakpoint && filteredEstablishments.length > 0) {
-      const selectedEstablishment = filteredEstablishments.find(establishment => establishment.isSelected);
-
-      if (selectedEstablishment) {
-        const filteredWithoutSelected = filteredEstablishments.filter(e => !e.isSelected);
-        return [selectedEstablishment, ...filteredWithoutSelected];
-      }
-    }
-
-    return filteredEstablishments;
   }
 
   clearSearch(): void {

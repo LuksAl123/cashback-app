@@ -25,8 +25,20 @@ export class EstablishmentComponent implements OnInit {
     return this._selectedEstablishmentId;
   }
 
+  private _searchTerm: string = '';
+  
+  @Input()
+  set searchTerm(value: string) {
+    this._searchTerm = value || '';
+    this.updateEstablishmentsDisplay();
+  }
+  
+  get searchTerm(): string {
+    return this._searchTerm;
+  }
+  
   private _orderedEstablishmentIds: number[] = [];
-
+  
   @Input()
   set orderedEstablishmentIds(value: number[]) {
     if (value && value.length > 0 && JSON.stringify(value) !== JSON.stringify(this._orderedEstablishmentIds)) {
@@ -76,6 +88,9 @@ export class EstablishmentComponent implements OnInit {
             cb_perc_creditoporcompra: est.cb_perc_creditoporcompra,
             vr_comprasacimade: est.vr_comprasacimade,
             tipo: est.tipo,
+            cep: est.cep,
+            latitude: est.latitude,
+            longitude: est.longitude,
             isSelected: est.id === this._selectedEstablishmentId
           }));
     }
@@ -94,28 +109,39 @@ export class EstablishmentComponent implements OnInit {
       return;
     }
 
+    // Apply selection status
     this._baseEstablishments.forEach(est => {
       est.isSelected = est.id === this._selectedEstablishmentId;
-      console.log("isSelected2:", est.isSelected);
     });
 
+    // First filter by search term if provided
+    let filteredEstablishments = this._baseEstablishments;
+    if (this._searchTerm && this._searchTerm.trim() !== '') {
+      const searchTermLower = this._searchTerm.toLowerCase().trim();
+      filteredEstablishments = this._baseEstablishments.filter(est => {
+        return est.nomeempresa.toLowerCase().includes(searchTermLower);
+      });
+    }
+
+    // Then apply ordering
     if (this._orderedEstablishmentIds && this._orderedEstablishmentIds.length > 0) {
       console.log('Applying custom order to establishments:', this._orderedEstablishmentIds);
       const ordered: Establishment[] = [];
 
-      // Track which IDs we've already processed~
+      // Track which IDs we've already processed
       const processedIds = new Set<number>();
 
+      // First add the establishments in the ordered list that also match the search filter
       this._orderedEstablishmentIds.forEach(id => {
-        const found = this._baseEstablishments.find(est => est.id === id);
+        const found = filteredEstablishments.find(est => est.id === id);
         if (found) {
           ordered.push({...found}); // Create a new object to ensure change detection
           processedIds.add(id);
         }
       });
 
-      // Then add any establishments that aren't in the ordered list
-      this._baseEstablishments.forEach(est => {
+      // Then add any filtered establishments that aren't in the ordered list
+      filteredEstablishments.forEach(est => {
         if (!processedIds.has(est.id)) {
           ordered.push({...est}); // Create a new object to ensure change detection
         }
@@ -127,8 +153,8 @@ export class EstablishmentComponent implements OnInit {
         this._establishments = ordered;
       }
     } else {
-      console.log('No custom ordering, using base order');
-      this._establishments = this._baseEstablishments.map(est => ({...est}));
+      console.log('No custom ordering, using filtered establishments');
+      this._establishments = filteredEstablishments.map(est => ({...est}));
     }
     console.log('Final establishments order:', this._establishments.map(est => est.id));
   }

@@ -4,5 +4,8 @@ export interface Establishment {
     cb_perc_creditoporcompra: number;
     vr_comprasacimade: number;
     tipo: string;
+    cep: string;
+    latitude?: number;
+    longitude?: number;
     isSelected?: boolean;
   }

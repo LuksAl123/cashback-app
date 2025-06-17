@@ -3,3 +3,45 @@
   width: 100%;
   border-radius: 10px;
 }
+
+:host ::ng-deep {
+  .establishment-marker {
+    display: flex;
+    justify-content: center;
+    transform: translateY(-50%);
+
+    .marker-pin {
+      background-color: #34495e;
+      border-radius: 8px;
+      padding: 4px 8px;
+      color: white;
+      font-size: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      position: relative;
+      min-width: 60px;
+      text-align: center;
+
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        margin-left: -8px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #34495e;
+      }
+    }
+
+    &.selected .marker-pin {
+      background-color: #e74c3c;
+      font-weight: bold;
+      transform: scale(1.1);
+      z-index: 1000;
+
+      &:after {
+        border-top-color: #e74c3c;
+      }
+    }
+  }
+}
