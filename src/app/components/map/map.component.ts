@@ -146,8 +146,8 @@ export class MapComponent implements OnInit, OnChanges {
     // Using a separate variable for the listener and removing it within the callback
     let listener: google.maps.MapsEventListener | null = null;
     listener = googleMap.addListener('idle', () => {
-      const currentMap = this.map.googleMap;
-      if (currentMap && currentMap.getZoom() > 15) {
+      const currentMap = this.map?.googleMap;
+      if (currentMap?.getZoom && currentMap.getZoom() > 15) {
         currentMap.setZoom(15);
       }
       // Remove the listener after it's been triggered once
