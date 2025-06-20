@@ -8,8 +8,8 @@
   <app-bottom-sheet 
     [ngClass]="{'visible': visible}"
     (loadingChange)="onLoadingChange($event)"
-    (establishmentsChange)="onEstablishmentsChange($event.detail)"
-    (selectedEstablishmentChange)="onSelectedEstablishmentChange($event.detail)">
+    (establishmentsChange)="onEstablishmentsChange($any($event).detail)"
+    (selectedEstablishmentChange)="onSelectedEstablishmentChange($any($event).detail)">
   </app-bottom-sheet>
   <app-back-button></app-back-button>
 </main>

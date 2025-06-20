@@ -21,7 +21,7 @@ export class MapComponent implements OnInit, OnChanges {
   private apiLoaded = false;
   mapsReady = false;
 
-  center: google.maps.LatLngLiteral = { lat: -23.5505, lng: -46.6333 }; // São Paulo as default
+  center: google.maps.LatLngLiteral = { lat: -23.5505, lng: -46.6333 };
   zoom = 12;
   markers: google.maps.LatLngLiteral[] = [];
 
@@ -52,14 +52,14 @@ export class MapComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['establishments'] || changes['selectedEstablishmentId']) {
       this.updateMarkers();
-      
+
       // If we have a selected establishment with coordinates, center on it
       if (this.selectedEstablishmentId && this.establishments?.length) {
         const selected = this.establishments.find(e => e.id === this.selectedEstablishmentId);
         if (selected && selected.latitude && selected.longitude) {
-          this.center = { 
-            lat: selected.latitude, 
-            lng: selected.longitude 
+          this.center = {
+            lat: selected.latitude,
+            lng: selected.longitude
           };
           this.zoom = 15; // Zoom in when an establishment is selected
         }
@@ -80,6 +80,7 @@ export class MapComponent implements OnInit, OnChanges {
     // Process establishments to create markers
     if (this.establishments && this.establishments.length > 0 && this.mapsReady && this.map?.googleMap) {
       this.establishments.forEach(establishment => {
+
         // Only create markers for establishments with latitude and longitude
         if (establishment.latitude && establishment.longitude) {
           const position = { lat: establishment.latitude, lng: establishment.longitude };
@@ -101,7 +102,7 @@ export class MapComponent implements OnInit, OnChanges {
           const style = markerElement.style;
           style.cursor = 'pointer';
           style.zIndex = isSelected ? '1000' : '1'; // Selected marker appears on top
-          
+
           // Create the advanced marker
           const marker = new google.maps.marker.AdvancedMarkerElement({
             map: this.map.googleMap,
@@ -109,7 +110,7 @@ export class MapComponent implements OnInit, OnChanges {
             content: markerElement,
             title: establishment.nomeempresa
           });
-          
+
           this.advancedMarkers.push(marker);
         }
       });
@@ -118,6 +119,7 @@ export class MapComponent implements OnInit, OnChanges {
       if (this.markers.length === 0) {
         this.centerOnUserLocation();
       }
+
       // If we have establishments with coordinates but no selection, fit bounds to show all markers
       else if (!this.selectedEstablishmentId && this.markers.length > 0) {
         this.fitBoundsToMarkers();
@@ -127,10 +129,10 @@ export class MapComponent implements OnInit, OnChanges {
 
   fitBoundsToMarkers() {
     if (this.markers.length === 0 || !this.map?.googleMap) return;
-    
+
     // Create bounds object
     const bounds = new google.maps.LatLngBounds();
-    
+
     // Extend bounds with each marker
     this.markers.forEach(position => {
       bounds.extend(position);
@@ -138,17 +140,20 @@ export class MapComponent implements OnInit, OnChanges {
 
     // Fit map to bounds
     this.map.googleMap.fitBounds(bounds);
-    
+
     // Limit maximum zoom
     const googleMap = this.map?.googleMap;
     if (!googleMap) return;
-    
+
     // Using a separate variable for the listener and removing it within the callback
     let listener: google.maps.MapsEventListener | null = null;
     listener = googleMap.addListener('idle', () => {
       const currentMap = this.map?.googleMap;
-      if (currentMap?.getZoom && currentMap.getZoom() > 15) {
-        currentMap.setZoom(15);
+      if (currentMap && typeof currentMap.getZoom === 'function') {
+        const zoom = currentMap.getZoom();
+        if (typeof zoom === 'number' && zoom > 15) {
+          currentMap.setZoom(15);
+        }
       }
       // Remove the listener after it's been triggered once
       if (listener) {
@@ -163,6 +168,10 @@ export class MapComponent implements OnInit, OnChanges {
       const lat = coordinates.coords.latitude;
       const lng = coordinates.coords.longitude;
       this.center = { lat, lng };
+      this.mapOptions = {
+        ...this.mapOptions,
+        center: this.center
+      };
     } catch (error) {
       console.error('Geolocation error:', error);
     }
