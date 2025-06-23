@@ -13,7 +13,7 @@ import { Establishment } from 'src/app/interface/establishment';
 
 export class MapComponent implements OnInit, OnChanges {
 
-  @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
+  @ViewChild (GoogleMap, { static: false }) map!: GoogleMap;
 
   @Input() establishments: Establishment[] = [];
   @Input() selectedEstablishmentId: number | null = null;
