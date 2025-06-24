@@ -1,4 +1,7 @@
 <div class="map-container">
-  <google-map *ngIf="mapsReady" height="100%" width="100%" [center]="center" [zoom]="zoom" [options]="mapOptions">
+  <google-map *ngIf="mapsReady()" height="100%" width="100%"
+    [center]="center()"
+    [zoom]="zoom()"
+    [options]="mapOptions()">
   </google-map>
 </div>
