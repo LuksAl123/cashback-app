@@ -21,7 +21,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
   @Output() mapClick = new EventEmitter<{ lat: number; lng: number }>();
 
   private readonly defaultCenter: google.maps.LatLngLiteral = { lat: -23.5505, lng: -46.6333 };
-  private readonly defaultZoom = 12;
+  private readonly defaultZoom = 15;
 
   apiLoaded = signal(false);
   mapsReady = signal(false);
@@ -151,7 +151,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
       console.error('Geolocation error:', error);
     }
   }
-  
+
   load(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.apiLoaded()) {
