@@ -1,11 +1,11 @@
 <main>
   <app-loading *ngIf="isCouponLoading" [message]="'Carregando lojas'"></app-loading>
-  <app-map 
+  <app-map
     [ngClass]="{'visible': visible}"
     [establishments]="establishments"
     [selectedEstablishmentId]="selectedEstablishmentId">
   </app-map>
-  <app-bottom-sheet 
+  <app-bottom-sheet
     [ngClass]="{'visible': visible}"
     (loadingChange)="onLoadingChange($event)"
     (establishmentsChange)="onEstablishmentsChange($any($event).detail)"

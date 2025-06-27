@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { Establishment } from 'src/app/interface/establishment';
+import { MapService } from 'src/app/services/map/map.service';
 
 @Component({
   selector: 'app-establishment',
@@ -26,19 +27,19 @@ export class EstablishmentComponent implements OnInit {
   }
 
   private _searchTerm: string = '';
-  
+
   @Input()
   set searchTerm(value: string) {
     this._searchTerm = value || '';
     this.updateEstablishmentsDisplay();
   }
-  
+
   get searchTerm(): string {
     return this._searchTerm;
   }
-  
+
   private _orderedEstablishmentIds: number[] = [];
-  
+
   @Input()
   set orderedEstablishmentIds(value: number[]) {
     if (value && value.length > 0 && JSON.stringify(value) !== JSON.stringify(this._orderedEstablishmentIds)) {
@@ -65,7 +66,10 @@ export class EstablishmentComponent implements OnInit {
   private _establishments: Establishment[] = [];
   private _baseEstablishments: Establishment[] = [];
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private mapService: MapService
+  ) {}
 
   ngOnInit() {
     this.loadEstablishments();
@@ -193,5 +197,10 @@ export class EstablishmentComponent implements OnInit {
   onEstablishmentClick(establishment: Establishment) {
     console.log('Establishment clicked:', establishment);
     this.establishmentSelected.emit(establishment);
+    this.centerOnMarker(establishment);
+  }
+
+  centerOnMarker(establishment: Establishment) {
+    
   }
 }
