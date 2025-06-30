@@ -89,7 +89,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
           // Create custom marker
           const isSelected = establishment.id === this.selectedEstablishmentId;
           const markerElement = document.createElement('div');
-          markerElement.className = 'establishment-marker' + (isSelected ? ' selected' : '');
+          markerElement.className = 'establishment-marker' + (isSelected ? 'selected' : '');
           markerElement.innerHTML = `
             <div class="marker-pin">
               <div class="marker-content">${establishment.cep || 'N/A'}</div>
