@@ -201,6 +201,6 @@ export class EstablishmentComponent implements OnInit {
   }
 
   centerOnMarker(establishment: Establishment) {
-    
+    this.mapService.centerOnEstablishment(establishment); //??
   }
 }

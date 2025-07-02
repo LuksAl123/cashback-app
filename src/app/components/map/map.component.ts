@@ -55,7 +55,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['establishments'] || changes['selectedEstablishmentId']) {
       this.updateMarkers();
-      
+
       // If we have a selected establishment with coordinates, center on it
       if (this.selectedEstablishmentId && this.establishments?.length) {
         const selected = this.establishments.find(e => e.id === this.selectedEstablishmentId);
