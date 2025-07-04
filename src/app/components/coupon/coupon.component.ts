@@ -131,6 +131,6 @@ export class CouponComponent implements OnInit, OnDestroy {
 
   activateCoupon(coupon: any, event: Event) {
     console.log('Activating coupon:', coupon.id);
-    
+
   }
 }

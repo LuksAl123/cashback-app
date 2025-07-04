@@ -28,6 +28,7 @@ export class HttpService {
   private registerUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
   private loginUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
   private recoverPasswordUrl = `${environment.apiBase}/Trotas/validausuario/`;
+  private activateCouponUrl = `${environment.apiBase}/Trotas/ativacupom/`;
   public verificationCode: string = "";
 
   constructor(private http: HttpClient) {} // HttpService update
@@ -166,7 +167,32 @@ export class HttpService {
 
     return this.http.post<any>(this.recoverPasswordUrl, requestBody, { headers }).pipe(
       tap(response => {
-        console.log('Login user successfully:', response);
+        console.log('Recover password successfully:', response);
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  activateCoupon(): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      ncupom: "00060569046C",
+      idpessoa: 648
+    };
+
+    return this.http.post<any>(this.activateCouponUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Activate coupon successfully:', response);
       }),
       retry({
         count: 2,
