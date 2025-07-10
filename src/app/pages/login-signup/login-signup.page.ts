@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-login-signup',
@@ -44,7 +45,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private router: Router,
     private httpService: HttpService,
     private renderer: Renderer2,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -94,6 +96,12 @@ export class LoginPage implements OnInit, OnDestroy {
           this.router.navigate(['/home']);
           //transformar lógica localStorage em serviço?
           localStorage.setItem('sessionActive', 'true');
+          
+          // Store user ID from login response
+          if (response.detalhe && response.detalhe.id) {
+            this.userService.setUserId(response.detalhe.id);
+          }
+
           if (this.loginForm.value.rememberPassword) {
             localStorage.setItem('rememberedPhone', this.loginForm.value.tel);
             localStorage.setItem('rememberedPassword', this.loginForm.value.password);

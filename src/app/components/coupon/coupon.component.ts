@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output, Input, Optional } f
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/services/http/http.service';
 import { CouponFilterService, CouponFilterType } from '../../services/coupon-filter/coupon-filter.service';
+import { UserService } from '../../services/user/user.service';
 import { of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -28,7 +29,8 @@ export class CouponComponent implements OnInit, OnDestroy {
   constructor(
     private httpService: HttpService,
     private router: Router,
-    @Optional() private couponFilterService: CouponFilterService
+    @Optional() private couponFilterService: CouponFilterService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -95,7 +97,6 @@ export class CouponComponent implements OnInit, OnDestroy {
     if (!this.isOnCouponsPage || this.forceDefaultBehavior) {
       return 'Abrir cupom';
     }
-
     // Button text based on filter and coupon state
     if (this.currentFilter === CouponFilterType.AVAILABLE) {
       return 'Ativar Cupom';
@@ -131,6 +132,19 @@ export class CouponComponent implements OnInit, OnDestroy {
 
   activateCoupon(coupon: any, event: Event) {
     console.log('Activating coupon:', coupon.id);
-
+    const userId = this.userService.getUserId();
+    if (!userId) {
+      console.error('User ID not found');
+      return;
+    }
+    
+    this.httpService.activateCoupon(coupon.id, userId).subscribe({
+      next: (response) => {
+        console.log('Coupon activated successfully:', response);
+      },
+      error: (err) => {
+        console.error('Failed to activate coupon:', err);
+      }
+    });
   }
 }

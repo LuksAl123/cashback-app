@@ -178,7 +178,7 @@ export class HttpService {
     );
   }
 
-  activateCoupon(): Observable<any> {
+  activateCoupon(ncupom: string, idpessoa: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -186,8 +186,8 @@ export class HttpService {
     });
 
     const requestBody = {
-      ncupom: "00060569046C",
-      idpessoa: 648
+      ncupom: `${ncupom}`,
+      idpessoa: `${idpessoa}`
     };
 
     return this.http.post<any>(this.activateCouponUrl, requestBody, { headers }).pipe(

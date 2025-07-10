@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { CouponFilterService } from 'src/app/services/coupon-filter/coupon-filter.service';
 
 @Component({
   selector: 'app-coupons',
@@ -14,7 +15,9 @@ export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
 
   private resizeListener: any = null;
 
-  constructor() {}
+  constructor(
+    private couponFilterService: CouponFilterService
+  ) {}
 
   ngOnInit() {
   }
@@ -43,12 +46,15 @@ export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
 
   selectSegment(event: any, index: number): void {
     this.activeSegment = index;
+
     const segmentButtons = document.querySelectorAll('.segment');
     segmentButtons.forEach(button => {
       button.classList.remove('segment-active');
     });
     event.target.classList.add('segment-active');
     this.updateIndicatorPosition(index);
+    const filter = this.couponFilterService.setFilter(index);
+    console.log(filter);
   }
 
   private updateIndicatorPosition(index: number): void {
