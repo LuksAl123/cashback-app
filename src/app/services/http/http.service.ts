@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { shareReplay, catchError, tap } from 'rxjs/operators';
 import { retry } from 'rxjs';
+import { UserService } from '../user/user.service';
 
 export interface CampaignData {
   id: number;
@@ -31,7 +32,10 @@ export class HttpService {
   private activateCouponUrl = `${environment.apiBase}/Trotas/ativacupom/`;
   public verificationCode: string = "";
 
-  constructor(private http: HttpClient) {} // HttpService update
+  constructor(
+    private http: HttpClient,
+    private userService: UserService
+  ) {} // HttpService update
 
   getCouponData(): Observable<any> {
 
@@ -141,6 +145,7 @@ export class HttpService {
     return this.http.post<any>(this.loginUserUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Login user successfully:', response);
+        this.userService.setUserId(response.detalhe.id);
       }),
       retry({
         count: 2,
@@ -178,7 +183,7 @@ export class HttpService {
     );
   }
 
-  activateCoupon(ncupom: string, idpessoa: number): Observable<any> {
+  activateCoupon(ncupom: number, idpessoa: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -187,7 +192,7 @@ export class HttpService {
 
     const requestBody = {
       ncupom: `${ncupom}`,
-      idpessoa: `${idpessoa}`
+      idpessoa: idpessoa
     };
 
     return this.http.post<any>(this.activateCouponUrl, requestBody, { headers }).pipe(
@@ -209,7 +214,7 @@ export class HttpService {
       message: error.message,
       details: error.error
     });
-    this.sharedCouponData$ = null; // HttpService update
+    this.sharedCouponData$ = null;
     return throwError(() => new Error('Failed to load data.'));
   }
 }

@@ -131,14 +131,13 @@ export class CouponComponent implements OnInit, OnDestroy {
   }
 
   activateCoupon(coupon: any, event: Event) {
-    console.log('Activating coupon:', coupon.id);
     const userId = this.userService.getUserId();
     if (!userId) {
       console.error('User ID not found');
       return;
     }
-    
-    this.httpService.activateCoupon(coupon.id, userId).subscribe({
+
+    this.httpService.activateCoupon(coupon.ncupom, userId).subscribe({
       next: (response) => {
         console.log('Coupon activated successfully:', response);
       },

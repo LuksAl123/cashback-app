@@ -51,10 +51,10 @@ export class CouponsPage implements OnInit, AfterViewInit, OnDestroy {
     segmentButtons.forEach(button => {
       button.classList.remove('segment-active');
     });
+
     event.target.classList.add('segment-active');
     this.updateIndicatorPosition(index);
-    const filter = this.couponFilterService.setFilter(index);
-    console.log(filter);
+    this.couponFilterService.setFilter(index);
   }
 
   private updateIndicatorPosition(index: number): void {
