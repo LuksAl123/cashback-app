@@ -49,7 +49,8 @@ export class HttpService {
 
       const requestBody = {
         tiporota: "GET",
-        campanhasativas: "SIM"
+        campanhasativas: "SIM",
+        idpessoa: this.userService.getUserId()
       };
 
       this.sharedCouponData$ = this.http.post<CampaignData>(this.couponUrl, requestBody, { headers }).pipe(
@@ -183,7 +184,7 @@ export class HttpService {
     );
   }
 
-  activateCoupon(ncupom: number, idpessoa: number): Observable<any> {
+  activateCoupon(ncupom: string, idpessoa: number): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -191,7 +192,7 @@ export class HttpService {
     });
 
     const requestBody = {
-      ncupom: `${ncupom}`,
+      ncupom: ncupom,
       idpessoa: idpessoa
     };
 
