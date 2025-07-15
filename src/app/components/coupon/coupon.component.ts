@@ -60,13 +60,9 @@ export class CouponComponent implements OnInit, OnDestroy {
 
   get filteredCoupons() {
     const coupons = this.discountCoupons;
-
-    // Return all coupons if not on Coupons page or default behavior is forced
     if (!this.isOnCouponsPage || this.forceDefaultBehavior) {
       return coupons;
     }
-
-    // Apply filters based on the selected segment
     switch (this.currentFilter) {
       case CouponFilterType.AVAILABLE:
         return coupons.filter((coupon: any) => !coupon.isActive);
@@ -84,26 +80,21 @@ export class CouponComponent implements OnInit, OnDestroy {
         .filter((coupon: any) => coupon.tipo === 'CUPOM DE DESCONTO')
         .map((coupon: any) => ({
           ...coupon,
-          // Assume a coupon is active if it has an activation date
-          // You'll need to adjust this logic based on your actual data model
-          isActive: !!coupon.dataAtivacao
+          isActive: !!coupon.ncupomativo
         }));
     }
     return [];
   }
 
   getButtonText(coupon: any): string {
-    // Default behavior for non-Coupons pages
     if (!this.isOnCouponsPage || this.forceDefaultBehavior) {
       return 'Abrir cupom';
     }
-    // Button text based on filter and coupon state
     if (this.currentFilter === CouponFilterType.AVAILABLE) {
       return 'Ativar Cupom';
     } else if (this.currentFilter === CouponFilterType.ACTIVE) {
       return 'Cupom Ativo!';
     } else {
-      // For "Todos" filter, show appropriate text based on coupon state
       return coupon.isActive ? 'Cupom Ativo!' : 'Ativar Cupom';
     }
   }
@@ -136,7 +127,6 @@ export class CouponComponent implements OnInit, OnDestroy {
       console.error('User ID not found');
       return;
     }
-
     this.httpService.activateCoupon(coupon.ncupom, userId).subscribe({
       next: (response) => {
         console.log('Coupon activated successfully:', response);
