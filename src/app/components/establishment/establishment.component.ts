@@ -197,6 +197,7 @@ export class EstablishmentComponent implements OnInit {
   onEstablishmentClick(establishment: Establishment) {
     console.log('Establishment clicked:', establishment);
     this.establishmentSelected.emit(establishment);
+    //adicionar check de url pra checar se está na pagina locations para executar o código a seguir
     this.centerOnMarker(establishment);
   }
 

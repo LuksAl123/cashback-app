@@ -22,15 +22,15 @@ export class CouponFilterService {
     switch (index) {
       case 0:
         this.filterSubject.next(CouponFilterType.ALL);
-        return CouponFilterType.ALL;
+        break;
       case 1:
         this.filterSubject.next(CouponFilterType.AVAILABLE);
-        return CouponFilterType.AVAILABLE;
+        break;
       case 2:
         this.filterSubject.next(CouponFilterType.ACTIVE);
-        return CouponFilterType.ACTIVE;
+        break;
     }
-    return CouponFilterType.ALL;
+    return this.filterSubject.getValue();
   }
 
   getCurrentFilter(): CouponFilterType {

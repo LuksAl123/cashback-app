@@ -39,4 +39,3 @@ export class NavigationService {
     this.router.navigateByUrl('/' + url);
   }
 }
-

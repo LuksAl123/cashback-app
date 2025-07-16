@@ -7,6 +7,7 @@ import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./establishment.page.scss'],
   standalone: false
 })
+
 export class EstablishmentPage implements OnInit {
 
   faPhone = faPhone;
