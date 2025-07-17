@@ -94,10 +94,8 @@ export class LoginPage implements OnInit, OnDestroy {
       next: (response) => {
         if (response.codmensagem === 2) {
           this.router.navigate(['/home']);
-          //transformar lógica localStorage em serviço?
           localStorage.setItem('sessionActive', 'true');
           
-          // Store user ID from login response
           if (response.detalhe && response.detalhe.id) {
             this.userService.setUserId(response.detalhe.id);
           }

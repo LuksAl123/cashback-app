@@ -30,12 +30,14 @@ export class HttpService {
   private loginUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
   private recoverPasswordUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private activateCouponUrl = `${environment.apiBase}/Trotas/ativacupom/`;
+  private getPeopleBalanceUrl = `${environment.apiBase}/Trotas/relatorios/`;
+  private getExpiringCashbackUrl = `${environment.apiBase}/Trotas/relatorios/`;
   public verificationCode: string = "";
 
   constructor(
     private http: HttpClient,
     private userService: UserService
-  ) {} // HttpService update
+  ) {}
 
   getCouponData(): Observable<any> {
 
@@ -197,6 +199,59 @@ export class HttpService {
     };
 
     return this.http.post<any>(this.activateCouponUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Activate coupon successfully:', response);
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  getPeopleBalance(idpessoa: number): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporelatorio: "SALDOSPESSOAS",
+      idpessoa: idpessoa,
+      codusuario: null
+    };
+
+    return this.http.post<any>(this.getPeopleBalanceUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Activate coupon successfully:', response);
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  getExpiringCashback(idpessoa: number, codempresa: number): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporelatorio: "CASHBACK A EXPIRAR",
+      idpessoa: idpessoa,
+      codempresa: codempresa,
+      codusuario: null
+    };
+
+    return this.http.post<any>(this.getExpiringCashbackUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Activate coupon successfully:', response);
       }),
