@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { HttpService } from 'src/app/services/http/http.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-extrato',
@@ -14,7 +15,8 @@ export class ExtratoPage implements OnInit {
   faEye = faEye;
 
   constructor(
-    private httpService: HttpService
+    private httpService: HttpService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -22,8 +24,10 @@ export class ExtratoPage implements OnInit {
     this.loadBalance();
   }
 
+  
+
   loadExtrato() {
-    this.httpService.getExtrato().subscribe({
+    this.httpService.getExpiringCashback(this.userService.getUserId()!, codempresa).subscribe({
       next: (response) => {
         console.log(response);
       },
@@ -34,7 +38,7 @@ export class ExtratoPage implements OnInit {
   }
 
   loadBalance() {
-    this.httpService.getBalance().subscribe({
+    this.httpService.getPeopleBalance(this.userService.getUserId()!).subscribe({
       next: (response) => {
         console.log(response);
       },
@@ -43,5 +47,4 @@ export class ExtratoPage implements OnInit {
       }
     });
   }
-
 }
