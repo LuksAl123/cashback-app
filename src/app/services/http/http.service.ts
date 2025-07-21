@@ -8,7 +8,7 @@ import { UserService } from '../user/user.service';
 
 export interface CampaignData {
   id: number;
-  codeempresa: number;
+  codempresa: number;
   nomecampanha: string;
   tipo: string;
   cp_perc_descontocliente: number;
@@ -58,6 +58,7 @@ export class HttpService {
       this.sharedCouponData$ = this.http.post<CampaignData>(this.couponUrl, requestBody, { headers }).pipe(
         tap(response => {
           console.log('Data received from API:', response);
+          this.userService.setCodEmpresa(response.codempresa);
         }),
         retry({
           count: 2,
@@ -226,7 +227,7 @@ export class HttpService {
 
     return this.http.post<any>(this.getPeopleBalanceUrl, requestBody, { headers }).pipe(
       tap(response => {
-        console.log('Activate coupon successfully:', response);
+        console.log('People balance:', response);
       }),
       retry({
         count: 2,
@@ -253,7 +254,7 @@ export class HttpService {
 
     return this.http.post<any>(this.getExpiringCashbackUrl, requestBody, { headers }).pipe(
       tap(response => {
-        console.log('Activate coupon successfully:', response);
+        console.log('Expiring cashback:', response);
       }),
       retry({
         count: 2,

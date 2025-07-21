@@ -8,4 +8,4 @@ export interface Establishment {
     latitude?: number;
     longitude?: number;
     isSelected?: boolean;
-  }
+}

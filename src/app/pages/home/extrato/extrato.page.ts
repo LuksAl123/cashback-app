@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { catchError, of } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -13,6 +14,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class ExtratoPage implements OnInit {
 
   faEye = faEye;
+  errorMsg: string | null = null;
 
   constructor(
     private httpService: HttpService,
@@ -24,12 +26,10 @@ export class ExtratoPage implements OnInit {
     this.loadBalance();
   }
 
-  
-
   loadExtrato() {
-    this.httpService.getExpiringCashback(this.userService.getUserId()!, codempresa).subscribe({
+    this.httpService.getExpiringCashback(this.userService.getUserId()!, this.userService.getCodEmpresa()!).subscribe({
       next: (response) => {
-        console.log(response);
+        console.log('ExpiringCashback: ', response);
       },
       error: (error) => {
         console.log(error);
@@ -38,13 +38,15 @@ export class ExtratoPage implements OnInit {
   }
 
   loadBalance() {
-    this.httpService.getPeopleBalance(this.userService.getUserId()!).subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    this.httpService.getPeopleBalance(this.userService.getUserId()!)
+          .pipe(
+            catchError(error => {
+              this.errorMsg = error.message || 'Could not load data.';
+              return of(null);
+            })
+          )
+        .subscribe(response => {
+            console.log('PeopleBalance: ', response);
+        });
   }
 }
