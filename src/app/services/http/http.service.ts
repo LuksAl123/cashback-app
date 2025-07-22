@@ -6,14 +6,14 @@ import { shareReplay, catchError, tap } from 'rxjs/operators';
 import { retry } from 'rxjs';
 import { UserService } from '../user/user.service';
 
-export interface CampaignData {
-  id: number;
-  codempresa: number;
-  nomecampanha: string;
-  tipo: string;
-  cp_perc_descontocliente: number;
-  vr_comprasacimade: number;
-}
+// export interface CampaignData {
+//   id: number;
+//   codempresa: number;
+//   nomecampanha: string;
+//   tipo: string;
+//   cp_perc_descontocliente: number;
+//   vr_comprasacimade: number;
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export interface CampaignData {
 
 export class HttpService {
 
-  private sharedCouponData$: Observable<CampaignData> | null = null;
+  private sharedCouponData$: Observable<any> | null = null;
   private authToken = environment.apiKey;
   private apiKeyVerification = environment.apiKeyVerification;
   private verificationCodeUrl = `${environment.apiBase}/Trotas/validausuario/`;
@@ -55,10 +55,9 @@ export class HttpService {
         idpessoa: this.userService.getUserId()
       };
 
-      this.sharedCouponData$ = this.http.post<CampaignData>(this.couponUrl, requestBody, { headers }).pipe(
+      this.sharedCouponData$ = this.http.post<any>(this.couponUrl, requestBody, { headers }).pipe(
         tap(response => {
           console.log('Data received from API:', response);
-          this.userService.setCodEmpresa(response.codempresa);
         }),
         retry({
           count: 2,
@@ -234,7 +233,8 @@ export class HttpService {
         delay: 1000,
         resetOnSuccess: true
       }),
-      catchError(err => this.handleError(err))
+      catchError(err => this.handleError(err)),
+      shareReplay({ bufferSize: 1, refCount: false })
     );
   }
 

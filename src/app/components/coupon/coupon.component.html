@@ -14,12 +14,18 @@
             Receba {{ coupon.cp_perc_descontocliente }}% de desconto para compras a partir de {{ coupon.vr_comprasacimade }} reais.
           </p>
         </div>
-        <button
-          class="cupon-button"
-          [class.active]="coupon.isActive && isOnCouponsPage"
-          (click)="activateCoupon(coupon, $event)">
-          <p>{{ getButtonText(coupon) }}</p>
-        </button>
+          <button
+            *ngIf="!isOnHomePage"
+            class="cupon-button"
+            (click)="activateCoupon(coupon, $event)">
+            <p>{{ getButtonText(coupon) }}</p>
+          </button>
+          <button
+            *ngIf="isOnHomePage"
+            class="cupon-button"
+            (click)="openCoupon(coupon, $event)">
+            <p>{{ getButtonText(coupon) }}</p>
+          </button>
       </div>
     </div>
   </ng-container>

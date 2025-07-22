@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, OnDestroy, Output, Input, Optional } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http/http.service';
 import { CouponFilterService, CouponFilterType } from '../../services/coupon-filter/coupon-filter.service';
 import { UserService } from '../../services/user/user.service';
@@ -22,6 +22,7 @@ export class CouponComponent implements OnInit, OnDestroy {
   errorMsg: string | null = null;
   isLoading: boolean = true;
   isOnCouponsPage: boolean = false;
+  isOnHomePage: boolean = false;
   currentFilter: CouponFilterType = CouponFilterType.ALL;
 
   private filterSubscription: Subscription | null = null;
@@ -48,6 +49,7 @@ export class CouponComponent implements OnInit, OnDestroy {
   private detectContext() {
     const currentUrl = this.router.url;
     this.isOnCouponsPage = currentUrl.includes('/coupons');
+    this.isOnHomePage = currentUrl.includes('/home');
   }
 
   private subscribeToFilterChanges() {
@@ -130,10 +132,15 @@ export class CouponComponent implements OnInit, OnDestroy {
     this.httpService.activateCoupon(coupon.ncupom, userId).subscribe({
       next: (response) => {
         console.log('Coupon activated successfully:', response);
+
       },
       error: (err) => {
         console.error('Failed to activate coupon:', err);
       }
     });
+  }
+
+  openCoupon(coupon: any, event: Event) {
+    this.router.navigate(['/coupon', coupon.ncupom]);
   }
 }

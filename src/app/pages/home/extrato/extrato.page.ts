@@ -15,6 +15,7 @@ export class ExtratoPage implements OnInit {
 
   faEye = faEye;
   errorMsg: string | null = null;
+  codempresa: number = null!;
 
   constructor(
     private httpService: HttpService,
@@ -22,19 +23,8 @@ export class ExtratoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadExtrato();
     this.loadBalance();
-  }
-
-  loadExtrato() {
-    this.httpService.getExpiringCashback(this.userService.getUserId()!, this.userService.getCodEmpresa()!).subscribe({
-      next: (response) => {
-        console.log('ExpiringCashback: ', response);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    this.loadExtrato();
   }
 
   loadBalance() {
@@ -47,6 +37,19 @@ export class ExtratoPage implements OnInit {
           )
         .subscribe(response => {
             console.log('PeopleBalance: ', response);
+            this.codempresa = response.detalhe.codempresa;
+            console.log('CodEmpresa: ', this.codempresa);
         });
+  }
+
+  loadExtrato() {
+    this.httpService.getExpiringCashback(this.userService.getUserId()!, this.codempresa).subscribe({
+      next: (response) => {
+        console.log('ExpiringCashback: ', response);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 }
