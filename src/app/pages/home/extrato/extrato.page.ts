@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { catchError, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { catchError, map, of, Observable } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -14,42 +15,43 @@ import { UserService } from 'src/app/services/user/user.service';
 export class ExtratoPage implements OnInit {
 
   faEye = faEye;
+  faEyeSlash = faEyeSlash;
   errorMsg: string | null = null;
-  codempresa: number = null!;
+  detalheArray$!: Observable<any[]>;
+  totalCashback$!: Observable<number>;
+  showBalance: boolean = true;
 
   constructor(
     private httpService: HttpService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.loadBalance();
-    this.loadExtrato();
   }
 
   loadBalance() {
-    this.httpService.getPeopleBalance(this.userService.getUserId()!)
+    this.detalheArray$ = this.httpService.getPeopleBalance(this.userService.getUserId()!)
           .pipe(
+            map(response => response?.detalhe ?? []),
             catchError(error => {
               this.errorMsg = error.message || 'Could not load data.';
-              return of(null);
+              return of([]);
             })
-          )
-        .subscribe(response => {
-            console.log('PeopleBalance: ', response);
-            this.codempresa = response.detalhe.codempresa;
-            console.log('CodEmpresa: ', this.codempresa);
-        });
+          );
+
+    this.totalCashback$ = this.detalheArray$.pipe(
+      map(array => array.reduce((total, establishment) => total + (establishment.saldocashback || 0), 0))
+    );
   }
 
-  loadExtrato() {
-    this.httpService.getExpiringCashback(this.userService.getUserId()!, this.codempresa).subscribe({
-      next: (response) => {
-        console.log('ExpiringCashback: ', response);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+  selectEstablishment(codEmpresa: number) {
+    this.userService.setCodEmpresa(codEmpresa);
+    this.router.navigate(['/extrato/per-establishment']);
+  }
+
+  toggleBalance() {
+    this.showBalance = !this.showBalance;
   }
 }

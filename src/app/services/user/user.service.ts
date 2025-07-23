@@ -8,10 +8,10 @@ import { BehaviorSubject } from 'rxjs';
 export class UserService {
 
   private userIdSubject = new BehaviorSubject<number | null>(null);
-  public userId$ = this.userIdSubject.asObservable(); //not being used
+  public userId$ = this.userIdSubject.asObservable();
 
-  private codEmpresaSubject = new BehaviorSubject<number | null>(null);
-  public codEmpresa$ = this.codEmpresaSubject.asObservable(); //not being used
+  private codEmpresaSubject = new BehaviorSubject<number>(0);
+  public codEmpresa$ = this.codEmpresaSubject.asObservable();
 
   constructor() {}
 
@@ -20,9 +20,8 @@ export class UserService {
     localStorage.setItem('userId', userId.toString());
   }
 
-  setCodEmpresa(codEmpresa: number): void {
+  setCodEmpresa(codEmpresa: number) {
     this.codEmpresaSubject.next(codEmpresa);
-    localStorage.setItem('codEmpresa', codEmpresa.toString());
   }
 
   getUserId(): number | null {
@@ -34,13 +33,8 @@ export class UserService {
     return storedUserId ? parseInt(storedUserId, 10) : null;
   }
 
-  getCodEmpresa(): number | null {
-    const currentCodEmpresa = this.codEmpresaSubject.value;
-    if (currentCodEmpresa !== null) {
-      return currentCodEmpresa;
-    }
-    const storedCodEmpresa = localStorage.getItem('codEmpresa');
-    return storedCodEmpresa ? parseInt(storedCodEmpresa, 10) : null;
+  getCodEmpresa(): number {
+    return this.codEmpresaSubject.value;
   }
 
   clearUserId(): void {
@@ -49,7 +43,6 @@ export class UserService {
   }
 
   clearCodEmpresa(): void {
-    this.codEmpresaSubject.next(null);
-    localStorage.removeItem('codEmpresa');
+    this.codEmpresaSubject.next(0);
   }
 }
