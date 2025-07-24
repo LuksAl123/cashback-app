@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import { HttpService } from '../http/http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,27 @@ export class UserService {
   private codEmpresaSubject = new BehaviorSubject<number>(0);
   public codEmpresa$ = this.codEmpresaSubject.asObservable();
 
-  constructor() {}
+  public totalCashback$!: Observable<number>;
+  public detalheArray$!: Observable<any[]>;
+
+  constructor(
+    private httpService: HttpService,
+  ) {}
+
+  loadBalance() {
+    this.detalheArray$ = this.httpService.getPeopleBalance(this.getUserId()!)
+          .pipe(
+            map(response => response?.detalhe ?? []),
+            catchError(error => {
+              console.log(error);
+              return of([]);
+            })
+          );
+
+    this.totalCashback$ = this.detalheArray$.pipe(
+      map(array => array.reduce((total, establishment) => total + (establishment.saldocashback || 0), 0))
+    );
+  }
 
   setUserId(userId: number): void {
     this.userIdSubject.next(userId);

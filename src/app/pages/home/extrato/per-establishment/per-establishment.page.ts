@@ -18,6 +18,7 @@ export class PerEstablishmentPage implements OnInit, OnDestroy {
   showBalance: boolean = false;
   codEmpresaSub!: Subscription;
   detalheArray$!: Observable<any[]>;
+  totalCashback$ = this.userService.totalCashback$;
 
   constructor(
     private httpService: HttpService,
