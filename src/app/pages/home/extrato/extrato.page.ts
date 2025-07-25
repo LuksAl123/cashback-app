@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
+import { SharedDataService } from 'src/app/shared-data.service';
 
 @Component({
   selector: 'app-extrato',
@@ -15,15 +17,19 @@ export class ExtratoPage implements OnInit {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   showBalance: boolean = true;
-  totalCashback$ = this.userService.totalCashback$;
+  totalCashback$!: Observable<number>;
+  detalheArray$!: Observable<any[]>;
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private sharedDataService: SharedDataService
   ) { }
 
   ngOnInit() {
     this.userService.loadBalance();
+    this.detalheArray$ = this.sharedDataService.detalheArray$;
+    this.totalCashback$ = this.userService.totalCashback$;
   }
 
   selectEstablishment(codEmpresa: number) {
@@ -35,3 +41,5 @@ export class ExtratoPage implements OnInit {
     this.showBalance = !this.showBalance;
   }
 }
+
+
