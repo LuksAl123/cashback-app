@@ -27,9 +27,9 @@ export class ExtratoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.loadBalance();
+    this.sharedDataService.loadBalance();
     this.detalheArray$ = this.sharedDataService.detalheArray$;
-    this.totalCashback$ = this.userService.totalCashback$;
+    this.totalCashback$ = this.sharedDataService.totalCashback$;
   }
 
   selectEstablishment(codEmpresa: number) {
@@ -41,5 +41,3 @@ export class ExtratoPage implements OnInit {
     this.showBalance = !this.showBalance;
   }
 }
-
-
