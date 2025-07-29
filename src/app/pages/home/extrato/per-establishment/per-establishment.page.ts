@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { catchError, map, Observable, of, Subscription } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { SharedDataService } from 'src/app/shared-data.service';
 
 @Component({
   selector: 'app-per-establishment',
@@ -11,29 +12,29 @@ import { UserService } from 'src/app/services/user/user.service';
   standalone: false
 })
 
-export class PerEstablishmentPage implements OnInit, OnDestroy {
+export class PerEstablishmentPage implements OnInit {
 
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-  showBalance: boolean = false;
-  codEmpresaSub!: Subscription;
+  showBalance: boolean = false; 
   detalheArray$!: Observable<any[]>;
+  totalCashback$!: Observable<number>;
 
   constructor(
     private httpService: HttpService,
-    private userService: UserService
+    private userService: UserService,
+    private sharedDataService: SharedDataService
   ) { }
 
   ngOnInit() {
-    this.codEmpresaSub = this.userService.codEmpresa$.subscribe(codEmpresa => {
-      if (codEmpresa) {
-        this.loadExtrato(codEmpresa);
-      }
-    });
+    this.totalCashback$ = this.sharedDataService.totalCashback$;
+  }
+
+  ionViewWillEnter() {
+    this.loadExtrato(this.userService.getCodEmpresa());
   }
 
   loadExtrato(codEmpresa: number) {
-
     this.detalheArray$ = this.httpService.getExpiringCashback(this.userService.getUserId()!, codEmpresa).pipe(
       map(response => response?.detalhe ?? []),
       catchError(error => {
@@ -41,17 +42,9 @@ export class PerEstablishmentPage implements OnInit, OnDestroy {
         return of([]);
       })
     );
-
   }
 
   toggleBalance() {
     this.showBalance = !this.showBalance;
   }
-
-  ngOnDestroy() {
-    if (this.codEmpresaSub) {
-      this.codEmpresaSub.unsubscribe();
-    }
-  }
-
 }

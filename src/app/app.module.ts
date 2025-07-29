@@ -11,6 +11,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { ToastComponent } from './components/toast/toast.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { LOCALE_ID } from '@angular/core';
+
+registerLocaleData(localePt, 'pt-BR');
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +35,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideHttpClient()
+    provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent],
 })

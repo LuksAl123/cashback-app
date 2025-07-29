@@ -38,5 +38,4 @@ export class SharedDataService {
       map(array => array.reduce((total, establishment) => total + (establishment.saldocashback || 0), 0))
     );
   }
-
 }

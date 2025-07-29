@@ -9,8 +9,16 @@
         <div class="balance">
           <p>Cashback disponível</p>
           <div class="balance-value">
-            <span>R$ 0.00</span>
-            <fa-icon class="eye" [icon]="faEye"></fa-icon>
+            <p>
+              R$
+              <span *ngIf="showBalance; else hiddenBalance">{{ totalCashback$ | async }}</span>
+              <ng-template #hiddenBalance>•••••</ng-template>
+            </p>
+            <fa-icon
+              class="eye"
+              [icon]="showBalance ? faEyeSlash : faEye"
+              (click)="toggleBalance()"
+            ></fa-icon>
           </div>
         </div>
       </div>
@@ -28,13 +36,13 @@
       </div>
       <div class="extracts-list">
 
-        <div class="extract-container">
+        <div class="extract-container" *ngFor="let detalhe of detalheArray$ | async">
           <div class="content">
-            <span class="date-time">10/04/2025 10:00</span>
+            <span class="date-time">{{ detalhe.dtmovimento | date: 'dd/MM/yyyy HH:mm' : 'UTC' }}</span>
             <p class="extract-description">Utilizou cashback</p>
           </div>
           <div class="extract-balance">
-            <span>+R$ 100,00</span>
+            <span>+R$ {{ detalhe.vrcashback | number:'1.0-0':'pt-BR' }}</span>
           </div>
         </div>
 
