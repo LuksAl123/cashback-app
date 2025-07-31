@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PerEstablishmentPageRoutingModule } from './per-establishment-routing.module';
 import { PerEstablishmentPage } from './per-establishment.page';
-import { FilterExtractsModalComponent } from './filter-extracts-modal.component';
+import { DetailsComponent } from './details/details.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PerEstablishmentPageRoutingModule,
     SharedModule
   ],
-  declarations: [PerEstablishmentPage, FilterExtractsModalComponent]
+  declarations: [PerEstablishmentPage, DetailsComponent]
 })
 
 export class PerEstablishmentPageModule {}

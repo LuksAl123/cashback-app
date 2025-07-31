@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FilterExtractsModalComponent } from './filter-extracts-modal.component';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { catchError, map, Observable, of } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -25,8 +23,7 @@ export class PerEstablishmentPage implements OnInit {
   constructor(
     private httpService: HttpService,
     private userService: UserService,
-    private sharedDataService: SharedDataService,
-    private modalCtrl: ModalController
+    private sharedDataService: SharedDataService
   ) { }
 
   ngOnInit() {
@@ -51,11 +48,9 @@ export class PerEstablishmentPage implements OnInit {
     this.showBalance = !this.showBalance;
   }
 
-  async filterExtracts() {
-    const modal = await this.modalCtrl.create({
-      component: FilterExtractsModalComponent,
-      cssClass: 'filter-extracts-modal'
-    });
-    await modal.present();
+  filterExtracts(event?: any) {
+    if(event && event.detail) {
+      const selectedValue = event.detail.value;
+    }
   }
 }
