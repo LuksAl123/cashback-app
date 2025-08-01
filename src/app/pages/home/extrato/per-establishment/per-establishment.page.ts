@@ -19,6 +19,7 @@ export class PerEstablishmentPage implements OnInit {
   showBalance: boolean = false; 
   detalheArray$!: Observable<any[]>;
   totalCashback$!: Observable<number>;
+  detailData: any = null;
 
   constructor(
     private httpService: HttpService,

@@ -37,5 +37,4 @@ export class ForgotPasswordPage implements OnInit {
       }
     });
   }
-
 }
