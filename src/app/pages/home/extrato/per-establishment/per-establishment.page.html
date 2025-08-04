@@ -32,9 +32,25 @@
     <div class="extracts-list-container">
       <div class="header">
         <h1>Extrato</h1>
-        <span class="swap-icon material-symbols-outlined" (click)="filterExtracts($event)">swap_vert</span>
-        <app-details [data]="detailData"></app-details>
+        <!-- span class="swap-icon material-symbols-outlined" (click)="filterExtracts($event)">swap_vert</span -->
+        <!-- app-details [data]="detailData"></app-details -->
+        <div class="select-container">
+          <ion-select
+            interface="action-sheet"
+            toggleIcon=""
+            (ionChange)="filterExtracts($event)">
+            <span class="swap-icon material-symbols-outlined" slot="end">swap_vert</span>
+            <ion-select-option value="dtmovimento_desc">Mais recentes</ion-select-option>
+            <ion-select-option value="dtmovimento_asc">Mais antigas</ion-select-option>
+            <ion-select-option value="vrcashback#CREDITO_desc">Maior cashback recebido</ion-select-option>
+            <ion-select-option value="vrcashback#CREDITO_asc">Menor cashback recebido</ion-select-option>
+            <ion-select-option value="vrcashback#DEBITO_desc">Maior cashback utilizado</ion-select-option>
+            <ion-select-option value="vrcashback#DEBITO_asc">Menor cashback utilizado</ion-select-option>
+            <ion-select-option value="dtvalidade#CREDITO_asc">Cashback a expirar</ion-select-option>
+          </ion-select>
+        </div>
       </div>
+
       <div class="extracts-list">
 
         <div class="extract-container" *ngFor="let detalhe of detalheArray$ | async">

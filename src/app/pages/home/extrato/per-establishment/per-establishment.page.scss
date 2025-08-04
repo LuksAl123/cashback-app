@@ -174,13 +174,6 @@ main {
   'opsz' 24
 }
 
-.swap-icon {
-  position: absolute;
-  right: 12vw;
-  color: white;
-  font-size: 1.4rem;
-}
-
 .extracts-list {
   width: 80%;
   height: 100%;
@@ -258,3 +251,18 @@ main {
   margin: 0 0.5rem 0.7rem 0;
 }
 
+// Select
+.select-container {
+  margin-right: 16px;
+}
+
+ion-select {
+  width: 1.4rem;
+}
+
+.swap-icon {
+  position: absolute;
+  color: white;
+  font-size: 1.4rem;
+  margin-left: 0;
+}
