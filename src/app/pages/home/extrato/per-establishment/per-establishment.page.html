@@ -5,12 +5,20 @@
   </header>
   <main>
     <div class="container">
+      <div class="establishment-container">
+        <div class="avatar">
+          <img src="assets/imgs/logo.png" alt="Logo">
+        </div>
+        <span>BIT SHOP</span>
+      </div>
       <div class="balance-container">
         <div class="balance">
           <p>Cashback disponível</p>
           <div class="balance-value">
-            <p>
+            <p class="p1">
               R$
+            </p>
+            <p class="p2">
               <span *ngIf="showBalance; else hiddenBalance">{{ totalCashback$ | async }}</span>
               <ng-template #hiddenBalance>•••••</ng-template>
             </p>
@@ -21,12 +29,6 @@
             ></fa-icon>
           </div>
         </div>
-      </div>
-      <div class="establishment-container">
-        <div class="avatar">
-          <img src="assets/imgs/logo.png" alt="Logo">
-        </div>
-        <span>BIT SHOP</span>
       </div>
     </div>
     <div class="extracts-list-container">
@@ -53,13 +55,13 @@
 
       <div class="extracts-list">
 
-        <div class="extract-container" *ngFor="let detalhe of detalheArray$ | async">
+        <div class="extract-container" *ngFor="let extract of extratoOrdenado">
           <div class="content">
-            <span class="date-time">{{ detalhe.dtmovimento | date: 'dd/MM/yyyy HH:mm' : 'UTC' }}</span>
-            <p class="extract-description">Utilizou cashback</p>
+            <span class="date-time">{{ extract.dtmovimento | date: 'dd/MM/yyyy HH:mm' : 'UTC' }}</span>
+            <p class="extract-description">Cashback {{ extract.debcred === 'CREDITO' ? 'recebido' : 'utilizado' }}</p>
           </div>
           <div class="extract-balance">
-            <span>+R$ {{ detalhe.vrcashback | number:'1.0-0':'pt-BR' }}</span>
+            <span class="{{ extract.debcred === 'CREDITO' ? 'green' : 'red' }}">{{ extract.debcred === 'CREDITO' ? '+' : '-' }} R$ {{ extract.vrcashback | number:'1.0-0':'pt-BR' }}</span>
           </div>
         </div>
 

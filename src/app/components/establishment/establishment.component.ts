@@ -3,6 +3,7 @@ import { catchError, of } from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { Establishment } from 'src/app/interface/establishment';
 import { MapService } from 'src/app/services/map/map.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-establishment',
@@ -68,7 +69,8 @@ export class EstablishmentComponent implements OnInit {
 
   constructor(
     private httpService: HttpService,
-    private mapService: MapService
+    private mapService: MapService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -199,6 +201,9 @@ export class EstablishmentComponent implements OnInit {
     this.establishmentSelected.emit(establishment);
     //adicionar check de url pra checar se está na pagina locations para executar o código a seguir
     this.centerOnMarker(establishment);
+    if(this.router.url === '/home/cashback') {
+      this.router.navigate(['/home/cashback/', establishment.id]);
+    }
   }
 
   centerOnMarker(establishment: Establishment) {

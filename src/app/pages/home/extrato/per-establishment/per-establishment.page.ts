@@ -29,11 +29,12 @@ export class PerEstablishmentPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.totalCashback$ = this.sharedDataService.totalCashback$;
   }
 
   ionViewWillEnter() {
     this.loadExtrato(this.userService.getCodEmpresa());
+    this.ordenaExtrato('dtmovimento');
+    this.sharedDataService.loadBalance();
   }
 
   loadExtrato(codEmpresa: number) {
@@ -44,12 +45,25 @@ export class PerEstablishmentPage implements OnInit {
         return of([]);
       })
     );
+
+    this.loadEstablishmentTotal();
+  }
+
+  loadEstablishmentTotal() {
+    this.totalCashback$ = this.detalheArray$.pipe(
+      map(array => {
+        if (array.length === 0) return 0;
+        const { totalcredito = 0, totaldebito = 0 } = array[0];
+        return totalcredito - totaldebito;
+      })
+    );
   }
 
   async ordenaExtrato(campo: string, debcred: string = 'AMBOS', ordem: string = 'desc') {
     try {
       console.log(`Ordenando extrato por: ${campo}, debcred: ${debcred}, ordem: ${ordem}`);
       let extratoOrdenado = await firstValueFrom(this.detalheArray$);
+      console.log("extratoOrdenado:", extratoOrdenado);
       if (debcred !== 'AMBOS') {
         extratoOrdenado = extratoOrdenado.filter(item => item.debcred === debcred);
       }
@@ -57,6 +71,7 @@ export class PerEstablishmentPage implements OnInit {
       extratoOrdenado.sort((a, b) => {
         let valorA = a[campo];
         let valorB = b[campo];
+        console.log("valorA:", valorA, "valorB:", valorB);
 
         if (campo === 'dtmovimento' || campo === 'dtvalidade') {
           valorA = new Date(valorA);
@@ -74,7 +89,7 @@ export class PerEstablishmentPage implements OnInit {
 
       this.extratoOrdenado = extratoOrdenado;
     } catch (error) {
-      console.log("Erro na função ordenaExtrato", error);
+      console.log("Erro na função ordenaExtrato:", error);
     }
   }
 
