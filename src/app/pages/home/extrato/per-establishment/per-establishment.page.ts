@@ -18,7 +18,7 @@ export class PerEstablishmentPage implements OnInit {
   faEyeSlash = faEyeSlash;
   showBalance: boolean = false; 
   detalheArray$!: Observable<any[]>;
-  totalCashback$!: Observable<number>;
+  totalCashback: number = 0;
   detailData: any = null;
   extratoOrdenado: any[] = [];
 
@@ -28,10 +28,10 @@ export class PerEstablishmentPage implements OnInit {
     private sharedDataService: SharedDataService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ionViewWillEnter() {
+    console.log("ionViewWillEnter called");
     this.loadExtrato(this.userService.getCodEmpresa());
     this.ordenaExtrato('dtmovimento');
     this.sharedDataService.loadBalance();
@@ -50,13 +50,12 @@ export class PerEstablishmentPage implements OnInit {
   }
 
   loadEstablishmentTotal() {
-    this.totalCashback$ = this.detalheArray$.pipe(
-      map(array => {
-        if (array.length === 0) return 0;
-        const { totalcredito = 0, totaldebito = 0 } = array[0];
-        return totalcredito - totaldebito;
-      })
-    );
+    firstValueFrom(this.detalheArray$).then(array => {
+      if (array.length === 0) return 0;
+      const { totalcredito = 0, totaldebito = 0 } = array[0];
+      this.totalCashback = totalcredito - totaldebito;
+      return this.totalCashback;
+    });
   }
 
   async ordenaExtrato(campo: string, debcred: string = 'AMBOS', ordem: string = 'desc') {

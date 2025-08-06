@@ -19,7 +19,7 @@
               R$
             </p>
             <p class="p2">
-              <span *ngIf="showBalance; else hiddenBalance">{{ totalCashback$ | async }}</span>
+              <span *ngIf="showBalance; else hiddenBalance">{{ totalCashback }}</span>
               <ng-template #hiddenBalance>•••••</ng-template>
             </p>
             <fa-icon

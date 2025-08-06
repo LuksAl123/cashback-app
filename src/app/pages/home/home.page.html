@@ -17,7 +17,7 @@
       <div class="cashback-info">
         <div>
           <span>Cashback total</span>
-          <p>R$ 0,00</p>
+          <p>R$ {{ totalCashback$ | async }}</p>
         </div>
         <button class="extract-button" routerLink="/home/extrato">
           <p>Extrato</p>
