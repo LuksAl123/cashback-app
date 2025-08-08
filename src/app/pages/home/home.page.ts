@@ -27,8 +27,13 @@ export class HomePage implements OnInit {
     private sharedDataService: SharedDataService
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
+    this.sharedDataService.loadBalance();
     this.totalCashback$ = this.sharedDataService.totalCashback$;
+  }
+
+  ngOnInit() {
+    
   }
 
 }

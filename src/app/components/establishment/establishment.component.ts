@@ -16,6 +16,10 @@ export class EstablishmentComponent implements OnInit {
 
   private _selectedEstablishmentId: number | null = null;
 
+  isInCashbackRoute: boolean = false;
+
+  @Input() id: string = '';
+
   @Input()
   set selectedEstablishmentId(value: number | null) {
     console.log('selectedEstablishmentId changed:', value);
@@ -74,7 +78,14 @@ export class EstablishmentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if(this.id) {
+      this.establishmentDetailService.setSelectedEstablishmentId(Number(this.id));
+    }
     this.loadEstablishments();
+  }
+
+  ionViewDidEnter() {
+    this.isInCashbackRoute = this.router.url.startsWith('/home/cashback');
   }
 
   get establishments(): Establishment[] {

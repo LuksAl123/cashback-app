@@ -27,7 +27,6 @@ export class ExtratoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sharedDataService.loadBalance();
     this.detalheArray$ = this.sharedDataService.detalheArray$;
     this.totalCashback$ = this.sharedDataService.totalCashback$;
   }

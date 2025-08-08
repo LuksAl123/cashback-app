@@ -1,62 +1,62 @@
-  <body>
-    <div class="header">
-      <div class="header-content">
-        <div class="user-info-container" [routerLink]="['/home/profile']">
-          <div class="user-info-box">
-            <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
-            <div class="user-info">
-              <span>Olá,</span>
-              <p>Lucas Alves de Melo do Nascimento</p>
-            </div>
-            <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="user-info-container" [routerLink]="['/home/profile']">
+        <div class="user-info-box">
+          <fa-icon class="userIcon" [icon]="faCircleUser"></fa-icon>
+          <div class="user-info">
+            <span>Olá,</span>
+            <p>Lucas Alves de Melo do Nascimento</p>
           </div>
-          <fa-icon class="eye" [icon]="faEye"></fa-icon>
+          <ion-icon class="arrow" name="chevron-forward-outline"></ion-icon>
         </div>
+        <fa-icon class="eye" [icon]="faEye"></fa-icon>
       </div>
+    </div>
 
-      <div class="cashback-info">
+    <div class="cashback-info">
+      <div>
+        <span>Cashback total</span>
+        <p>R$ {{ totalCashback$ | async }}</p>
+      </div>
+      <button class="extract-button" routerLink="/home/extrato">
+        <p>Extrato</p>
+      </button>
+    </div>
+
+    <div class="button-container">
+      <button class="button" routerLink="/home/locations">
         <div>
-          <span>Cashback total</span>
-          <p>R$ {{ totalCashback$ | async }}</p>
+          <fa-icon [icon]="faLocationDot"></fa-icon>
+          <p>Locais</p>
         </div>
-        <button class="extract-button" routerLink="/home/extrato">
-          <p>Extrato</p>
-        </button>
-      </div>
+      </button>
 
-      <div class="button-container">
-        <button class="button" routerLink="/home/locations">
-          <div>
-            <fa-icon [icon]="faLocationDot"></fa-icon>
-            <p>Locais</p>
-          </div>
-        </button>
+      <button class="button" routerLink="/home/coupons">
+        <div>
+          <fa-icon [icon]="faTicket"></fa-icon>
+          <p>Cupons</p>
+        </div>
+      </button>
 
-        <button class="button" routerLink="/home/coupons">
-          <div>
-            <fa-icon [icon]="faTicket"></fa-icon>
-            <p>Cupons</p>
-          </div>
-        </button>
-
-        <button class="button" routerLink="/home/cashback">
-          <div>
-            <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
-            <p>Cashback</p>
-          </div>
-        </button>
-      </div>
+      <button class="button" routerLink="/home/cashback">
+        <div>
+          <fa-icon [icon]="faMoneyBillTransfer"></fa-icon>
+          <p>Cashback</p>
+        </div>
+      </button>
     </div>
+  </div>
 
-    <div class="content">
+  <div class="content">
 
-      <ng-container *ngIf="!isCouponLoading">
-        <h1>Seus cupons</h1>
-      </ng-container>
+    <ng-container *ngIf="!isCouponLoading">
+      <h1>Seus cupons</h1>
+    </ng-container>
 
-      <app-loading *ngIf="isCouponLoading" [message]="'Carregando cupons'"></app-loading>
-      <app-coupon 
-        (loadingChange)="isCouponLoading = $event">
-      </app-coupon>
-    </div>
-  </body>
+    <app-loading *ngIf="isCouponLoading" [message]="'Carregando cupons'"></app-loading>
+    <app-coupon 
+      (loadingChange)="isCouponLoading = $event">
+    </app-coupon>
+  </div>
+</body>

@@ -3,6 +3,7 @@
     <div
       class="establishment-container"
       *ngFor="let establishment of establishments"
+      [routerLink]="[isInCashbackRoute ? establishment.id : null]"
       [class.selected]="establishment.id === selectedEstablishmentId"
       (click)="onEstablishmentClick(establishment)"
     >

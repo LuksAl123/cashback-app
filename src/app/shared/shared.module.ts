@@ -8,6 +8,7 @@ import { BackButtonComponent } from '../components/back-button/back-button.compo
 import { LoadingComponent } from '../components/loading/loading.component';
 import { MapComponent } from '../components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [CouponComponent, EstablishmentComponent, BackButtonComponent, LoadingComponent, MapComponent],
@@ -15,7 +16,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     CommonModule,
     FontAwesomeModule,
     IonicModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    RouterModule
   ],
   exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent, MapComponent]
 })
