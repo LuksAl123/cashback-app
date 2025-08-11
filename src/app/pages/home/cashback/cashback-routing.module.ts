@@ -1,20 +1,16 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CashbackPage } from './cashback.page';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: CashbackPage
+  },
+];
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot([
-      {
-        path: '',
-        component: CashbackPage
-      },
-      {
-        path: 'establishment',
-        loadChildren: () => import('./establishment/establishment.module').then( m => m.EstablishmentPageModule)
-      },
-    ], { bindToComponentInputs: true })
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 

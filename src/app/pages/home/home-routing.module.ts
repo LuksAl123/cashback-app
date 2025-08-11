@@ -18,16 +18,19 @@ const routes: Routes = [
   {
     path: 'cashback',
     loadChildren: () => import('./cashback/cashback.module').then( m => m.CashbackPageModule)
-  },  {
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
     path: 'extrato',
     loadChildren: () => import('./extrato/extrato.module').then( m => m.ExtratoPageModule)
+  },
+  {
+    path: 'establishment/:id',
+    loadChildren: () => import('./establishment/establishment.module').then( m => m.EstablishmentPageModule)
   }
-
-
 ];
 
 @NgModule({
