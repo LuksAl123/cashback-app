@@ -50,9 +50,7 @@ export class LoginPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const rememberedPhone = localStorage.getItem('rememberedPhone') || '';
-    const rememberedPassword = localStorage.getItem('rememberedPassword') || '';
-    const rememberPasswordChecked = localStorage.getItem('rememberPasswordChecked') === 'true';
+    const [rememberedPhone, rememberedPassword, rememberPasswordChecked] = this.userService.getLoginData();
 
     this.loginForm = this.fb.group({
       tel: [rememberedPhone, [Validators.required, Validators.minLength(10)]],
@@ -95,19 +93,15 @@ export class LoginPage implements OnInit, OnDestroy {
         if (response.codmensagem === 2) {
           this.router.navigate(['/home']);
           localStorage.setItem('sessionActive', 'true');
-          
+          this.userService.setProfileData(response.detalhe.nome);
           if (response.detalhe && response.detalhe.id) {
             this.userService.setUserId(response.detalhe.id);
           }
 
           if (this.loginForm.value.rememberPassword) {
-            localStorage.setItem('rememberedPhone', this.loginForm.value.tel);
-            localStorage.setItem('rememberedPassword', this.loginForm.value.password);
-            localStorage.setItem('rememberPasswordChecked', 'true');
+            this.userService.setUserData(this.loginForm.value);
           } else {
-            localStorage.removeItem('rememberedPhone');
-            localStorage.removeItem('rememberedPassword');
-            localStorage.setItem('rememberPasswordChecked', 'false');
+            this.userService.clearUserData();
           }
         } else {
           this.toastService.show(response.mensagem, 'error');

@@ -46,4 +46,33 @@ export class UserService {
   clearCodEmpresa(): void {
     this.codEmpresaSubject.next(0);
   }
+
+  setUserData(userData: any) {
+    localStorage.setItem('rememberedPhone', userData.tel);
+    localStorage.setItem('rememberedPassword', userData.password);
+    localStorage.setItem('rememberPasswordChecked', 'true');
+  }
+
+  getLoginData() {
+    const rememberedPhone = localStorage.getItem('rememberedPhone') || '';
+    const rememberedPassword = localStorage.getItem('rememberedPassword') || '';
+    const rememberPasswordChecked = localStorage.getItem('rememberPasswordChecked') === 'true';
+    return [rememberedPhone, rememberedPassword, rememberPasswordChecked];
+  }
+
+  setProfileData(userData: string) {
+    localStorage.setItem('rememberedName', userData);
+  }
+
+  getProfileData() {
+    const rememberedName = localStorage.getItem('rememberedName') || '';
+    return rememberedName;
+  }
+
+  clearUserData() {
+    localStorage.removeItem('rememberedPhone');
+    localStorage.removeItem('rememberedPassword');
+    localStorage.removeItem('rememberedName');
+    localStorage.setItem('rememberPasswordChecked', 'false');
+  }
 }

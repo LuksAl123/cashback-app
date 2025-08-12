@@ -3,6 +3,7 @@ import { faLocationDot, faMoneyBillTransfer, faTicket, faCircleUser } from '@for
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { SharedDataService } from 'src/app/shared-data.service';
 import { Observable } from 'rxjs';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +22,13 @@ export class HomePage implements OnInit {
   faCircleUser = faCircleUser;
   faEye = faEye;
 
+  name: string = '';
+
   totalCashback$!: Observable<number>;
 
   constructor(
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private userService: UserService
   ) { }
 
   ionViewDidEnter() {
@@ -33,7 +37,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.name = this.userService.getProfileData();
   }
 
 }

@@ -6,15 +6,6 @@ import { shareReplay, catchError, tap } from 'rxjs/operators';
 import { retry } from 'rxjs';
 import { UserService } from '../user/user.service';
 
-// export interface CampaignData {
-//   id: number;
-//   codempresa: number;
-//   nomecampanha: string;
-//   tipo: string;
-//   cp_perc_descontocliente: number;
-//   vr_comprasacimade: number;
-// }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -30,8 +21,7 @@ export class HttpService {
   private loginUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
   private recoverPasswordUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private activateCouponUrl = `${environment.apiBase}/Trotas/ativacupom/`;
-  private getPeopleBalanceUrl = `${environment.apiBase}/Trotas/relatorios/`;
-  private getExpiringCashbackUrl = `${environment.apiBase}/Trotas/relatorios/`;
+  private getRelatoriosUrl = `${environment.apiBase}/Trotas/relatorios/`;
   public verificationCode: string = "";
 
   constructor(
@@ -224,7 +214,7 @@ export class HttpService {
       codusuario: null
     };
 
-    return this.http.post<any>(this.getPeopleBalanceUrl, requestBody, { headers }).pipe(
+    return this.http.post<any>(this.getRelatoriosUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('People balance:', response);
       }),
@@ -252,7 +242,7 @@ export class HttpService {
       codusuario: null
     };
 
-    return this.http.post<any>(this.getExpiringCashbackUrl, requestBody, { headers }).pipe(
+    return this.http.post<any>(this.getRelatoriosUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Expiring cashback:', response);
       }),
@@ -263,6 +253,37 @@ export class HttpService {
       }),
       catchError(err => this.handleError(err))
     );
+
+  }
+
+  updateName(idpessoa: string, phone: any, name: string): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "UPDATE",
+      loginpessoa: "SIM",
+      id: idpessoa,
+      telefone: phone,
+      nome: name
+    };
+
+    return this.http.post<any>(this.getRelatoriosUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Name updated successfully:', response);
+
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
