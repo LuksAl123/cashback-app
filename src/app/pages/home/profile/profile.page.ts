@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faPencil, faRightLeft } from '@fortawesome/free-solid-svg-icons';
+import { IonModal } from '@ionic/angular';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { ProfileModalComponent } from './detail/profile-modal/profile-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -14,9 +16,15 @@ import { UserService } from 'src/app/services/user/user.service';
 
 export class ProfilePage implements OnInit {
 
+  @ViewChild('modal', { static: false} ) modal!: IonModal;
+
   faArrowRightFromBracket = faArrowRightFromBracket;
+  faPencil = faPencil;
+  faRightLeft = faRightLeft;
 
   name: string = '';
+  email: string = '';
+  phone: string = '';
 
   constructor(
     private router: Router,
@@ -26,20 +34,31 @@ export class ProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.name = this.userService.getProfileData();
+    this.name = this.userService.getName();
+    this.email = this.userService.getEmail();
+    this.phone = this.userService.getPhone();
   }
 
   saveName() {
-    this.httpService.updateName(this.userService.getUserId()!.toString(), this.userService.getLoginData()[0].toString(), this.userService.getProfileData()).subscribe({
-      next: () => {
-        this.toastService.show('Nome salvo com sucesso!');
-        this.router.navigate(['/home']);
-      },
+    this.httpService.updateName(this.userService.getUserId()!, this.userService.getPhone(), this.name).subscribe({
       error: (err) => {
         this.toastService.show('Erro ao salvar nome!');
         console.error(err);
+      },
+      complete: () => {
+        this.toastService.show('Nome salvo com sucesso!');
+        this.router.navigate(['/home']);
+        this.userService.setName(this.name);
       }
     });
+  }
+
+  openModal(field: string) {
+    if(field === 'email') {
+      this.modal.present();
+    } else if (field === 'phone') {
+      this.modal.present();
+    }
   }
 
   logout() {

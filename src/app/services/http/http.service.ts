@@ -17,8 +17,7 @@ export class HttpService {
   private apiKeyVerification = environment.apiKeyVerification;
   private verificationCodeUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private couponUrl = `${environment.apiBase}/Trotas/campanhas/`;
-  private registerUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
-  private loginUserUrl = `${environment.apiBase}/Trotas/usuarios/`;
+  private getUsuariosUrl = `${environment.apiBase}/Trotas/usuarios/`;
   private recoverPasswordUrl = `${environment.apiBase}/Trotas/validausuario/`;
   private activateCouponUrl = `${environment.apiBase}/Trotas/ativacupom/`;
   private getRelatoriosUrl = `${environment.apiBase}/Trotas/relatorios/`;
@@ -108,7 +107,7 @@ export class HttpService {
       loginpessoa: "SIM"
     };
 
-    return this.http.post<any>(this.registerUserUrl, requestBody, { headers }).pipe(
+    return this.http.post<any>(this.getUsuariosUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Register user successfully:', response);
       }),
@@ -135,7 +134,7 @@ export class HttpService {
       senha: `${formValues.password}`
     };
 
-    return this.http.post<any>(this.loginUserUrl, requestBody, { headers }).pipe(
+    return this.http.post<any>(this.getUsuariosUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Login user successfully:', response);
         this.userService.setUserId(response.detalhe.id);
@@ -256,7 +255,7 @@ export class HttpService {
 
   }
 
-  updateName(idpessoa: string, phone: any, name: string): Observable<any> {
+  updateName(idpessoa: any, phone: any, name: any): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -264,17 +263,16 @@ export class HttpService {
     });
 
     const requestBody = {
-      tiporota: "UPDATE",
+      tiporota: "update",
       loginpessoa: "SIM",
-      id: idpessoa,
-      telefone: phone,
-      nome: name
+      id: `${idpessoa}`,
+      telefone: `${phone}`,
+      nome: `${name}`
     };
 
-    return this.http.post<any>(this.getRelatoriosUrl, requestBody, { headers }).pipe(
+    return this.http.post<any>(this.getUsuariosUrl, requestBody, { headers }).pipe(
       tap(response => {
         console.log('Name updated successfully:', response);
-
       }),
       retry({
         count: 2,

@@ -38,18 +38,38 @@ main {
   align-items: center;
   flex-direction: column;
   display: flex;
-
 }
 
 .input-container {
-  margin: 16px auto 8px;
+  margin: 0.5rem auto 0.5rem;
+  position: relative;
   width: 70%;
   height: 6vh;
+}
+
+.input-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .custom-input:focus-within {
   border: 2px solid #01C476;
   box-shadow: 0 0 4px 2px rgba(1, 196, 118, 0.3);
+}
+
+.input-container:focus-within .edit-icon {
+  visibility: hidden;
+}
+
+.edit-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #888;
 }
 
 .custom-input {
@@ -60,6 +80,7 @@ main {
   width: 100%;
   height: 100%;
   outline: none;
+  padding-right: 2.5rem;
   font-family: Poppins, sans-serif;
   font-weight: 200;
   padding: 8px;
@@ -71,13 +92,22 @@ main {
   font-weight: 200;
 }
 
+.button-container {
+  width: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 button {
-  width: 70%;  
+  width: 70%;
   height: 6vh;
-  margin: 8px auto;
+  margin: 0.25rem auto;
   border-radius: 10px;
   background: #021711;
-  border: 1px solid transparent;
+  border: 1px solid black;
   box-shadow: 0 0 1px 1px rgba(218, 214, 104, 0.3);
   transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 }
@@ -104,4 +134,20 @@ button:active p {
 
 .save-button {
   background: #01C476 !important;
+}
+
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
+}
+
+ion-modal ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
 }

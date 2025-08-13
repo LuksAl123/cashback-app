@@ -34,10 +34,10 @@ export class HomePage implements OnInit {
   ionViewDidEnter() {
     this.sharedDataService.loadBalance();
     this.totalCashback$ = this.sharedDataService.totalCashback$;
+    this.name = this.userService.getName();
   }
 
   ngOnInit() {
-    this.name = this.userService.getProfileData();
   }
 
 }

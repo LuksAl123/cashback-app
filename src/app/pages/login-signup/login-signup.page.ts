@@ -50,12 +50,10 @@ export class LoginPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const [rememberedPhone, rememberedPassword, rememberPasswordChecked] = this.userService.getLoginData();
-
     this.loginForm = this.fb.group({
-      tel: [rememberedPhone, [Validators.required, Validators.minLength(10)]],
-      password: [rememberedPassword, [Validators.required, Validators.minLength(4)]],
-      rememberPassword: [rememberPasswordChecked]
+      tel: [this.userService.getPhone(), [Validators.required, Validators.minLength(10)]],
+      password: [this.userService.getPassword(), [Validators.required, Validators.minLength(4)]],
+      rememberPassword: [this.userService.getRememberPasswordChecked()]
     });
 
     this.signupForm = this.fb.group(
@@ -92,14 +90,14 @@ export class LoginPage implements OnInit, OnDestroy {
       next: (response) => {
         if (response.codmensagem === 2) {
           this.router.navigate(['/home']);
-          localStorage.setItem('sessionActive', 'true');
-          this.userService.setProfileData(response.detalhe.nome);
+          this.setLoginData(response.detalhe);
           if (response.detalhe && response.detalhe.id) {
             this.userService.setUserId(response.detalhe.id);
           }
 
           if (this.loginForm.value.rememberPassword) {
-            this.userService.setUserData(this.loginForm.value);
+            this.userService.setPassword(this.loginForm.value.password);
+            this.userService.setPhone(this.loginForm.value.tel);
           } else {
             this.userService.clearUserData();
           }
@@ -119,6 +117,13 @@ export class LoginPage implements OnInit, OnDestroy {
         this.toastService.show(errorMsg, 'error');
       }
     });
+  }
+
+  setLoginData(data: any) {
+    localStorage.setItem('sessionActive', 'true');
+    this.userService.setName(data.nome);
+    this.userService.setEmail(data.email);
+    this.userService.setPhone(data.tel);
   }
 
   nextStep() {

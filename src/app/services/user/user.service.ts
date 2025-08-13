@@ -47,26 +47,46 @@ export class UserService {
     this.codEmpresaSubject.next(0);
   }
 
-  setUserData(userData: any) {
-    localStorage.setItem('rememberedPhone', userData.tel);
-    localStorage.setItem('rememberedPassword', userData.password);
+  setPassword(password: string) {
+    localStorage.setItem('rememberedPassword', password);
     localStorage.setItem('rememberPasswordChecked', 'true');
   }
 
-  getLoginData() {
-    const rememberedPhone = localStorage.getItem('rememberedPhone') || '';
+  getPassword() {
     const rememberedPassword = localStorage.getItem('rememberedPassword') || '';
-    const rememberPasswordChecked = localStorage.getItem('rememberPasswordChecked') === 'true';
-    return [rememberedPhone, rememberedPassword, rememberPasswordChecked];
+    return rememberedPassword;
   }
 
-  setProfileData(userData: string) {
-    localStorage.setItem('rememberedName', userData);
+  setPhone(phone: string) {
+    localStorage.setItem('rememberedPhone', phone);
   }
 
-  getProfileData() {
+  getPhone() {
+    const rememberedPhone = localStorage.getItem('rememberedPhone') || '';
+    return rememberedPhone;
+  }
+
+  getRememberPasswordChecked() {
+    const rememberPasswordChecked = localStorage.getItem('rememberPasswordChecked') || 'false';
+    return rememberPasswordChecked === 'true';
+  }
+
+  setName(name: string) {
+    localStorage.setItem('rememberedName', name);
+  }
+
+  getName() {
     const rememberedName = localStorage.getItem('rememberedName') || '';
     return rememberedName;
+  }
+
+  setEmail(email: string) {
+    localStorage.setItem('rememberedEmail', email);
+  }
+
+  getEmail() {
+    const rememberedEmail = localStorage.getItem('rememberedEmail') || '';
+    return rememberedEmail;
   }
 
   clearUserData() {
