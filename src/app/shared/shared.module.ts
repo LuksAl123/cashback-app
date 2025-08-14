@@ -9,9 +9,10 @@ import { LoadingComponent } from '../components/loading/loading.component';
 import { MapComponent } from '../components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { RouterModule } from '@angular/router';
+import { ProfileModalComponent } from '../pages/home/profile/detail/profile-modal/profile-modal.component';
 
 @NgModule({
-  declarations: [CouponComponent, EstablishmentComponent, BackButtonComponent, LoadingComponent, MapComponent],
+  declarations: [CouponComponent, EstablishmentComponent, BackButtonComponent, LoadingComponent, MapComponent, ProfileModalComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,
@@ -19,7 +20,7 @@ import { RouterModule } from '@angular/router';
     GoogleMapsModule,
     RouterModule
   ],
-  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent, MapComponent]
+  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent, MapComponent, ProfileModalComponent]
 })
 
 export class SharedModule { }

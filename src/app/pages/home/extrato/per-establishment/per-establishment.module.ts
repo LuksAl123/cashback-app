@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PerEstablishmentPageRoutingModule } from './per-establishment-routing.module';
 import { PerEstablishmentPage } from './per-establishment.page';
-import { DetailsComponent } from './details/details.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -15,7 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PerEstablishmentPageRoutingModule,
     SharedModule
   ],
-  declarations: [PerEstablishmentPage, DetailsComponent]
+  declarations: [PerEstablishmentPage]
 })
 
 export class PerEstablishmentPageModule {}

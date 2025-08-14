@@ -12,12 +12,12 @@
     <div class="input-container">
       <input type="text" class="custom-input" placeholder="Email" [(ngModel)]="email" disabled/>
       <fa-icon class="edit-icon" [icon]="faRightLeft"></fa-icon>
-      <div class="input-overlay" (click)="openModal('email')"></div>
+      <div class="input-overlay" (click)="openModal()"></div>
     </div>
     <div class="input-container">
       <input type="text" class="custom-input" placeholder="Telefone" [(ngModel)]="phone" disabled/>
       <fa-icon class="edit-icon" [icon]="faRightLeft"></fa-icon>
-      <div class="input-overlay" (click)="openModal('phone')"></div>
+      <div class="input-overlay" (click)="openModal()"></div>
     </div>
     <div class="button-container">
       <button class="save-button" (click)="saveName()"><p>Salvar</p></button>
@@ -28,10 +28,6 @@
     <div class="button-container">
       <button><p>Excluir Perfil</p></button>
     </div>
-    <ion-modal #modal>
-      <ng-template>
-        <app-profile-modal></app-profile-modal>
-      </ng-template>
-    </ion-modal>
+    <app-profile-modal [openModal]="openModal"></app-profile-modal>
   </main>
 </body>

@@ -5,7 +5,6 @@ import { IonModal } from '@ionic/angular';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { ProfileModalComponent } from './detail/profile-modal/profile-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -53,12 +52,12 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  openModal(field: string) {
-    if(field === 'email') {
-      this.modal.present();
-    } else if (field === 'phone') {
-      this.modal.present();
-    }
+  openModal() {
+    return true;
+  }
+
+  closeModal() {
+    this.modal.dismiss();
   }
 
   logout() {
