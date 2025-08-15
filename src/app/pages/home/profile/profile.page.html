@@ -20,7 +20,7 @@
       <div class="input-overlay" (click)="openModal()"></div>
     </div>
     <div class="button-container">
-      <button class="save-button" (click)="saveName()"><p>Salvar</p></button>
+      <button class="save-button"><p>Salvar</p></button>
     </div>
     <div class="button-container">
       <button><p>Alterar Senha</p></button>
@@ -28,6 +28,9 @@
     <div class="button-container">
       <button><p>Excluir Perfil</p></button>
     </div>
-    <app-profile-modal [openModal]="openModal"></app-profile-modal>
+    <!--method 1-->
+    <app-profile-modal></app-profile-modal>
+    <!--method 2-->
+    <!-- <app-profile-modal [open]="isModalOpen" (closed)="onModalClosed()"></app-profile-modal> -->
   </main>
 </body>

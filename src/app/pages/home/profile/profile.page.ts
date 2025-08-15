@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { faArrowRightFromBracket, faPencil, faRightLeft } from '@fortawesome/free-solid-svg-icons';
-import { IonModal } from '@ionic/angular';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { ProfileModalComponent } from './detail/profile-modal/profile-modal.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,8 @@ import { UserService } from 'src/app/services/user/user.service';
 
 export class ProfilePage implements OnInit {
 
-  @ViewChild('modal', { static: false} ) modal!: IonModal;
+  //method 1
+  // @ViewChild(ProfileModalComponent) profileModalComponent!: ProfileModalComponent;
 
   faArrowRightFromBracket = faArrowRightFromBracket;
   faPencil = faPencil;
@@ -25,11 +27,14 @@ export class ProfilePage implements OnInit {
   email: string = '';
   phone: string = '';
 
+  message: string = '';
+
   constructor(
     private router: Router,
     private userService: UserService,
     private httpService: HttpService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -52,13 +57,35 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  openModal() {
-    return true;
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: ProfileModalComponent,
+      cssClass: 'profile-modal'
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.message = `Hello, ${data}!`;
+    }
   }
 
-  closeModal() {
-    this.modal.dismiss();
-  }
+  //method 1
+  // open() {
+  //   this.profileModalComponent.openModal();
+  // }
+
+  //method 2
+  // isModalOpen = false;
+
+  // open() {
+  //   this.isModalOpen = true;
+  // }
+
+  // onModalClosed() {
+  //   this.isModalOpen = false;
+  // }
 
   logout() {
     localStorage.removeItem('sessionActive');

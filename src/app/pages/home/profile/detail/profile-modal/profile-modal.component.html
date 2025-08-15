@@ -1,50 +1,98 @@
-<ion-modal #modal trigger="open-modal">
-  <ng-template>
+
+  <!-- Step 1 -->
+@if(step === 1) {
     <ion-content>
       <ion-toolbar>
-        <ion-title>Modal</ion-title>
-        <ion-buttons slot="end">
-          <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
-        </ion-buttons>
+        <ion-title slot="start">Verificação de Segurança</ion-title>
+        <fa-icon class="close-icon" [icon]="faXmark" (click)="cancel()"></fa-icon>
       </ion-toolbar>
+      <ion-text>
+        <p>Para garantir a segurança da sua conta, é necessário verificar sua identidade.</p>
+        <p>Escolha uma das opções abaixo:</p>
+      </ion-text>
       <ion-list>
-        <ion-item>
+        <ion-item lines="full" (click)="nextStep('sms')">
           <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+            <fa-icon class="icon" [icon]="faCommentSms"></fa-icon>
           </ion-avatar>
           <ion-label>
-            <h2>Connor Smith</h2>
-            <p>Sales Rep</p>
+            <p>Verificar via SMS</p>
           </ion-label>
         </ion-item>
-        <ion-item>
+        <ion-item lines="full" (click)="nextStep('email')">
           <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
+            <fa-icon class="icon" [icon]="faEnvelope"></fa-icon>
           </ion-avatar>
           <ion-label>
-            <h2>Daniel Smith</h2>
-            <p>Product Designer</p>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=d"></ion-img>
-          </ion-avatar>
-          <ion-label>
-            <h2>Greg Smith</h2>
-            <p>Director of Operations</p>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=e"></ion-img>
-          </ion-avatar>
-          <ion-label>
-            <h2>Zoey Smith</h2>
-            <p>CEO</p>
+            <p>Verificar via email</p>
+            <p>{{ email }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
-  </ng-template>
-</ion-modal>
+}
+  <!-- Step SMS -->
+@if(step === 2) {
+    <ion-content>
+      <ion-toolbar>
+        <ion-title>2 de Segurança</ion-title>
+        <fa-icon class="close-icon" [icon]="faXmark" (click)="cancel()"></fa-icon>
+      </ion-toolbar>
+      <ion-text>
+        <p>Para garantir a segurança da sua conta, é necessário verificar sua identidade.</p>
+        <p>Escolha uma das opções abaixo:</p>
+      </ion-text>
+      <ion-list>
+        <ion-item lines="full" (click)="nextStep('sms')">
+          <ion-avatar slot="start">
+            <fa-icon class="icon" [icon]="faCommentSms"></fa-icon>
+          </ion-avatar>
+          <ion-label>
+            <p>Verificar via SMS</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="full" (click)="nextStep('email')">
+          <ion-avatar slot="start">
+            <fa-icon class="icon" [icon]="faEnvelope"></fa-icon>
+          </ion-avatar>
+          <ion-label>
+            <p>Verificar via email</p>
+            <p>{{ email }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+}
+   <!-- Step Email -->
+@if(step === 3) {
+    <ion-content>
+      <ion-toolbar>
+        <fa-icon slot="start" [icon]="faArrowLeft" (click)="nextStep('')"></fa-icon>
+        <ion-title>Verificação de Segurança</ion-title>
+        <fa-icon class="close-icon" [icon]="faXmark" (click)="cancel()"></fa-icon>
+      </ion-toolbar>
+      <ion-text>
+        <p>Para garantir a segurança da sua conta, é necessário verificar sua identidade.</p>
+        <p>Escolha uma das opções abaixo:</p>
+      </ion-text>
+      <ion-list>
+        <ion-item lines="full" (click)="nextStep('sms')">
+          <ion-avatar slot="start">
+            <fa-icon class="icon" [icon]="faCommentSms"></fa-icon>
+          </ion-avatar>
+          <ion-label>
+            <p>Verificar via SMS</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="full" (click)="nextStep('email')">
+          <ion-avatar slot="start">
+            <fa-icon class="icon" [icon]="faEnvelope"></fa-icon>
+          </ion-avatar>
+          <ion-label>
+            <p>Verificar via email</p>
+            <p>{{ email }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+}

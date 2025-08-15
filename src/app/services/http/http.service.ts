@@ -284,6 +284,60 @@ export class HttpService {
 
   }
 
+  changePhone(phone: string): Observable<any> {
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "get",
+      token: `${this.apiKeyVerification}`,
+      telefone: phone
+    };
+
+    return this.http.post<any>(this.verificationCodeUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Verification code sent successfully:', response);
+        this.verificationCode = response.detalhe.codigovalidacao;
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  changeEmail(email: string): Observable<any> {
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "get",
+      token: `${this.apiKeyVerification}`,
+      email: email
+    };
+
+    return this.http.post<any>(this.verificationCodeUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Verification code sent successfully:', response);
+        this.verificationCode = response.detalhe.codigovalidacao;
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('Error fetching data:', {
       status: error.status,
