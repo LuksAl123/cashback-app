@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faArrowRightFromBracket, faPencil, faRightLeft } from '@fortawesome/free-solid-svg-icons';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -15,9 +15,6 @@ import { ModalController } from '@ionic/angular';
 })
 
 export class ProfilePage implements OnInit {
-
-  //method 1
-  // @ViewChild(ProfileModalComponent) profileModalComponent!: ProfileModalComponent;
 
   faArrowRightFromBracket = faArrowRightFromBracket;
   faPencil = faPencil;
@@ -70,22 +67,6 @@ export class ProfilePage implements OnInit {
       this.message = `Hello, ${data}!`;
     }
   }
-
-  //method 1
-  // open() {
-  //   this.profileModalComponent.openModal();
-  // }
-
-  //method 2
-  // isModalOpen = false;
-
-  // open() {
-  //   this.isModalOpen = true;
-  // }
-
-  // onModalClosed() {
-  //   this.isModalOpen = false;
-  // }
 
   logout() {
     localStorage.removeItem('sessionActive');

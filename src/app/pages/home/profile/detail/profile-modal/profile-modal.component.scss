@@ -16,6 +16,36 @@ ion-item {
   --background: #1a1a1a;
 }
 
+.confirm-button {
+  --background: #01c476;
+  --background-activated: #00db84;
+  --color: white;
+  border-radius: 12px;
+  font-weight: 300;
+  height: 12vw;
+  width: 90vw;
+  display: block;
+  margin: 0 auto 8px auto;
+  border: 1px solid transparent;
+}
+
+.resend-button {
+  --background: #01c476;
+  --background-activated: #00db84;
+  --color: white;
+  border-radius: 12px;
+  font-weight: 300;
+  height: 12vw;
+  width: 90vw;
+  display: block;
+  margin: 0 auto 8px auto;
+  border: 1px solid transparent;
+}
+
+ion-list {
+  background: transparent;
+}
+
 ion-label > p {
   font-weight: 300;
   font-size: 1rem;
@@ -32,7 +62,14 @@ ion-label > p {
   top: 0.5rem;
   right: 0.5rem;
   z-index: 10;
-  cursor: pointer;
+  font-size: 1rem;
+}
+
+.return-icon {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10;
   font-size: 1rem;
 }
 
@@ -57,8 +94,12 @@ ion-title {
 }
 
 ion-input {
-  background-color: transparent;
+  background-color: #1a1a1a;
   --placeholder-color: white;
   font-family: Poppins, sans-serif;
   font-weight: 200;
+}
+
+.background {
+  --background: #1a1a1a;
 }

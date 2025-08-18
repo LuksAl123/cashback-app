@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { faArrowLeft, faCommentSms, faEnvelope, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { HttpService } from 'src/app/services/http/http.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { interval, map, Observable, scan, startWith, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-profile-modal',
@@ -13,9 +14,6 @@ import { UserService } from 'src/app/services/user/user.service';
 
 export class ProfileModalComponent implements OnInit {
 
-  //method 1 and 2
-  // @ViewChild('modal', { static: false}) modal!: IonModal;
-
   faXmark = faXmark;
   faCommentSms = faCommentSms;
   faEnvelope = faEnvelope;
@@ -25,15 +23,7 @@ export class ProfileModalComponent implements OnInit {
 
   name!: string;
 
-  //method 2
-  // @Input() open = false;
-  // @Output() closed = new EventEmitter<void>();
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['open'] && changes['open'].currentValue) {
-  //     this.modal.present();
-  //   }
-  // }
+  resendCountdown$!: Observable<number>;
 
   constructor(
     private httpService: HttpService,
@@ -48,34 +38,37 @@ export class ProfileModalComponent implements OnInit {
   }
 
   confirm() {
-    return this.modalCtrl.dismiss(this.name, 'confirm');
+    return this.modalCtrl.dismiss(null, 'confirm');
   }
-
-  //method 1
-  // openModal() {
-  //   this.modal.present();
-  // }
-
-  // closeModal() {
-  //   this.modal.dismiss();
-  // }
-
-  //method 2
-  // closeModal() {
-  //   this.modal.dismiss();
-  //   this.closed.emit();
-  // }
 
   nextStep(method: string) {
     if (method === 'sms') {
       this.step = 2;
-      console.log(this.step)
+      this.startResend();
       this.sendSms();
     } else if (method === 'email') {
       this.step = 3;
-      console.log(this.step)
+      this.startResend();
       this.sendEmail();
     }
+  }
+
+  previousStep() {
+    this.step = 1;
+    this.stopResend();
+  }
+
+  private startResend() {
+    this.resendCountdown$ = interval(1000).pipe(startWith(21),scan((acc) => acc - 1, 21),map(val => val < 0 ? 0 : val));
+  }
+
+  private stopResend() {
+    this.resendCountdown$ = interval(0).pipe(takeWhile(() => false));
+  }
+
+  resendCode() {
+    this.startResend();
+    this.sendSms();
   }
 
   sendSms() {
