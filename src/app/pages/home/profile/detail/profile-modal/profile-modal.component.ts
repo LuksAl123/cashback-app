@@ -4,6 +4,8 @@ import { faArrowLeft, faCommentSms, faEnvelope, faXmark } from '@fortawesome/fre
 import { HttpService } from 'src/app/services/http/http.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { interval, map, Observable, scan, startWith, takeWhile } from 'rxjs';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-modal',
@@ -13,6 +15,8 @@ import { interval, map, Observable, scan, startWith, takeWhile } from 'rxjs';
 })
 
 export class ProfileModalComponent implements OnInit {
+
+  verificationCode: string = '';
 
   faXmark = faXmark;
   faCommentSms = faCommentSms;
@@ -28,7 +32,9 @@ export class ProfileModalComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private userService: UserService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastService: ToastService,
+    private router: Router
   ) { }
 
   ngOnInit() { }
@@ -37,19 +43,34 @@ export class ProfileModalComponent implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    return this.modalCtrl.dismiss(null, 'confirm');
+  confirm(method: string) {
+    if (this.verificationCode === this.httpService.verificationCode) {
+      this.userService.setVerificationCode(this.verificationCode);
+      return this.modalCtrl.dismiss(method, 'confirm');
+    } else {
+      this.toastService.show('Código de verificação incorreto', 'error');
+      return undefined;
+    }
   }
 
   nextStep(method: string) {
-    if (method === 'sms') {
-      this.step = 2;
-      this.startResend();
-      this.sendSms();
-    } else if (method === 'email') {
-      this.step = 3;
-      this.startResend();
-      this.sendEmail();
+    switch (method) {
+      case 'sms':
+        this.step = 2;
+        this.startResend();
+        this.sendSms();
+        break;
+      case 'email':
+        this.step = 2;
+        this.startResend();
+        this.sendEmail();
+        break;
+      case 'change-email':
+        this.confirm(method);
+        break;
+      case 'change-phone':
+        this.confirm(method);
+        break;
     }
   }
 
@@ -72,7 +93,7 @@ export class ProfileModalComponent implements OnInit {
   }
 
   sendSms() {
-    this.httpService.changePhone(this.userService.getPhone()).subscribe({
+    this.httpService.sendSMS(this.userService.getPhone()).subscribe({
       error: (err) => {
         console.log(err);
       }
@@ -80,7 +101,7 @@ export class ProfileModalComponent implements OnInit {
   }
 
   sendEmail() {
-    this.httpService.changeEmail(this.userService.getEmail()).subscribe({
+    this.httpService.sendEmail(this.userService.getEmail()).subscribe({
       error: (err) => {
         console.log(err);
       }

@@ -12,7 +12,7 @@ import { SharedModule } from '../../../shared/shared.module';
     FormsModule,
     IonicModule,
     ProfilePageRoutingModule,
-    SharedModule,
+    SharedModule
   ],
   declarations: [ProfilePage]
 })

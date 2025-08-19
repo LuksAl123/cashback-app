@@ -89,6 +89,15 @@ export class UserService {
     return rememberedEmail;
   }
 
+  setVerificationCode(verificationCode: string) {
+    localStorage.setItem('verificationCode', verificationCode);
+  }
+
+  getVerificationCode() {
+    const verificationCode = localStorage.getItem('verificationCode') || '';
+    return verificationCode;
+  }
+
   clearUserData() {
     localStorage.removeItem('rememberedPhone');
     localStorage.removeItem('rememberedPassword');

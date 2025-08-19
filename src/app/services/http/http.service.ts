@@ -284,7 +284,7 @@ export class HttpService {
 
   }
 
-  changePhone(phone: string): Observable<any> {
+  sendSMS(phone: string): Observable<any> {
     
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ export class HttpService {
     );
   }
 
-  changeEmail(email: string): Observable<any> {
+  sendEmail(email: string): Observable<any> {
     
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -328,6 +328,60 @@ export class HttpService {
       tap(response => {
         console.log('Verification code sent successfully:', response);
         this.verificationCode = response.detalhe.codigovalidacao;
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  changeEmail(email: string): Observable<any> {
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "update",
+      loginpessoa: "SIM",
+      id: `${this.userService.getUserId()}`,
+      email: email
+    };
+
+    return this.http.post<any>(this.getUsuariosUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Email changed successfully:', response);
+      }),
+      retry({
+        count: 2,
+        delay: 1000,
+        resetOnSuccess: true
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  changePhone(phone: string): Observable<any> {
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': `${this.authToken}`
+    });
+
+    const requestBody = {
+      tiporota: "update",
+      loginpessoa: "SIM",
+      id: `${this.userService.getUserId()}`,
+      telefone: phone
+    };
+
+    return this.http.post<any>(this.getUsuariosUrl, requestBody, { headers }).pipe(
+      tap(response => {
+        console.log('Phone changed successfully:', response);
       }),
       retry({
         count: 2,

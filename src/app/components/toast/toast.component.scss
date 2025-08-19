@@ -18,12 +18,15 @@
   opacity: 0.98;
   background: #323232;
   color: #fff;
-  animation: mat-toast-in 0.25s cubic-bezier(0.4,0,0.2,1);
+  animation: mat-toast-in 2s cubic-bezier(0.4,0,0.2,1);
+  animation-fill-mode: forwards;
 }
 
 @keyframes mat-toast-in {
-  from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-  to { opacity: 0.98; transform: translateX(-50%) translateY(0); }
+  0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  20% { opacity: 0.98; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 0.98; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
 }
 
 .mat-toast.success {

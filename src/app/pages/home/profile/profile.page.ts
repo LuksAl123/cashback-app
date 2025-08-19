@@ -64,7 +64,8 @@ export class ProfilePage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
+      this.toastService.show('Verificação concluída!', 'success');
+      this.router.navigate([`/profile/${data}`]);
     }
   }
 

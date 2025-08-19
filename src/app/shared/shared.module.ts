@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CouponComponent } from '../components/coupon/coupon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EstablishmentComponent } from '../components/establishment/establishment.component';
@@ -18,7 +19,8 @@ import { ProfileModalComponent } from '../pages/home/profile/detail/profile-moda
     FontAwesomeModule,
     IonicModule,
     GoogleMapsModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent, MapComponent, ProfileModalComponent]
 })

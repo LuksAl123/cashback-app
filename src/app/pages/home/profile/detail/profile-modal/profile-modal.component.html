@@ -1,4 +1,4 @@
-  <!-- Step 1 -->
+<!-- Step 1 -->
 @if(step === 1) {
     <ion-content>
       <ion-toolbar>
@@ -39,48 +39,15 @@
         <fa-icon class="return-icon" [icon]="faArrowLeft" (click)="previousStep()" slot="start"></fa-icon>
       </ion-toolbar>
       <ion-text>
-        <p>Código enviado para</p>
-      </ion-text>
-      <ion-list>
-
-        <ion-item class="input background">
-          <ion-input
-            placeholder="Código de Validação"
-            required
-          ></ion-input>
-        </ion-item>
-
-        <ion-item lines="none">
-          <ion-button class="resend-button" (click)="resendCode()" [disabled]="(resendCountdown$ | async)! > 0">
-            <p *ngIf="(resendCountdown$ | async)! === 0">Reenviar código</p>
-            <p *ngIf="(resendCountdown$ | async)! > 0">Reenviar código {{ (resendCountdown$ | async)! }}</p>
-          </ion-button>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-button class="confirm-button" (click)="confirm()">
-            <p>Confirmar</p>
-          </ion-button>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-}
-   <!-- Step Email -->
-@if(step === 3) {
-    <ion-content>
-      <ion-toolbar>
-        <ion-title>Verificação de Segurança</ion-title>
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="cancel()"></fa-icon>
-        <fa-icon class="return-icon" [icon]="faArrowLeft" (click)="previousStep()" slot="start"></fa-icon>
-      </ion-toolbar>
-      <ion-text>
-        <p>Código enviado para</p>
-        <p>{{ email }}</p>
+        <p>Código enviado</p>
       </ion-text>
       <ion-list>
         <ion-item class="input background">
           <ion-input
-            placeholder="Código de Validação"
-            required
+          placeholder="Código de Validação"
+          maxlength="5"
+          [(ngModel)]="verificationCode"
+          required
           ></ion-input>
         </ion-item>
         <ion-item lines="none">
@@ -90,7 +57,7 @@
           </ion-button>
         </ion-item>
         <ion-item lines="none">
-          <ion-button class="confirm-button" (click)="confirm()">
+          <ion-button class="confirm-button" (click)="nextStep('/change-email')">
             <p>Confirmar</p>
           </ion-button>
         </ion-item>
