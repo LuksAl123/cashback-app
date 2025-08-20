@@ -6,18 +6,37 @@
   </header>
   <main>
     <div class="input-container">
-      <input type="text" class="custom-input" placeholder="Nome" [(ngModel)]="name"/>
+      <input
+        type="text"
+        class="custom-input"
+        placeholder="Nome"
+        [(ngModel)]="name"
+      />
       <fa-icon class="edit-icon" [icon]="faPencil"></fa-icon>
     </div>
     <div class="input-container">
-      <input type="text" class="custom-input" placeholder="Email" [(ngModel)]="email" disabled/>
+      <input
+        #inputRefEmail
+        type="email"
+        class="custom-input"
+        placeholder="Email"
+        [(ngModel)]="email"
+        disabled
+      />
       <fa-icon class="edit-icon" [icon]="faRightLeft"></fa-icon>
-      <div class="input-overlay" (click)="openModal()"></div>
+      <div class="input-overlay" (click)="openModal(inputRefEmail.type)"></div>
     </div>
     <div class="input-container">
-      <input type="text" class="custom-input" placeholder="Telefone" [(ngModel)]="phone" disabled/>
+      <input
+        #inputRefPhone
+        type="tel"
+        class="custom-input"
+        placeholder="Telefone"
+        [(ngModel)]="phone"
+        disabled
+      />
       <fa-icon class="edit-icon" [icon]="faRightLeft"></fa-icon>
-      <div class="input-overlay" (click)="openModal()"></div>
+      <div class="input-overlay" (click)="openModal(inputRefPhone.type)"></div>
     </div>
     <div class="button-container">
       <button class="save-button"><p>Salvar</p></button>

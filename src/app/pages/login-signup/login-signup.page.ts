@@ -1,9 +1,27 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Router } from '@angular/router';
-import { interval, Observable, startWith, scan, takeWhile, Subscription } from 'rxjs';
+import {
+  interval,
+  Observable,
+  startWith,
+  scan,
+  takeWhile,
+  Subscription,
+} from 'rxjs';
 import { HttpService } from 'src/app/services/http/http.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -13,11 +31,9 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './login-signup.page.html',
   styleUrls: ['./login-signup.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false
+  standalone: false,
 })
-
 export class LoginPage implements OnInit, OnDestroy {
-
   faEye = faEye;
   faEyeSlash = faEyeSlash;
 
@@ -34,14 +50,30 @@ export class LoginPage implements OnInit, OnDestroy {
   private countdownTrigger$!: Subscription;
 
   readonly phoneMask: MaskitoOptions = {
-    mask: ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
+    mask: [
+      '(',
+      /\d/,
+      /\d/,
+      ')',
+      ' ',
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      '-',
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+    ],
   };
 
   readonly maskPredicate: MaskitoElementPredicate = async (el) =>
     (el as HTMLIonInputElement).getInputElement();
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private router: Router,
     private httpService: HttpService,
     private renderer: Renderer2,
@@ -51,9 +83,15 @@ export class LoginPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      tel: [this.userService.getPhone(), [Validators.required, Validators.minLength(10)]],
-      password: [this.userService.getPassword(), [Validators.required, Validators.minLength(4)]],
-      rememberPassword: [this.userService.getRememberPasswordChecked()]
+      tel: [
+        this.userService.getPhone(),
+        [Validators.required, Validators.minLength(10)],
+      ],
+      password: [
+        this.userService.getPassword(),
+        [Validators.required, Validators.minLength(4)],
+      ],
+      rememberPassword: [this.userService.getRememberPasswordChecked()],
     });
 
     this.signupForm = this.fb.group(
@@ -64,7 +102,7 @@ export class LoginPage implements OnInit, OnDestroy {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(4)]],
         confirmPassword: ['', Validators.required],
-        referral: ['', Validators.required]
+        referral: ['', Validators.required],
       },
       { validators: this.passwordsMatch }
     );
@@ -85,7 +123,9 @@ export class LoginPage implements OnInit, OnDestroy {
 
   onLogin() {
     if (this.loginForm.invalid) return;
-    this.loginForm.get('tel')?.setValue(this.formatPhone(this.loginForm.get('tel')?.value));
+    this.loginForm
+      .get('tel')
+      ?.setValue(this.formatPhone(this.loginForm.get('tel')?.value));
     this.httpService.loginUser(this.loginForm.value).subscribe({
       next: (response) => {
         if (response.codmensagem === 2) {
@@ -115,7 +155,7 @@ export class LoginPage implements OnInit, OnDestroy {
           errorMsg = err;
         }
         this.toastService.show(errorMsg, 'error');
-      }
+      },
     });
   }
 
@@ -129,17 +169,26 @@ export class LoginPage implements OnInit, OnDestroy {
   nextStep() {
     if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid) {
       return;
-    } else if (this.signupStep === 1 && this.signupForm.get('phone')?.invalid === false) {
+    } else if (
+      this.signupStep === 1 &&
+      this.signupForm.get('phone')?.invalid === false
+    ) {
       this.sendVerificationCode();
       this.startResend();
       this.signupStep++;
-    };
+    }
 
-    if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid) {
+    if (
+      this.signupStep === 2 &&
+      this.signupForm.get('verificationCode')?.invalid
+    ) {
       return;
-    } else if (this.signupStep === 2 && this.signupForm.get('verificationCode')?.invalid === false) {
+    } else if (
+      this.signupStep === 2 &&
+      this.signupForm.get('verificationCode')?.invalid === false
+    ) {
       this.verifyCode() ? this.signupStep++ : null;
-    };
+    }
   }
 
   goBack(step: number) {
@@ -160,7 +209,9 @@ export class LoginPage implements OnInit, OnDestroy {
 
   submitRegistration() {
     if (this.signupForm.invalid) return;
-    this.signupForm.get('phone')?.setValue(this.formatPhone(this.signupForm.get('phone')?.value));
+    this.signupForm
+      .get('phone')
+      ?.setValue(this.formatPhone(this.signupForm.get('phone')?.value));
     this.httpService.registerUser(this.signupForm.value).subscribe({
       next: (response) => {
         this.router.navigate(['/home']);
@@ -175,7 +226,7 @@ export class LoginPage implements OnInit, OnDestroy {
           errorMsg = err;
         }
         this.toastService.show(errorMsg, 'error');
-      }
+      },
     });
   }
 
@@ -186,7 +237,11 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   private startResend() {
-    this.resendCountdown$ = interval(1000).pipe(startWith(31),scan((acc) => acc - 1, 31),takeWhile((val) => val >= 0));
+    this.resendCountdown$ = interval(1000).pipe(
+      startWith(31),
+      scan((acc) => acc - 1, 31),
+      takeWhile((val) => val >= 0)
+    );
   }
 
   private stopResend() {
@@ -203,7 +258,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.httpService.sendVerificationCode(rawPhone).subscribe({
       error: (err) => {
         console.error('Failed to send verification code:', err);
-      }
+      },
     });
   }
 

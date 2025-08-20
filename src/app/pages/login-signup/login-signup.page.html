@@ -1,11 +1,11 @@
 <ion-content [fullscreen]="true">
   <div class="login-signup-wrapper">
     <div class="logo">
-      <img src="assets/imgs/logo.png"/>
+      <img src="assets/imgs/logo.png" />
     </div>
 
-    <input id="tab-1" type="radio" name="tab" class="sign-in" checked/>
-    <input id="tab-2" type="radio" name="tab" class="sign-up"/>
+    <input id="tab-1" type="radio" name="tab" class="sign-in" checked />
+    <input id="tab-2" type="radio" name="tab" class="sign-up" />
 
     <div class="form-tabs">
       <label for="tab-1" class="tab">Login</label>
@@ -29,7 +29,11 @@
                 ></ion-input>
               </ion-item>
             </div>
-            <ion-text color="warning" class="ion-text-start" *ngIf="loginForm.get('tel')?.touched && loginForm.get('tel')?.invalid">
+            <ion-text
+              color="warning"
+              class="ion-text-start"
+              *ngIf="loginForm.get('tel')?.touched && loginForm.get('tel')?.invalid"
+            >
               <p class="errorMsg">Telefone é obrigatório</p>
             </ion-text>
 
@@ -47,19 +51,35 @@
                 (click)="toggleLoginPassword()"
               ></fa-icon>
             </ion-item>
-            <ion-text color="warning" class="ion-text-start" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <ion-text
+              color="warning"
+              class="ion-text-start"
+              *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            >
               <p class="passwordErrorMsg">Senha é obrigatória</p>
             </ion-text>
 
             <ion-item class="background">
-              <ion-checkbox class="ion-margin-start" slot="start" formControlName="rememberPassword"></ion-checkbox>
+              <ion-checkbox
+                class="ion-margin-start"
+                slot="start"
+                formControlName="rememberPassword"
+              ></ion-checkbox>
               <ion-text class="textLogin" slot="start">Lembrar senha</ion-text>
-              <ion-text class="textLogin ion-margin-end" slot="end" (click)="goToForgotPassword()">
+              <ion-text
+                class="textLogin ion-margin-end"
+                slot="end"
+                (click)="goToForgotPassword()"
+              >
                 Recuperar senha
               </ion-text>
             </ion-item>
 
-            <button class="ion-text-center button" type="submit" [disabled]="loginForm.invalid">
+            <button
+              class="ion-text-center button"
+              type="submit"
+              [disabled]="loginForm.invalid"
+            >
               <p>Login</p>
             </button>
           </ion-list>
@@ -85,11 +105,19 @@
                 </ion-item>
               </div>
 
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('phone')?.touched && signupForm.get('phone')?.invalid">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="signupForm.get('phone')?.touched && signupForm.get('phone')?.invalid"
+              >
                 <p class="errorMsg">Telefone é obrigatório</p>
               </ion-text>
 
-              <button class="ion-text-center button" type="button" (click)="nextStep()">
+              <button
+                class="ion-text-center button"
+                type="button"
+                (click)="nextStep()"
+              >
                 <p>Continuar</p>
               </button>
             </ng-container>
@@ -98,7 +126,9 @@
             <ng-container *ngIf="signupStep === 2">
               <div class="verification-message">
                 <p>Código enviado para {{ signupForm.value.phone }}</p>
-                <a href="javascript:void(0)" (click)="goBack(1)">Alterar número</a>
+                <a href="javascript:void(0)" (click)="goBack(1)"
+                  >Alterar número</a
+                >
               </div>
               <div>
                 <ion-item class="input background">
@@ -110,11 +140,19 @@
                   ></ion-input>
                 </ion-item>
               </div>
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('verificationCode')?.touched && signupForm.get('verificationCode')?.invalid && !wrongCode">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="signupForm.get('verificationCode')?.touched && signupForm.get('verificationCode')?.invalid && !wrongCode"
+              >
                 <p class="errorMsg">Código é obrigatório</p>
               </ion-text>
 
-              <ion-text color="warning" class="ion-text-start" *ngIf="wrongCode">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="wrongCode"
+              >
                 <p class="errorMsg">Código inválido</p>
               </ion-text>
 
@@ -124,11 +162,17 @@
                 [disabled]="(resendCountdown$ | async)! > 0"
                 (click)="resendCode()"
               >
-                <p *ngIf="(resendCountdown$ | async)! > 0">Reenviar código ({{ resendCountdown$ | async }})</p>
+                <p *ngIf="(resendCountdown$ | async)! > 0">
+                  Reenviar código ({{ resendCountdown$ | async }})
+                </p>
                 <p *ngIf="(resendCountdown$ | async)! === 0">Reenviar código</p>
               </button>
 
-              <button class="ion-text-center button" type="button" (click)="nextStep()">
+              <button
+                class="ion-text-center button"
+                type="button"
+                (click)="nextStep()"
+              >
                 <p>Continuar</p>
               </button>
             </ng-container>
@@ -145,7 +189,11 @@
                   ></ion-input>
                 </ion-item>
               </div>
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.invalid"
+              >
                 <p class="errorMsg">Nome é obrigatório</p>
               </ion-text>
 
@@ -159,7 +207,11 @@
                   ></ion-input>
                 </ion-item>
               </div>
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid"
+              >
                 <p class="errorMsg">Email é obrigatório</p>
               </ion-text>
 
@@ -178,12 +230,22 @@
                   ></fa-icon>
                 </ion-item>
 
-                <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
-                  <p class="errorMsg">A senha deve ter pelo menos 4 caracteres</p>
+                <ion-text
+                  color="warning"
+                  class="ion-text-start"
+                  *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']"
+                >
+                  <p class="errorMsg">
+                    A senha deve ter pelo menos 4 caracteres
+                  </p>
                 </ion-text>
               </div>
 
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched && !signupForm.get('password')?.errors?.['minlength']">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched && !signupForm.get('password')?.errors?.['minlength']"
+              >
                 <p class="errorMsg">As senhas não coincidem</p>
               </ion-text>
 
@@ -196,30 +258,52 @@
                     required
                   ></ion-input>
                 </ion-item>
-                <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.get('confirmPassword')?.invalid">
+                <ion-text
+                  color="warning"
+                  class="ion-text-start"
+                  *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.get('confirmPassword')?.invalid"
+                >
                   <p class="errorMsg">É obrigatório confirmar a senha</p>
                 </ion-text>
               </div>
 
               <div>
                 <ion-item class="input background">
-                  <ion-select formControlName="referral" placeholder="Como nos conheceu?">
-                    <ion-select-option value="social">Redes Sociais</ion-select-option>
-                    <ion-select-option value="friend">Indicação de Amigo</ion-select-option>
-                    <ion-select-option value="search">Busca na Internet</ion-select-option>
-                    <ion-select-option value="ad">Publicidade</ion-select-option>
+                  <ion-select
+                    formControlName="referral"
+                    placeholder="Como nos conheceu?"
+                  >
+                    <ion-select-option value="social"
+                      >Redes Sociais</ion-select-option
+                    >
+                    <ion-select-option value="friend"
+                      >Indicação de Amigo</ion-select-option
+                    >
+                    <ion-select-option value="search"
+                      >Busca na Internet</ion-select-option
+                    >
+                    <ion-select-option value="ad"
+                      >Publicidade</ion-select-option
+                    >
                     <ion-select-option value="other">Outro</ion-select-option>
                   </ion-select>
                 </ion-item>
               </div>
 
-              <ion-text color="warning" class="ion-text-start" *ngIf="signupForm.get('referral')?.touched && signupForm.get('referral')?.invalid">
+              <ion-text
+                color="warning"
+                class="ion-text-start"
+                *ngIf="signupForm.get('referral')?.touched && signupForm.get('referral')?.invalid"
+              >
                 <p class="errorMsg">Este campo é obrigatório</p>
               </ion-text>
 
-              <button class="ion-text-center button" type="button"
+              <button
+                class="ion-text-center button"
+                type="button"
                 (click)="submitRegistration()"
-                [disabled]="signupForm.get('password')?.invalid || signupForm.invalid">
+                [disabled]="signupForm.get('password')?.invalid || signupForm.invalid"
+              >
                 <p>Continuar</p>
               </button>
             </ng-container>
@@ -227,7 +311,9 @@
             <div class="login-link ion-margin-top">
               <p>
                 Já possui cadastro?
-                <a href="javascript:void(0)" (click)="switchToLogin()">Voltar ao acesso</a>
+                <a href="javascript:void(0)" (click)="switchToLogin()"
+                  >Voltar ao acesso</a
+                >
               </p>
             </div>
           </ion-list>
