@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-signup-routing.module';
 import { LoginPage } from './login-signup.page';
-import { MaskitoDirective } from '@maskito/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -15,9 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     IonicModule,
     LoginPageRoutingModule,
     SharedModule,
-    MaskitoDirective
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
 })
-
 export class LoginPageModule {}

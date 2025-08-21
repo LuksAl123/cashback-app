@@ -24,6 +24,9 @@ export class HttpService {
   private activateCouponUrl = `${environment.apiBase}/Trotas/ativacupom/`;
   private getRelatoriosUrl = `${environment.apiBase}/Trotas/relatorios/`;
   public verificationCode: string = '';
+  public email: string = '';
+  public phoneMasked: string = '';
+  public phone: string = '';
 
   constructor(private http: HttpClient, private userService: UserService) {}
 

@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ChangePhonePage
+  },  {
+    path: 'change-phone-2',
+    loadChildren: () => import('./change-phone-2/change-phone-2.module').then( m => m.ChangePhone2PageModule)
   }
+
 ];
 
 @NgModule({

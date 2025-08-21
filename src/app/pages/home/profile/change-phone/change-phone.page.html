@@ -1,17 +1,43 @@
 <body>
   <header>
     <app-back-button></app-back-button>
-    <h1>Alterar telefone</h1>
+    <h1>Alterar Telefone</h1>
   </header>
   <main>
     <div class="input-container">
-      <input
+      <ion-input
         type="tel"
         class="custom-input"
         placeholder="Telefone"
-        [(ngModel)]="phone"
-      />
+        [(ngModel)]="phoneMasked"
+        (ngModelChange)="onPhoneChange()"
+        [maskito]="phoneMask"
+        [maskitoElement]="maskPredicate"
+        #phoneInput="ngModel"
+        minlength="15"
+        maxlength="15"
+        required
+      ></ion-input>
     </div>
-    <button class="save-button" (click)="changePhone()"><p>Salvar</p></button>
+    <div
+      *ngIf="phoneError && !(phoneInput.touched && phoneInput.errors?.['phone'])"
+      class="error-message"
+    >
+      {{ phoneError }}
+    </div>
+    <div
+      *ngIf="!phoneError && phoneInput.touched && phoneInput.errors?.['phone']"
+      class="error-message"
+    >
+      Telefone inválido.
+    </div>
+    <button
+      class="save-button"
+      type="submit"
+      (click)="changePhone()"
+      [disabled]="phoneInput.invalid"
+    >
+      <p>Salvar</p>
+    </button>
   </main>
 </body>

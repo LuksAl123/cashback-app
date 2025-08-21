@@ -42,12 +42,6 @@ main {
   height: 6vh;
 }
 
-.error-message {
-  color: #ff5252;
-  font-size: 0.9rem;
-  margin-top: 0.25rem;
-}
-
 .custom-input:focus-within {
   border: 2px solid #01c476;
   box-shadow: 0 0 4px 2px rgba(1, 196, 118, 0.3);
@@ -82,12 +76,6 @@ button {
   box-shadow: 0 0 2px 2px rgba(218, 214, 104, 0.3);
   transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
     background 0.3s ease-in-out;
-}
-
-button:disabled {
-  background: #01c47679;
-  box-shadow: none;
-  pointer-events: none;
 }
 
 button:active {

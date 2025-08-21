@@ -1,18 +1,39 @@
 <body>
   <header>
     <app-back-button></app-back-button>
-    <h1>Alterar e-mail</h1>
+    <h1>Alterar Email</h1>
   </header>
   <main>
     <div class="input-container">
       <input
         type="email"
         class="custom-input"
-        placeholder="E-mail"
+        placeholder="Email"
         [(ngModel)]="email"
+        (ngModelChange)="onEmailChange()"
+        #emailInput="ngModel"
+        required
+        email
       />
     </div>
-    <button class="save-button" type="submit" (click)="changeEmail()">
+    <div
+      *ngIf="emailError && !(emailInput.touched && emailInput.errors?.['email'])"
+      class="error-message"
+    >
+      {{ emailError }}
+    </div>
+    <div
+      *ngIf="!emailError && emailInput.touched && emailInput.errors?.['email']"
+      class="error-message"
+    >
+      E-mail inválido.
+    </div>
+    <button
+      class="save-button"
+      type="submit"
+      (click)="changeEmail()"
+      [disabled]="emailInput.invalid"
+    >
       <p>Salvar</p>
     </button>
   </main>

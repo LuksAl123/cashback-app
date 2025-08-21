@@ -69,6 +69,7 @@ export class ProfilePage implements OnInit {
       component: ProfileModalComponent,
       cssClass: 'profile-modal',
     });
+
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();

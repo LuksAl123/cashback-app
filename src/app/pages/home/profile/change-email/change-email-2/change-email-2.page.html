@@ -1,0 +1,23 @@
+<body>
+  <header>
+    <app-back-button></app-back-button>
+    <h1>Alterar Email</h1>
+  </header>
+  <main>
+    <ion-text>Código enviado para</ion-text>
+    <ion-text>{{ email }}</ion-text>
+    <a [routerLink]="['../']">Alterar e-mail</a>
+    <div class="input-container">
+      <input
+        type="text"
+        class="custom-input"
+        placeholder="Código de verificação"
+        maxlength="5"
+        [(ngModel)]="verificationCode"
+      />
+    </div>
+    <button class="save-button" type="submit" (click)="verify()">
+      <p>Confirmar</p>
+    </button>
+  </main>
+</body>

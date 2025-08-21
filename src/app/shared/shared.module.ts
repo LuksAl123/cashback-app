@@ -11,18 +11,35 @@ import { MapComponent } from '../components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { RouterModule } from '@angular/router';
 import { ProfileModalComponent } from '../pages/home/profile/detail/profile-modal/profile-modal.component';
+import { MaskitoDirective } from '@maskito/angular';
 
 @NgModule({
-  declarations: [CouponComponent, EstablishmentComponent, BackButtonComponent, LoadingComponent, MapComponent, ProfileModalComponent],
+  declarations: [
+    CouponComponent,
+    EstablishmentComponent,
+    BackButtonComponent,
+    LoadingComponent,
+    MapComponent,
+    ProfileModalComponent,
+  ],
   imports: [
     CommonModule,
     FontAwesomeModule,
     IonicModule,
     GoogleMapsModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MaskitoDirective,
   ],
-  exports: [CouponComponent, EstablishmentComponent, BackButtonComponent, FontAwesomeModule, LoadingComponent, MapComponent, ProfileModalComponent]
+  exports: [
+    CouponComponent,
+    EstablishmentComponent,
+    BackButtonComponent,
+    FontAwesomeModule,
+    LoadingComponent,
+    MapComponent,
+    ProfileModalComponent,
+    MaskitoDirective,
+  ],
 })
-
-export class SharedModule { }
+export class SharedModule {}
