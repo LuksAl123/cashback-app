@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserService {
-
   private userIdSubject = new BehaviorSubject<number | null>(null);
   public userId$ = this.userIdSubject.asObservable();
 
   private codEmpresaSubject = new BehaviorSubject<number>(0);
   public codEmpresa$ = this.codEmpresaSubject.asObservable();
 
-  constructor(
-  ) {}
+  constructor(private router: Router) {}
 
   setUserId(userId: number): void {
     this.userIdSubject.next(userId);
@@ -49,7 +47,9 @@ export class UserService {
 
   setPassword(password: string) {
     localStorage.setItem('rememberedPassword', password);
-    localStorage.setItem('rememberPasswordChecked', 'true');
+    if (this.router.url.includes('/login')) {
+      localStorage.setItem('rememberPasswordChecked', 'true');
+    }
   }
 
   getPassword() {
@@ -67,7 +67,8 @@ export class UserService {
   }
 
   getRememberPasswordChecked() {
-    const rememberPasswordChecked = localStorage.getItem('rememberPasswordChecked') || 'false';
+    const rememberPasswordChecked =
+      localStorage.getItem('rememberPasswordChecked') || 'false';
     return rememberPasswordChecked === 'true';
   }
 

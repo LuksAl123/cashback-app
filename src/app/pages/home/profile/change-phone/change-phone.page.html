@@ -19,20 +19,22 @@
         required
       ></ion-input>
     </div>
-    <div
+    <ion-text
       *ngIf="phoneError && !(phoneInput.touched && phoneInput.errors?.['phone'])"
-      class="error-message"
+      color="warning"
+      class="ion-text-start"
     >
-      {{ phoneError }}
-    </div>
-    <div
+      <p class="errorMsg">{{ phoneError }}</p>
+    </ion-text>
+    <ion-text
       *ngIf="!phoneError && phoneInput.touched && phoneInput.errors?.['phone']"
-      class="error-message"
+      color="warning"
+      class="ion-text-start"
     >
-      Telefone inválido.
-    </div>
+      <p class="errorMsg">Telefone inválido.</p>
+    </ion-text>
     <button
-      class="save-button"
+      class="ion-text-center button"
       type="submit"
       (click)="changePhone()"
       [disabled]="phoneInput.invalid"

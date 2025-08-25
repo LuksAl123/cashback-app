@@ -72,40 +72,54 @@ main {
   font-weight: 200;
 }
 
-button {
-  width: 70%;
-  height: 6vh;
-  margin: 8px auto;
-  border-radius: 10px;
+.errorMsg {
+  margin: 0.5rem 0 0.75rem 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.button {
   background: #01c476;
+  color: white;
+  border-radius: 12px;
+  font-weight: 300;
+  height: 6vh;
+  width: 70vw;
+  display: block;
+  margin: 0 auto 8px auto;
   border: 1px solid transparent;
-  box-shadow: 0 0 2px 2px rgba(218, 214, 104, 0.3);
+  box-shadow: 0 0 4px 4px rgba(218, 214, 104, 0.3);
   transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
-    background 0.3s ease-in-out;
+    background 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+  &:disabled {
+    box-shadow: none;
+    opacity: 0.8;
+  }
 }
 
-button:disabled {
-  background: #01c47679;
+.button[disabled]:active {
   box-shadow: none;
-  pointer-events: none;
+  opacity: 0.8;
+  border: 1px solid transparent;
+  background: #01c476;
 }
 
-button:active {
+.button[disabled]:active p {
+  font-size: 14px;
+}
+
+.button:active {
   background: #019c5f;
   border: 1px solid #021711;
-  box-shadow: 0 0 2px 2px #021711;
+  box-shadow: 0 0 4px 2px #021711;
 }
 
-button p {
-  color: white;
-  font-family: Poppins, sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  margin: 0;
-  line-height: 1.2;
+.button p {
   transition: font-size 0.3s ease-in-out;
+  font-size: 14px;
+  margin: 0;
 }
 
-button:active p {
-  font-size: 15px;
+.button:active p {
+  font-size: 13px;
 }

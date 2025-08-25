@@ -11,6 +11,7 @@
         class="custom-input"
         placeholder="Nome"
         [(ngModel)]="name"
+        (ngModelChange)="onNameChange($event)"
       />
       <fa-icon class="edit-icon" [icon]="faPencil"></fa-icon>
     </div>
@@ -38,10 +39,10 @@
       <fa-icon class="edit-icon" [icon]="faRightLeft"></fa-icon>
       <div class="input-overlay" (click)="openModal(inputRefPhone.type)"></div>
     </div>
-    <div class="button-container">
-      <button class="save-button"><p>Salvar</p></button>
+    <div class="button-container" *ngIf="hasNameEverChanged">
+      <button class="save-button" (click)="saveName()"><p>Salvar</p></button>
     </div>
-    <div class="button-container">
+    <div class="button-container" routerLink="/home/profile/change-password">
       <button><p>Alterar Senha</p></button>
     </div>
     <div class="button-container">

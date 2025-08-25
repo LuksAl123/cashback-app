@@ -25,6 +25,9 @@ export class ProfilePage implements OnInit {
   name: string = '';
   email: string = '';
   phone: string = '';
+  originalName: string = '';
+  hasNameChanged: boolean = false;
+  hasNameEverChanged: boolean = false;
 
   message: string = '';
 
@@ -42,24 +45,47 @@ export class ProfilePage implements OnInit {
     this.name = this.userService.getName();
     this.email = this.userService.getEmail();
     this.phone = this.userService.getPhone();
+    this.originalName = this.name ?? '';
+    this.hasNameChanged = false;
+    this.hasNameEverChanged = false;
+  }
+
+  onNameChange(value: string) {
+    const current = (value ?? '').trim();
+    const original = (this.originalName ?? '').trim();
+    this.hasNameChanged = current !== original;
+    if (this.hasNameChanged) {
+      this.hasNameEverChanged = true;
+    }
   }
 
   saveName() {
+    // Prevent saving if the name hasn't changed
+    const current = (this.name ?? '').trim();
+    const original = (this.originalName ?? '').trim();
+    if (current === original) {
+      this.toastService.show('O nome não foi alterado!', 'error');
+      return;
+    }
+
     this.httpService
       .updateName(
         this.userService.getUserId()!,
         this.userService.getPhone(),
-        this.name
+        current
       )
       .subscribe({
         error: (err) => {
-          this.toastService.show('Erro ao salvar nome!');
+          this.toastService.show('Erro ao salvar nome!', 'error');
           console.error(err);
         },
         complete: () => {
-          this.toastService.show('Nome salvo com sucesso!');
+          this.toastService.show('Nome salvo com sucesso!', 'success');
           this.router.navigate(['/home']);
-          this.userService.setName(this.name);
+          this.userService.setName(current);
+          this.originalName = current;
+          this.hasNameChanged = false;
+          this.hasNameEverChanged = false;
         },
       });
   }

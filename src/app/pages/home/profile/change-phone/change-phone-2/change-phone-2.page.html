@@ -16,7 +16,12 @@
         [(ngModel)]="verificationCode"
       />
     </div>
-    <button class="save-button" type="submit" (click)="verify()">
+    <button
+      class="ion-text-center button"
+      type="submit"
+      (click)="verify()"
+      [disabled]="verificationCode.length !== 5"
+    >
       <p>Confirmar</p>
     </button>
   </main>

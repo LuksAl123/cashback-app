@@ -399,6 +399,35 @@ export class HttpService {
       .post<any>(this.getUsuariosUrl, requestBody, { headers })
       .pipe(
         tap((response) => {
+          console.log('Password changed successfully:', response);
+          this.userService.setPhone(response.detalhe.telefonemovel);
+        }),
+        retry({
+          count: 2,
+          delay: 1000,
+          resetOnSuccess: true,
+        }),
+        catchError((err) => this.handleError(err))
+      );
+  }
+
+  changePassword(phone: string, password: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: `${this.authToken}`,
+    });
+
+    const requestBody = {
+      tiporota: 'update',
+      loginpessoa: 'SIM',
+      telefone: phone,
+      senha: password,
+    };
+
+    return this.http
+      .post<any>(this.getUsuariosUrl, requestBody, { headers })
+      .pipe(
+        tap((response) => {
           console.log('Phone changed successfully:', response);
           this.userService.setPhone(response.detalhe.telefonemovel);
         }),
